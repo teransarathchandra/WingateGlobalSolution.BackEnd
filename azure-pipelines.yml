@@ -10,9 +10,13 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- checkout: self
+- script: echo Steps Starting!
+  displayName: 'Steps'
 
-- script:
+- script: |
+    echo Scripts Starting.
+    echo Sync Azure Devops BackEnd repo with GitHub BackEnd repo
+  displayName: 'Scripts'
  
 - powershell: |
     Write-Host ' - - - - - - - - - - - - - - - - - - - - - - - - -'
