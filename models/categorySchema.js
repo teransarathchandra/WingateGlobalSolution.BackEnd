@@ -1,36 +1,34 @@
+const mongoose = require("mongoose");
+const { Schema, model } = mongoose;
 
-const mongoose = require('mongoose');
-const { Schema, model} = mongoose;
-
-const categorySchema = new Schema({
-
-    //Need Foreign Keys. Remove this line after reviewing foreign keys.
-    categoryId:{
-            type : Number,
-            required :  true,
-            unique :  true
+const categorySchema = new Schema(
+  {
+    categoryId: {
+      type: Number,
+      required: true,
+      unique: true,
     },
-    name:{
-            type : String,
-            maxLength : 50,
-            required :  true
+    name: {
+      type: String,
+      maxLength: 50,
+      required: true,
     },
-    description:{
-            type : String,
-            maxLength :  255
+    description: {
+      type: String,
+      maxLength: 255,
     },
-    profitRate:{
-        type : Float,
-        required :  true,
-        min :  0
+    profitRate: {
+      type: Float,
+      required: true,
+      min: 0,
     },
-    costPerKilo:{
-        type : Number,
-        required :  true,
-        min :  0
-    }
-},{ timestamps: true }
+    costPerKilo: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+  },
+  { timestamps: true }
 );
 
-module.exports = model('category', categorySchema);
-
+module.exports = model("category", categorySchema);

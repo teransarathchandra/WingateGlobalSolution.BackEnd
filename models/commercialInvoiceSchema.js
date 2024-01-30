@@ -1,22 +1,20 @@
+const mongoose = require("mongoose");
+const { Schema, model } = mongoose;
 
-const mongoose = require('mongoose');
-const { Schema, model} = mongoose;
-
-const commercialInvoiceSchema = new Schema({
-
-    //Need Foreign Keys. Remove this line after reviewing foreign keys.
-    invoiceId:{
-            type : Number,
-            required :  true,
-            unique :  true
+const commercialInvoiceSchema = new Schema(
+  {
+    invoiceId: {
+      type: Number,
+      required: true,
+      unique: true,
     },
-    orderId:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "order",
-        required :  true
-   }
-},{ timestamps: true }
+    orderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "order",
+      required: true,
+    },
+  },
+  { timestamps: true }
 );
 
-module.exports = model('commercialInvoice', commercialInvoiceSchema);
-
+module.exports = model("commercialInvoice", commercialInvoiceSchema);
