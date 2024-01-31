@@ -18,7 +18,7 @@ const categorySchema = new Schema(
       maxLength: 255,
     },
     profitRate: {
-      type: Float,
+      type: Number,
       required: true,
       min: 0,
     },

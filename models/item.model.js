@@ -15,10 +15,10 @@ const itemSchema = new Schema(
       type: String,
     },
     weight: {
-      type: Float,
+      type: Number,
     },
     value: {
-      type: Float,
+      type: Number,
     },
     orderId: {
       type: mongoose.Schema.Types.ObjectId,
