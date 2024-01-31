@@ -1,27 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const Employee = require('../models/employee');
+const { getAllEmployees, getEmployeeById, createEmployee, updateEmployee, deleteEmployee } = require('../controller/employeeController');
 
-router.post('/', async (req, res) => {
-    const { employeeId, name, contactNumber, password, accessLevelId, street, city, state } = req.body;
-
-    const employee = await Employee.create({
-        employeeId,
-        name,
-        contactNumber,
-        password,
-        accessLevelId,
-        street,
-        city,
-        state
-    });
-
-    if (!employee) {
-        return res.status(400).json({ message: 'Employee Cannot Create' });
-    }
-
-    res.status(201).json({ data: employee, message: 'Employee Created Successfully' });
-})
+router.get('/', getAllEmployees);
+router.get('/:id', getEmployeeById);
+router.post('/', createEmployee);
+router.put('/:id', updateEmployee);
+router.delete('/:id', deleteEmployee);
 
 module.exports = router;

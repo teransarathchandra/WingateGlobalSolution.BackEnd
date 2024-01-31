@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+const { password, name } = require('../constants/regExp');
+
 const employeeSchema = new Schema(
   {
     employeeId: {
@@ -13,6 +15,7 @@ const employeeSchema = new Schema(
       required: true,
       maxLength: 255,
       minLength: 10,
+      match: name,
     },
     address: {
       type: String,
