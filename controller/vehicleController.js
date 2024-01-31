@@ -20,6 +20,34 @@ const getAllVehicles = async (req, res) => {
         })
     }
 };
+
+const getvehicleById = async (req, res) => {
+    try{
+
+        const { id } = req.params;
+
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(404).json({ status: 404, message: 'Invalid  Vehicle Id'});
+        }
+
+        const vehicle = await Vehicle.findById(id);
+
+        if(!vehicle){
+            return res.status(404).json({ status: 404, message: 'Vehicle not found'});
+        }
+
+        res.status(200).json({status: 200, data: vehicle, message: 'Vehicle Found Successfully'});
+
+
+
+    }catch(err){
+        res.status(400).json({
+            error: 'Your request could not be processed. Please try again',
+            message: err.message
+        });
+    }
+};
+
 const createVehicle = async (req, res) => {
     
     try {
@@ -51,4 +79,5 @@ const createVehicle = async (req, res) => {
     }
 };
 
-module.exports = { getAllVehicles, createVehicle };
+
+module.exports = { getAllVehicles, getvehicleById, createVehicle };
