@@ -15,7 +15,7 @@ const salesSchema = new Schema(
       minLength: 10,
     },
     amount: {
-      type: Float,
+      type: Number,
       required: true,
     },
     status: {

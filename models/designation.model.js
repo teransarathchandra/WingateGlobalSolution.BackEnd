@@ -9,19 +9,19 @@ const designationSchema = new Schema(
       unique: true,
     },
     basicSalary: {
-      type: Float,
+      type: Number,
       required: true,
     },
     etf: {
-      type: Float,
+      type: Number,
       required: true,
     },
     epf: {
-      type: Float,
+      type: Number,
       required: true,
     },
     allowance: {
-      type: Float,
+      type: Number,
       required: true,
     },
     accessLevelId: {

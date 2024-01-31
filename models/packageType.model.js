@@ -15,20 +15,20 @@ const packageTypeSchema = new Schema(
       required: true,
     },
     packagingCost: {
-      type: Float,
+      type: Number,
       required: true,
       min: 0,
     },
     width: {
-      type: Float,
+      type: Number,
       min: 0,
     },
     length: {
-      type: Float,
+      type: Number,
       min: 0,
     },
     height: {
-      type: Float,
+      type: Number,
       min: 0,
     },
     maximumWeight: {

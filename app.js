@@ -4,6 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
+require('dotenv').config({ path: `.env` });
 
 const routes = require("./routes");
 
@@ -20,8 +21,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 mongoose
-  .connect("mongodb://localhost:27017/itp_project")
+  .connect(process.env.MONGODB_URI)
   .then(() => {
+    console.log(process.env.MONGODB_URI);
     console.log("Successfully connected to MongoDB");
   })
   .catch((err) => {
@@ -45,6 +47,7 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render("error");
+  next();
 });
 
 module.exports = app;
