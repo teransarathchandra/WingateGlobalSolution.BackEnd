@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+const { password, email } = require('../constants/regExp');
 const addressSchema = require("./addressSchema");
 
 const userSchema = new Schema(
