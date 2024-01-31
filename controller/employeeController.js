@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const Employee = require('../models/employeeSchema');
-const EmployeeJoiSchema = require('../schemas/employeeSchema')
+const Employee = require('../models/employee.model');
+const EmployeeSchema = require('../schemas/employeeSchema')
 
 const getAllEmployees = async (req, res) => {
 
@@ -49,7 +49,7 @@ const getEmployeeById = async (req, res) => {
 const createEmployee = async (req, res) => {
 
     try {
-        const { value, error } = EmployeeJoiSchema.validate(req.body);
+        const { value, error } = EmployeeSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -90,7 +90,7 @@ const updateEmployee = async (req, res) => {
             return res.status(404).json({ status: 404, error: "Invalid employee id" });
         }
 
-        const { value, error } = EmployeeJoiSchema.validate(req.body);
+        const { value, error } = EmployeeSchema.validate(req.body);
         if (error) {
             return res.status(400).json({ status: 400, error: error });
         }
