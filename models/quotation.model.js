@@ -9,22 +9,22 @@ const quotationSchema = new Schema(
       unique: true,
     },
     packagingCost: {
-      type: Float,
+      type: Number,
       min: 0,
       required: true,
     },
     routeCost: {
-      type: Float,
+      type: Number,
       min: 0,
       required: true,
     },
     unitWeightCost: {
-      type: Float,
+      type: Number,
       min: 0,
       required: true,
     },
     surcharge: {
-      type: Float,
+      type: Number,
       required: true,
       min: 0,
     },

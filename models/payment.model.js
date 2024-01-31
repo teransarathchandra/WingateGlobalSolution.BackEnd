@@ -13,7 +13,7 @@ const paymentSchema = new Schema(
       maxLength: 255,
     },
     amount: {
-      type: Float,
+      type: Number,
       required: true,
       min: 0,
     },

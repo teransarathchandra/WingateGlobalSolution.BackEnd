@@ -15,7 +15,7 @@ const routeSchema = new Schema(
       unique: true,
     },
     distance: {
-      type: Float,
+      type: Number,
       required: true,
     },
     priority: {
@@ -27,7 +27,7 @@ const routeSchema = new Schema(
       required: true,
     },
     routeShippingCost: {
-      type: Float,
+      type: Number,
       required: true,
     },
     startingPortId: {
