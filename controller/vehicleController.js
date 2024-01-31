@@ -79,5 +79,25 @@ const createVehicle = async (req, res) => {
     }
 };
 
+const updateVehicle = (req, res) => {
+    try {
+        const { id } = req.params;
 
-module.exports = { getAllVehicles, getvehicleById, createVehicle };
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(404).json({ status: 404, message: 'Invalid  Vehicle Id'});
+        }
+
+        const { value, error } = VehicleSchema.validate(req.body);
+
+        if (error) {
+            return res.status(400).json ({ status: 400, error: error });
+        }
+    }catch (err) {
+        res.status(400).json({
+            error: 'Your request could not be processed. Please try again',
+            message: err.message
+        });
+    }
+};
+
+module.exports = { getAllVehicles, getvehicleById, createVehicle, updateVehicle };
