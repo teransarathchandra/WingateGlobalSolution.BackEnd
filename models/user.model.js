@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const { password, email } = require('../constants/regExp');
-const addressSchema = require("./addressSchema");
+const addressSchema = require("./address.model");
 
 const userSchema = new Schema(
   {
