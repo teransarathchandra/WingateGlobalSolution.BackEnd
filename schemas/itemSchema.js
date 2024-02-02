@@ -5,7 +5,7 @@ const itemJoiSchema = Joi.object({
   name: Joi.string(),
   description: Joi.string(),
   weight: Joi.number().required(),
-  value: Joi.number(),
+  itemValue: Joi.number(), 
   orderId: Joi.number().required(), 
   categoryId: Joi.number().required(),
 });
