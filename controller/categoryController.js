@@ -101,7 +101,7 @@ const updateCategory = async(req, res) =>{
             return res.status(404).json({ status: 404, message: "Category not found" });
         }
 
-        res.status(200).json({ status: 200, data: updatedEmployee, message: "Category Updated Successfully" });
+        res.status(200).json({ status: 200, data: updatedCategory, message: "Category Updated Successfully" });
 
 
     } catch (err){
