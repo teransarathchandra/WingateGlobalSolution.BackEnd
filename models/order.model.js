@@ -14,7 +14,6 @@ const orderSchema = new Schema(
       required: true,
       maxLength: 255,
       minLength: 10,
-      required: true,
     },
     packageCount: {
       type: Number,
