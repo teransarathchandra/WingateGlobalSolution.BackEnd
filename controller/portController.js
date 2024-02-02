@@ -24,6 +24,32 @@ const getAllPorts = async (req, res) => {
 
 };
 
+const getPortById = async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({status: 400, error: 'Invalid Port Id'});
+        }
+
+        const port = await Port.findById(id);
+
+        if (!port) {
+            return res.status(404).json({status: 404, message: 'Port not Found'});
+        }
+
+        res.status(200).json({status: 200, data: port, message: 'Port Found'});
+    }catch(err) {
+        res.status(400).json({
+            error: 'Your request cannot be processed. Please try again',
+            message: err.message
+        });
+    }
+
+};
+
 const createPort = async (req, res) => {
 
     try {
@@ -57,4 +83,4 @@ const createPort = async (req, res) => {
     }
 };
 
-module.exports = {createPort, getAllPorts};
+module.exports = {createPort, getAllPorts, getPortById};
