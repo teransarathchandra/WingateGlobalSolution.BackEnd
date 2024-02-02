@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const { createPort } = require('../../controller/portController');
+const { createPort, getAllPorts} = require('../../controller/portController');
 
+router.get('/', getAllPorts)
 router.post('/', createPort);
 
 module.exports = router;
