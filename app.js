@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect('mongodb://localhost:27017/itp_project')
   .then(() => {
     console.log(process.env.MONGODB_URI);
     console.log("Successfully connected to MongoDB");

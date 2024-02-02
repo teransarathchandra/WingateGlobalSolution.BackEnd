@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const addressSchema = require("./addressSchema");
+const { email, password, name } = require('../constants/regExp');
+
+//const addressSchema = require("./addressSchema");
 
 const userSchema = new Schema(
   {
@@ -14,6 +16,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
       maxLength: 50,
+      match: name
     },
     lastName: {
       type: String,
@@ -31,7 +34,10 @@ const userSchema = new Schema(
       minLength: 10,
     },
     address: {
-      type: addressSchema,
+      type: String,
+      required: true,
+      maxLength: 255,
+      minLength: 10,
     },
     username: {
       type: String,
