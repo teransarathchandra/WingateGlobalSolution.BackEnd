@@ -10,6 +10,7 @@ const countrySchema = new Schema(
       unique: true,
     },
     countryCode: {
+      type: String,
       required: true,
       maxLength: 5,
       minLength: 2,
