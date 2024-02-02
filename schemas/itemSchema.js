@@ -6,8 +6,8 @@ const itemJoiSchema = Joi.object({
   description: Joi.string(),
   weight: Joi.number().required(),
   itemValue: Joi.number(), 
-  orderId: Joi.number().required(), 
-  categoryId: Joi.number().required(),
+  orderId: Joi.string().required(), 
+  categoryId: Joi.string().required(),
 });
 
 module.exports = itemJoiSchema;

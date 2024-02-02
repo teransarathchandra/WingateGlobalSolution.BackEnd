@@ -4,7 +4,7 @@ const { Schema, model } = mongoose;
 
 const restrictedOrdersSchema = new Schema(
   {
-    restrictedId: {
+    restrictedOrderId: {
       type: Number,
       required: true,
       unique: true,
