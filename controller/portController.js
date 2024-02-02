@@ -113,4 +113,29 @@ const updatePort = async (req, res) => {
     }
 };
 
-module.exports = {createPort, getAllPorts, getPortById, updatePort};
+const deletePort = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status (404).json({status: 404, error: 'Invalid Port Id'});
+        }
+
+        const deletedPort = await Port.findByIdAndDelete(id);
+
+        if (!deletedPort) {
+            return res.status(404).json({status: 404, message: 'Port not Found'});
+        }
+
+        res.status(200).json({status: 200, message: 'Port deleted successfully'});
+        
+    }catch (err) {
+       res.status (404).json({
+            error: 'Your request cannot be processed. Please try again.',
+            message: err.message
+       });
+
+    }
+};
+
+module.exports = {createPort, getAllPorts, getPortById, updatePort, deletePort};
