@@ -7,13 +7,13 @@ const getAllPorts = async (req, res) => {
 
     try {
 
-        const vehicle = await Port.find();
+        const port = await Port.find();
 
-        if (!vehicle){
+        if (!port){
             res.status(404).json({ status: 404, message: 'Port not found' });
         }
 
-        res.status(200).json({status: 200, data: vehicle, message: 'Port Found'});
+        res.status(200).json({status: 200, data: port, message: 'Port Found'});
 
     }catch(err) {
         res.status(400).json({
@@ -83,4 +83,34 @@ const createPort = async (req, res) => {
     }
 };
 
-module.exports = {createPort, getAllPorts, getPortById};
+const updatePort = async (req, res) => {
+    try {
+        const { id} = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ status: 404, error: 'Invalid Port Id' });
+        }
+
+        const { value, error } = PortSchema.validate(req.body);
+
+        if (error) {
+            return res.status(400).json({status: 400, error: error});
+        }
+
+        const updatedPort = await Port.findByIdAndUpdate(id, value, {new: true});
+
+        if (!updatedPort) {
+            return res.status(404).json({status: 404, message: 'Port not Found' });
+        }
+
+        res.status(200).json({status: 200, data: updatedPort, message: 'Port Updated Successfully'});
+
+    }catch(err) {
+         res.status(400).json({
+            error: 'Your request cannot be processed. Please try again.',
+            message: err.message
+         });
+    }
+};
+
+module.exports = {createPort, getAllPorts, getPortById, updatePort};
