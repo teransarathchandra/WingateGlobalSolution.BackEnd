@@ -52,4 +52,5 @@ const restrictedOrdersSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("restrictedOrders", restrictedOrdersSchema);
+module.exports = model("restricted Orders", restrictedOrdersSchema );
+
