@@ -127,9 +127,33 @@ const updateVehicle = async (req, res) => {
   }
 };
 
+const deleteVehicle = async (req, res) => {
+  try {
+
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ status: 404, error: "Invalid vehicle id" });
+  }
+
+  const deleteVehicle = await Vehicle.findByIdAndDelete(id);
+  if (!deleteVehicle) {
+      return res.status(404).json({ status: 404, message: "Vehicle not found" });
+  }
+
+  res.status(200).json({ status: 200, message: "Vehicle Deleted Successfully" });
+
+  }catch (err) {
+    res.status(400).json({
+      error: "Your request could not be processed. Please try again",
+      message: err.message,
+    });
+  }
+};
 module.exports = {
   getAllVehicles,
   getvehicleById,
   createVehicle,
   updateVehicle,
+  deleteVehicle
 };
