@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const routeSchema = Joi.object({
+const routeJoiSchema = Joi.object({
   routeId: Joi.number().required(),
   transportMode: Joi.string().max(10).required(),
   distance: Joi.number().required(),
@@ -8,7 +8,7 @@ const routeSchema = Joi.object({
   roundTripDays: Joi.number().required(),
   routeShippingCost: Joi.number().required(),
   startingPortId: Joi.string().required(),
-  endingPortId: Joi.string().required()
+  endingPortId: Joi.string()
 });
 
-module.exports = routeSchema;
+module.exports = routeJoiSchema;
