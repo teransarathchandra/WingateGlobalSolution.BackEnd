@@ -4,7 +4,7 @@ const { Schema, model } = mongoose;
 
 const restrictedOrdersSchema = new Schema(
   {
-    restrictedId: {
+    restrictedOrderId: {
       type: Number,
       required: true,
       unique: true,
@@ -52,4 +52,5 @@ const restrictedOrdersSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("restrictedOrders", restrictedOrdersSchema);
+module.exports = model("restricted Orders", restrictedOrdersSchema );
+

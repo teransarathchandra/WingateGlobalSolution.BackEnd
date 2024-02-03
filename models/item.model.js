@@ -6,27 +6,30 @@ const itemSchema = new Schema(
     itemId: {
       type: Number,
       required: true,
-      unique: true,
+      unique: true
     },
     name: {
-      type: String,
+      type: String
     },
     description: {
-      type: String,
+      type: String
     },
     weight: {
       type: Number,
+      required: true
     },
-    value: {
-      type: Number,
+    itemValue: {
+      type: Number
     },
     orderId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "order",
+      required: true
     },
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "category",
+      required: true
     },
   },
   { timestamps: true }
