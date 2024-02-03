@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const addressSchema = require("./addressSchema");
+const addressSchema = require("./address.model");
 
 const receiverSchema = new Schema(
   {

@@ -5,19 +5,19 @@ const addressSchema = new Schema({
     street: {
         type: String,
         maxLength: 50,
-        minLength: 8
+        minLength: 5
     },
     city: {
         type: String,
         maxLength: 50,
-        minLength: 8
+        minLength: 5
     },
     state: {
         type: String,
         maxLength: 50,
-        minLength: 8
+        minLength: 5
     }
 }
 );
 
-module.exports = addressSchema;
+module.exports = { addressSchema };
