@@ -1,8 +1,8 @@
 const Joi = require('joi');
 
-const driverSchemaJoiSchema = Joi.object({
-    driverId: Joi.number().required(),
+const driverJoiSchema = Joi.object({
+    driverId: Joi.string().required(),
     warehouseId: Joi.string().required() 
 });
 
-module.exports = employeeJoiSchema;
+module.exports = driverJoiSchema;

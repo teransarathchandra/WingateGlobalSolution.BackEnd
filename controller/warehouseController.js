@@ -28,7 +28,7 @@ const getWarehouseById = async (req, res) => {
 
         const { id } = req.params;
 
-        if (!mongoose.Types.objectID.isValid(id)) {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ status: 404, error: "Invalid Warehouse Id" })
         }
 
@@ -60,7 +60,7 @@ const createWarehouse = async (req, res) => {
 
         const { warehouseId, location, storageCapacity, availability, warehouseManagerId, countryId } = value;
 
-        const warehouse = await warehouse.create({
+        const warehouse = await Warehouse.create({
             warehouseId,
             location,
             storageCapacity,
@@ -86,7 +86,7 @@ const updateWarehouse = async(req, res) =>{
     try{
         const {id} = req.params;
 
-        if(!mongoose.Types.objectID.isValid(id)){
+        if(!mongoose.Types.ObjectId.isValid(id)){
             return res.status(404).json({ status: 404, error: "Invalid Warehouse id" });
         }
 
