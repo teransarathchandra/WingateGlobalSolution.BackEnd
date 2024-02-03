@@ -10,6 +10,7 @@ const restrictedOrderRoutes = require('./restrictedOrder');
 const requiredDocumentRoutes = require('./requiredDocument');
 const countryRoutes = require('./country');
 const routeRoutes = require('./route');
+const systemAccessRoutes = require('./systemAccess');
 
 // employee routes
 router.use('/employee', employeeRoutes);
@@ -40,6 +41,9 @@ router.use('/item', itemRoutes)
 
 //route routes
  router.use('/route', routeRoutes)
+
+ //system access routes
+ router.use('/systemaccess', systemAccessRoutes)
 
 module.exports = router;
 
