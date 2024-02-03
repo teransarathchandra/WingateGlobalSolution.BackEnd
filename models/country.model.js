@@ -10,16 +10,10 @@ const countrySchema = new Schema(
       unique: true,
     },
     countryCode: {
+      type: String,
       required: true,
       maxLength: 5,
       minLength: 2,
-      unique: true,
-    },
-    mobileCode: {
-      type: String,
-      required: true,
-      maxLength: 10,
-      minLength: 3,
       unique: true,
     },
     name: {
@@ -27,6 +21,13 @@ const countrySchema = new Schema(
       required: true,
       maxLength: 255,
       minLength: 10,
+      unique: true,
+    },
+    mobileCode: {
+      type: String,
+      required: true,
+      maxLength: 10,
+      minLength: 3,
       unique: true,
     },
     currency: {

@@ -1,27 +1,28 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const requiredDocumentsSchema = new Schema(
+const requiredDocumentSchema = new Schema(
   {
     requiredDocumentId: {
       type: Number,
       required: true,
-      unique: true,
+      unique: true
     },
     documentType: {
       type: String,
       required: true,
-      maxLength: 50,
+      maxLength: 50
     },
     documentPath: {
-      type: String,
+      type: String
     },
     itemId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "item",
+      required: true
     },
   },
   { timestamps: true }
 );
 
-module.exports = model("requiredDocuments", requiredDocumentsSchema);
+module.exports = model("required Documents", requiredDocumentSchema);

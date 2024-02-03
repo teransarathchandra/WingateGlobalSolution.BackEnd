@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Category = require('../models/category.model');
-const CategoryJoiSchema = require('../schemas/categorySchema');
+const CategorySchema = require('../schemas/categorySchema');
 
 const getAllCategory = async (req, res) => {
 
@@ -28,7 +28,7 @@ const getCategoryById = async (req, res) => {
 
         const { id } = req.params;
 
-        if (!mongoose.Types.objectID.isValid(id)) {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ status: 404, error: "Invalid Category Id" })
         }
 
@@ -52,7 +52,7 @@ const getCategoryById = async (req, res) => {
 const createCategory = async (req, res) => {
 
     try {
-        const { value, error } = CategoryJoiSchema.validate(req.body);
+        const { value, error } = CategorySchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -85,11 +85,11 @@ const updateCategory = async(req, res) =>{
     try{
         const {id} = req.params;
 
-        if(!mongoose.Types.objectID.isValid(id)){
+        if(!mongoose.Types.ObjectId.isValid(id)){
             return res.status(404).json({ status: 404, error: "Invalid Category id" });
         }
 
-        const{value , error} = Category.validate(req.body);
+        const{value , error} = CategorySchema.validate(req.body);
         
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -101,7 +101,7 @@ const updateCategory = async(req, res) =>{
             return res.status(404).json({ status: 404, message: "Category not found" });
         }
 
-        res.status(200).json({ status: 200, data: updatedEmployee, message: "Category Updated Successfully" });
+        res.status(200).json({ status: 200, data: updatedCategory, message: "Category Updated Successfully" });
 
 
     } catch (err){
