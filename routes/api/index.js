@@ -11,6 +11,7 @@ const requiredDocumentRoutes = require('./requiredDocument');
 const countryRoutes = require('./country');
 const routeRoutes = require('./route');
 const systemAccessRoutes = require('./systemAccess');
+const designationRoutes = require('./designation');
 
 // employee routes
 router.use('/employee', employeeRoutes);
@@ -44,6 +45,9 @@ router.use('/item', itemRoutes)
 
  //system access routes
  router.use('/systemaccess', systemAccessRoutes)
+
+ //designation routes
+ router.use('/designation', designationRoutes)
 
 module.exports = router;
 
