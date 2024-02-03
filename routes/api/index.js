@@ -2,6 +2,9 @@ const router = require('express').Router();
 
 const employeeRoutes = require('./employee');
 const categoryRoutes = require('./category');
+const vehicleRoutes = require('./vehicle');
+const portRoutes = require('./port');
+const bulkRoutes = require('./bulk');
 const itemRoutes = require('./item');
 const restrictedOrderRoutes = require('./restrictedOrder');
 const requiredDocumentRoutes = require('./requiredDocument');
@@ -13,6 +16,15 @@ router.use('/employee', employeeRoutes);
 
 //category routes
 router.use('/category', categoryRoutes)
+
+//vehicle routes
+router.use('/vehicle', vehicleRoutes);
+
+//port routes
+router.use('/port', portRoutes)
+
+//bulk routes
+router.use('/bulk', bulkRoutes)
 
 //item routes
 router.use('/item', itemRoutes)
@@ -30,3 +42,4 @@ router.use('/item', itemRoutes)
  router.use('/route', routeRoutes)
 
 module.exports = router;
+
