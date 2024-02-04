@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const Customer = require('../models/customer.model');
 const { registerSchema, updateSchema } = require('../schemas/customerSchema')
+const BadRequestError = require('../helpers/BadRequestError');
+
 
 
 
@@ -57,10 +59,10 @@ const createCustomer = async (req, res) => {
         const { value, error } = registerSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            BadRequestError(error);
         }
 
-        const  { priorityLevel, customerId } = value;
+        const { priorityLevel, customerId } = value;
 
         const customer = await Customer.create({
             priorityLevel,
@@ -92,7 +94,7 @@ const updateCustomer = async (req, res) => {
 
         const { value, error } = updateSchema.validate(req.body);
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            BadRequestError(error);
         }
 
         const updatedCustomer = await Customer.findByIdAndUpdate(id, value, { new: true });
@@ -135,4 +137,4 @@ const deleteCustomer = async (req, res) => {
 };
 
 
-module.exports = {getAllCustomers, getCustomerById, createCustomer, updateCustomer, deleteCustomer}
+module.exports = { getAllCustomers, getCustomerById, createCustomer, updateCustomer, deleteCustomer }

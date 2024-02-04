@@ -16,7 +16,7 @@ const addressSchema = Joi.object({
 
 const loginSchema = Joi.object({
     email: Joi.string().email().required(),
-    password: Joi.string().required().min(8).max(50)
+    password: Joi.string().required().min(8).max(100)
 });
 
 const registerSchema = Joi.object({
@@ -25,8 +25,8 @@ const registerSchema = Joi.object({
     email: Joi.string().email().required(),
     contactNumber: Joi.number().required().integer(),
     address: addressSchema,
-    username: Joi.string().required(),  
-    password: Joi.string().required().min(8).max(50).regex(password),    
+    username: Joi.string().required(),
+    password: Joi.string().required().min(8).max(100).regex(password),
     countryId: Joi.string().required()
 });
 
@@ -36,7 +36,7 @@ const updateSchema = Joi.object({
     contactNumber: Joi.number().integer(),
     address: addressSchema,
     username: Joi.string(),
-    password: Joi.string().min(8).max(50).regex(password),
+    password: Joi.string().min(8).max(100).regex(password),
     countryId: Joi.string()
 });
 
