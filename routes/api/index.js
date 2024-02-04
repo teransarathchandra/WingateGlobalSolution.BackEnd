@@ -16,6 +16,8 @@ const contactPersonRoutes = require('./contactPerson');
 const systemAccessRoutes = require('./systemAccess');
 const designationRoutes = require('./designation');
 const loanRoutes = require('./loan');
+const driverRoutes = require('./driver');
+const warehouseRoutes = require('./warehouse');
 
 // employee routes
 router.use('/employee', employeeRoutes);
@@ -28,6 +30,12 @@ router.use('/user', userRoutes);
 
 //customer routes
  router.use('/customer', customerRoutes);
+
+//driver routes
+router.use('/driver', driverRoutes)
+
+//warehouse routes
+router.use('/warehouse', warehouseRoutes)
 
 //vehicle routes
 router.use('/vehicle', vehicleRoutes);
