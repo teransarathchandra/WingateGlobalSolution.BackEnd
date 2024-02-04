@@ -57,7 +57,7 @@ router.use('/item', itemRoutes)
  router.use('/route', routeRoutes)
 
  //system access routes
- router.use('/systemaccess', systemAccessRoutes)
+ router.use('/systemAccess', systemAccessRoutes)
 
  //designation routes
  router.use('/designation', designationRoutes)
