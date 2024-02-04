@@ -31,7 +31,6 @@ router.use('/user', userRoutes);
 //customer routes
  router.use('/customer', customerRoutes);
 
-
 //driver routes
 router.use('/driver', driverRoutes)
 
