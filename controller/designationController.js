@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const Designation = require('../models/designation.model');
 const DesignationSchema = require ('../schemas/designationSchema');
+const BadRequestError = require('../helpers/BadRequestError');
 
 const getAllDesignations = async (req, res) => {
 
@@ -56,7 +57,8 @@ const createDesignation = async (req, res) => {
         const { value, error } = DesignationSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            BadRequestError(error);
+            //return res.status(400).json({ status: 400, error: error });
         }
 
         const { designationId, basicSalary, etf, epf, allowance, accessLevelId } = value;
