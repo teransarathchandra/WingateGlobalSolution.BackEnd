@@ -18,6 +18,10 @@ const designationRoutes = require('./designation');
 const loanRoutes = require('./loan');
 const driverRoutes = require('./driver');
 const warehouseRoutes = require('./warehouse');
+const paymentRoutes= require('./payment');
+const quotationRoutes= require('./quotation');
+const paymentMethodRoutes= require('./paymentMethod');
+
 
 // employee routes
 router.use('/employee', employeeRoutes);
@@ -50,19 +54,19 @@ router.use('/bulk', bulkRoutes)
 router.use('/item', itemRoutes)
 
 //restricted order routes
- router.use('/restrictedOrder', restrictedOrderRoutes)
+router.use('/restrictedOrder', restrictedOrderRoutes)
 
 //required document routes
- router.use('/requiredDocument', requiredDocumentRoutes)
+router.use('/requiredDocument', requiredDocumentRoutes)
 
 //country routes
- router.use('/country', countryRoutes)
+router.use('/country', countryRoutes)
 
  //contactPerson routes
  router.use('/contactPerson', contactPersonRoutes)
 
 //route routes
- router.use('/route', routeRoutes)
+router.use('/route', routeRoutes)
 
  //system access routes
  router.use('/systemAccess', systemAccessRoutes)
@@ -73,5 +77,13 @@ router.use('/item', itemRoutes)
 //loans routes
  router.use('/loan', loanRoutes)
 
-module.exports = router;
+//payment routes
+router.use('/payment', paymentRoutes)
 
+//quotation routes
+router.use('/quotation', quotationRoutes)
+
+//paymentMethod routes
+router.use('/paymentMethod', paymentMethodRoutes)
+
+module.exports = router;
