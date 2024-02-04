@@ -11,7 +11,9 @@ const requiredDocumentRoutes = require('./requiredDocument');
 const countryRoutes = require('./country');
 const routeRoutes = require('./route');
 const userRoutes = require('./user');
- const customerRoutes = require('./customer');
+const customerRoutes = require('./customer');
+const contactPersonRoutes = require('./contactPerson');
+
 
 const systemAccessRoutes = require('./systemAccess');
 const designationRoutes = require('./designation');
@@ -58,6 +60,9 @@ router.use('/item', itemRoutes)
 
 //country routes
  router.use('/country', countryRoutes)
+
+ //contactPerson routes
+ router.use('/contactPerson', contactPersonRoutes)
 
 //route routes
  router.use('/route', routeRoutes)
