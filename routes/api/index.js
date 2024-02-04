@@ -12,6 +12,7 @@ const countryRoutes = require('./country');
 const routeRoutes = require('./route');
 const paymentRoutes= require('./payment');
 const quotationRoutes= require('./quotation');
+const paymentMethodRoutes= require('./paymentMethod');
 
 
 // employee routes
@@ -49,5 +50,8 @@ router.use('/payment', paymentRoutes)
 
 //quotation routes
 router.use('/quotation', quotationRoutes)
+
+//paymentMethod routes
+router.use('/paymentMethod', paymentMethodRoutes)
 
 module.exports = router;

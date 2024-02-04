@@ -1,17 +1,17 @@
 const mongoose = require('mongoose');
 
 const PaymentMethod = require('../models/paymentMethod.model');
-const PaymentMethodSchema = require('../schemas/paymentSchema')
+const PaymentMethodSchema = require('../schemas/paymentMethodSchema')
 
 const getAllPaymentMethods = async (req, res) => {
     try {
         const paymentMethod = await PaymentMethod.find();
 
         if (!paymentMethod) {
-            return res.status(404).json({ status: 404, message: "PaymentMethods not found" });
+            return res.status(404).json({ status: 404, message: "Payment Methods not found" });
         }
 
-        res.status(200).json({ status: 200, data: paymentMethod, message: "PaymentMethods Found" });
+        res.status(200).json({ status: 200, data: paymentMethod, message: "Payment Methods Found" });
 
     } catch (err) {
         res.status(400).json({
@@ -64,10 +64,10 @@ const createPaymentMethod = async (req, res) => {
         });
 
         if (!paymentMethod) {
-            return res.status(400).json({ message: 'PaymentMethod Cannot Create' });
+            return res.status(400).json({ message: 'Payment Method Cannot Create' });
         }
 
-        res.status(201).json({ data: paymentMethod, message: 'PaymentMethod Created Successfully' });
+        res.status(201).json({ data: paymentMethod, message: 'Payment Method Created Successfully' });
 
     } catch (err) {
         res.status(400).json({
@@ -83,7 +83,7 @@ const updatePaymentMethod = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid paymentMethod id" });
+            return res.status(404).json({ status: 404, error: "Invalid payment Method id" });
         }
 
         const { value, error } = PaymentMethodSchema.validate(req.body);
@@ -93,10 +93,10 @@ const updatePaymentMethod = async (req, res) => {
 
         const updatedPaymentMethod = await PaymentMethod.findByIdAndUpdate(id, value, { new: true });
         if (!updatedPaymentMethod) {
-            return res.status(404).json({ status: 404, message: "PaymentMethod not found" });
+            return res.status(404).json({ status: 404, message: "Payment Method not found" });
         }
 
-        res.status(200).json({ status: 200, data: updatedPaymentMethod, message: "PaymentMethod Updated Successfully" });
+        res.status(200).json({ status: 200, data: updatedPaymentMethod, message: "Payment Method Updated Successfully" });
 
     } catch (err) {
         res.status(400).json({
