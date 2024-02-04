@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const { password, email } = require('../constants/regExp');
-const { comparePassword, hashPassword } = require("../helpers");
+const { signToken, comparePassword, hashPassword } = require("../helpers");
 const { nameSchema } = require('./name.model')
 const { addressSchema } = require("./address.model");
 
@@ -36,21 +36,27 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      match: password,
       required: true,
+      maxLength: 100,
       minLength: 8,
-      maxLength: 50,
+      match: password,
     },
     countryId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "country",
       required: true,
     },
+    refreshToken: {
+      type: String,
+      required: false,
+    }
   },
   { timestamps: true }
 );
 
 userSchema.methods.comparePassword = comparePassword;
+
+userSchema.methods.signToken = signToken;
 
 userSchema.pre("save", hashPassword);
 

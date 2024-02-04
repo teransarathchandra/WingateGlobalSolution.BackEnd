@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const ContactPerson = require('../models/contactPerson.model');
 const { registerSchema, updateSchema } = require('../schemas/contactPersonSchema')
+const BadRequestError = require('../helpers/BadRequestError');
+
 
 
 
@@ -57,7 +59,7 @@ const createContactPerson = async (req, res) => {
         const { value, error } = registerSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            BadRequestError(error);
         }
 
         const { customerId, contactPerson, contactNumber, email, } = value;
@@ -94,7 +96,7 @@ const updateContactPerson = async (req, res) => {
 
         const { value, error } = updateSchema.validate(req.body);
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            BadRequestError(error);
         }
 
         const updatedContactPerson = await ContactPerson.findByIdAndUpdate(id, value, { new: true });
