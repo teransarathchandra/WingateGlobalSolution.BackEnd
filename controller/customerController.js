@@ -96,11 +96,11 @@ const updateCustomer = async (req, res) => {
         }
 
         const updatedCustomer = await Customer.findByIdAndUpdate(id, value, { new: true });
-        if (!updateCustomer) {
+        if (!updatedCustomer) {
             return res.status(404).json({ status: 404, message: "Customer not found" });
         }
 
-        res.status(200).json({ status: 200, data: updateCustomer, message: "Customer Updated Successfully" });
+        res.status(200).json({ status: 200, data: updatedCustomer, message: "Customer Updated Successfully" });
 
     } catch (err) {
         res.status(400).json({

@@ -12,6 +12,10 @@ const countryRoutes = require('./country');
 const routeRoutes = require('./route');
 const userRoutes = require('./user');
 const customerRoutes = require('./customer');
+const contactPersonRoutes = require('./contactPerson');
+const systemAccessRoutes = require('./systemAccess');
+const designationRoutes = require('./designation');
+const loanRoutes = require('./loan');
 const driverRoutes = require('./driver');
 const warehouseRoutes = require('./warehouse');
 
@@ -27,11 +31,6 @@ router.use('/user', userRoutes);
 //customer routes
  router.use('/customer', customerRoutes);
 
-//user routes
-router.use('/user', userRoutes);
-
-//customer routes
- router.use('/customer', customerRoutes);
 
 //driver routes
 router.use('/driver', driverRoutes)
@@ -60,8 +59,20 @@ router.use('/item', itemRoutes)
 //country routes
  router.use('/country', countryRoutes)
 
+ //contactPerson routes
+ router.use('/contactPerson', contactPersonRoutes)
+
 //route routes
  router.use('/route', routeRoutes)
+
+ //system access routes
+ router.use('/systemAccess', systemAccessRoutes)
+
+ //designation routes
+ router.use('/designation', designationRoutes)
+
+//loans routes
+ router.use('/loan', loanRoutes)
 
 module.exports = router;
 

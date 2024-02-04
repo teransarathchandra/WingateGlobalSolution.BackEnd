@@ -25,4 +25,4 @@ const requiredDocumentSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("required Documents", requiredDocumentSchema);
+module.exports = model("required_documents", requiredDocumentSchema, "requiredDocuments");
