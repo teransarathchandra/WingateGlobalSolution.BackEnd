@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllQuotations, getQuotationById, createQuotation, updateQuotation, deleteQuotation } = require('../../controller/paymentController');
-
+const { getAllQuotations, getQuotationById, createQuotation, updateQuotation, deleteQuotation } = require('../../controller/quotationController');
 router.get('/', getAllQuotations);
 router.get('/:id', getQuotationById);
 router.post('/', createQuotation);

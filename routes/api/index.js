@@ -10,6 +10,9 @@ const restrictedOrderRoutes = require('./restrictedOrder');
 const requiredDocumentRoutes = require('./requiredDocument');
 const countryRoutes = require('./country');
 const routeRoutes = require('./route');
+const paymentRoutes= require('./payment');
+const quotationRoutes= require('./quotation');
+
 
 // employee routes
 router.use('/employee', employeeRoutes);
@@ -30,16 +33,21 @@ router.use('/bulk', bulkRoutes)
 router.use('/item', itemRoutes)
 
 //restricted order routes
- router.use('/restrictedOrder', restrictedOrderRoutes)
+router.use('/restrictedOrder', restrictedOrderRoutes)
 
 //required document routes
- router.use('/requiredDocument', requiredDocumentRoutes)
+router.use('/requiredDocument', requiredDocumentRoutes)
 
 //country routes
- router.use('/country', countryRoutes)
+router.use('/country', countryRoutes)
 
 //route routes
- router.use('/route', routeRoutes)
+router.use('/route', routeRoutes)
+
+//payment routes
+router.use('/payment', paymentRoutes)
+
+//quotation routes
+router.use('/quotation', quotationRoutes)
 
 module.exports = router;
-

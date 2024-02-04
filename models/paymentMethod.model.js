@@ -8,7 +8,7 @@ const PaymentMehtodSchema = new Schema(
             required: true,
             unique: true,
         },
-        UserName: {
+        userName: {
             type: String,
             required: true,
             maxLength: 50,
@@ -18,7 +18,7 @@ const PaymentMehtodSchema = new Schema(
             required: true,
             min: 0,
         },
-        paymentMethod: {
+        method: {
             type: String,
             required: true,
         },

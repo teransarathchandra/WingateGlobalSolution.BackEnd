@@ -6,7 +6,7 @@ const QuotationSchema = require('../schemas/quotationSchema')
 const getAllQuotations = async (req, res) => {
 
     try {
-        const quotation = await Payment.find();
+        const quotation = await Quotation.find();
 
         if (!quotation) {
             return res.status(404).json({ status: 404, message: "Quotations not found" });
@@ -31,7 +31,7 @@ const getQuotationById = async (req, res) => {
             return res.status(404).json({ status: 404, error: "Invalid quotation id" })
         }
 
-        const quotation = await Payment.findById(id);
+        const quotation = await Quotation.findById(id);
 
         if (!quotation) {
             return res.status(404).json({ status: 404, message: "Quotation not found" });
@@ -49,7 +49,7 @@ const getQuotationById = async (req, res) => {
 const createQuotation = async (req, res) => {
 
     try {
-        const { value, error } = QuotationsSchema.validate(req.body);
+        const { value, error } = QuotationSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -57,7 +57,7 @@ const createQuotation = async (req, res) => {
 
         const { quotationId, packagingCost, routeCost, unitWeightCost, surcharge, orderId } = value;
 
-        const payment = await Quotation.create({
+        const quotation = await Quotation.create({
             quotationId,
             packagingCost,
             routeCost,
