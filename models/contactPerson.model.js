@@ -30,4 +30,4 @@ const contactPersonSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("contactPerson", contactPersonSchema);
+module.exports = model("contactPerson", contactPersonSchema, "contactPerson");
