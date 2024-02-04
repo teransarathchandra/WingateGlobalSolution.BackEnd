@@ -10,6 +10,11 @@ const restrictedOrderRoutes = require('./restrictedOrder');
 const requiredDocumentRoutes = require('./requiredDocument');
 const countryRoutes = require('./country');
 const routeRoutes = require('./route');
+const userRoutes = require('./user');
+const customerRoutes = require('./customer');
+const contactPersonRoutes = require('./contactPerson');
+const systemAccessRoutes = require('./systemAccess');
+const designationRoutes = require('./designation');
 const loanRoutes = require('./loan');
 
 // employee routes
@@ -17,6 +22,12 @@ router.use('/employee', employeeRoutes);
 
 //category routes
 router.use('/category', categoryRoutes)
+
+//user routes
+router.use('/user', userRoutes);
+
+//customer routes
+ router.use('/customer', customerRoutes);
 
 //vehicle routes
 router.use('/vehicle', vehicleRoutes);
@@ -39,8 +50,17 @@ router.use('/item', itemRoutes)
 //country routes
  router.use('/country', countryRoutes)
 
+ //contactPerson routes
+ router.use('/contactPerson', contactPersonRoutes)
+
 //route routes
  router.use('/route', routeRoutes)
+
+ //system access routes
+ router.use('/systemaccess', systemAccessRoutes)
+
+ //designation routes
+ router.use('/designation', designationRoutes)
 
 //loans routes
  router.use('/loan', loanRoutes)

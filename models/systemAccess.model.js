@@ -18,4 +18,4 @@ const systemAccessSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("systemAccess", systemAccessSchema);
+module.exports = model("systemAccess", systemAccessSchema, "systemAccess");
