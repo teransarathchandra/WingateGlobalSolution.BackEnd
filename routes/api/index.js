@@ -13,10 +13,15 @@ const routeRoutes = require('./route');
 const userRoutes = require('./user');
 const customerRoutes = require('./customer');
 const contactPersonRoutes = require('./contactPerson');
-
-
 const systemAccessRoutes = require('./systemAccess');
 const designationRoutes = require('./designation');
+const loanRoutes = require('./loan');
+const driverRoutes = require('./driver');
+const warehouseRoutes = require('./warehouse');
+const paymentRoutes= require('./payment');
+const quotationRoutes= require('./quotation');
+const paymentMethodRoutes= require('./paymentMethod');
+
 
 // employee routes
 router.use('/employee', employeeRoutes);
@@ -30,15 +35,11 @@ router.use('/user', userRoutes);
 //customer routes
  router.use('/customer', customerRoutes);
 
+//driver routes
+router.use('/driver', driverRoutes)
 
-
-//user routes
-router.use('/user', userRoutes);
-
-//customer routes
- router.use('/customer', customerRoutes);
-
-
+//warehouse routes
+router.use('/warehouse', warehouseRoutes)
 
 //vehicle routes
 router.use('/vehicle', vehicleRoutes);
@@ -53,25 +54,36 @@ router.use('/bulk', bulkRoutes)
 router.use('/item', itemRoutes)
 
 //restricted order routes
- router.use('/restrictedOrder', restrictedOrderRoutes)
+router.use('/restrictedOrder', restrictedOrderRoutes)
 
 //required document routes
- router.use('/requiredDocument', requiredDocumentRoutes)
+router.use('/requiredDocument', requiredDocumentRoutes)
 
 //country routes
- router.use('/country', countryRoutes)
+router.use('/country', countryRoutes)
 
  //contactPerson routes
  router.use('/contactPerson', contactPersonRoutes)
 
 //route routes
- router.use('/route', routeRoutes)
+router.use('/route', routeRoutes)
 
  //system access routes
- router.use('/systemaccess', systemAccessRoutes)
+ router.use('/systemAccess', systemAccessRoutes)
 
  //designation routes
  router.use('/designation', designationRoutes)
 
-module.exports = router;
+//loans routes
+ router.use('/loan', loanRoutes)
 
+//payment routes
+router.use('/payment', paymentRoutes)
+
+//quotation routes
+router.use('/quotation', quotationRoutes)
+
+//paymentMethod routes
+router.use('/paymentMethod', paymentMethodRoutes)
+
+module.exports = router;
