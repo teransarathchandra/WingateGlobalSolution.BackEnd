@@ -15,6 +15,8 @@ const customerRoutes = require('./customer');
 const contactPersonRoutes = require('./contactPerson');
 
 
+const systemAccessRoutes = require('./systemAccess');
+const designationRoutes = require('./designation');
 
 // employee routes
 router.use('/employee', employeeRoutes);
@@ -64,6 +66,12 @@ router.use('/item', itemRoutes)
 
 //route routes
  router.use('/route', routeRoutes)
+
+ //system access routes
+ router.use('/systemaccess', systemAccessRoutes)
+
+ //designation routes
+ router.use('/designation', designationRoutes)
 
 module.exports = router;
 
