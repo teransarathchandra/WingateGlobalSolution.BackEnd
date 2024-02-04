@@ -12,10 +12,10 @@ const getAllContactPersons = async (req, res) => {
         const contactPerson = await ContactPerson.find();
 
         if (!contactPerson) {
-            return res.status(404).json({ status: 404, message: "ContactPerson not found" });
+            return res.status(404).json({ status: 404, message: "Contact Person not found" });
         }
 
-        res.status(200).json({ status: 200, data: contactPerson, message: "ContactPerson Found" });
+        res.status(200).json({ status: 200, data: contactPerson, message: "Contact Person Found" });
 
     } catch (err) {
         res.status(400).json({
@@ -31,16 +31,16 @@ const getContactPersonById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid ContactPerson id" })
+            return res.status(404).json({ status: 404, error: "Invalid Contact Person id" })
         }
 
         const contactPerson = await ContactPerson.findById(id);
 
         if (!contactPerson) {
-            return res.status(404).json({ status: 404, message: "ContactPerson not found" });
+            return res.status(404).json({ status: 404, message: "Contact Person not found" });
         }
 
-        res.status(200).json({ status: 200, data: contactPerson, message: "ContactPerson Found" });
+        res.status(200).json({ status: 200, data: contactPerson, message: "Contact Person Found" });
     } catch (err) {
         res.status(400).json({
             error: 'Your request could not be processed. Please try again.',
@@ -60,7 +60,7 @@ const createContactPerson = async (req, res) => {
             return res.status(400).json({ status: 400, error: error });
         }
 
-        const  { customerId, contactPerson, contactNumber,  email, } = value;
+        const { customerId, contactPerson, contactNumber, email, } = value;
 
         const contactperson = await ContactPerson.create({
             customerId,
@@ -70,10 +70,10 @@ const createContactPerson = async (req, res) => {
         });
 
         if (!contactperson) {
-            return res.status(400).json({ message: 'ContactPerson Cannot Create' });
+            return res.status(400).json({ message: 'Contact Person Cannot Create' });
         }
 
-        res.status(201).json({ data: contactperson, message: 'ContactPerson Created Successfully' });
+        res.status(201).json({ data: contactperson, message: 'Contact Person Created Successfully' });
 
     } catch (err) {
         res.status(400).json({
@@ -89,7 +89,7 @@ const updateContactPerson = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid ContactPerson id" });
+            return res.status(404).json({ status: 404, error: "Invalid Contact Person id" });
         }
 
         const { value, error } = updateSchema.validate(req.body);
@@ -99,10 +99,10 @@ const updateContactPerson = async (req, res) => {
 
         const updatedContactPerson = await ContactPerson.findByIdAndUpdate(id, value, { new: true });
         if (!updatedContactPerson) {
-            return res.status(404).json({ status: 404, message: "ContactPerson not found" });
+            return res.status(404).json({ status: 404, message: "Contact Person not found" });
         }
 
-        res.status(200).json({ status: 200, data: updatedContactPerson, message: "ContactPerson Updated Successfully" });
+        res.status(200).json({ status: 200, data: updatedContactPerson, message: "Contact Person Updated Successfully" });
 
     } catch (err) {
         res.status(400).json({
@@ -118,15 +118,15 @@ const deleteContactPerson = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid ContactPerson id" });
+            return res.status(404).json({ status: 404, error: "Invalid Contact Person id" });
         }
 
         const deletedcontactPerson = await ContactPerson.findByIdAndDelete(id);
         if (!deletedcontactPerson) {
-            return res.status(404).json({ status: 404, message: "ContactPerson not found" });
+            return res.status(404).json({ status: 404, message: "Contact Person not found" });
         }
 
-        res.status(200).json({ status: 200, message: "ContactPerson Deleted Successfully" });
+        res.status(200).json({ status: 200, message: "Contact Person Deleted Successfully" });
 
     } catch (err) {
         res.status(400).json({
@@ -137,4 +137,4 @@ const deleteContactPerson = async (req, res) => {
 };
 
 
-module.exports = {getAllContactPersons, getContactPersonById, createContactPerson, updateContactPerson, deleteContactPerson}
+module.exports = { getAllContactPersons, getContactPersonById, createContactPerson, updateContactPerson, deleteContactPerson }
