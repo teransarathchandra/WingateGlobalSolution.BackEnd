@@ -16,29 +16,27 @@ const addressSchema = Joi.object({
 
 const loginSchema = Joi.object({
     email: Joi.string().email().required(),
-    password: Joi.string().required().min(8).max(100)
+    password: Joi.string().required().min(8).max(50)
 });
 
 const registerSchema = Joi.object({
-    employeeId: Joi.number().required().integer(),
+    userId: Joi.number().required().integer(),
     name: nameSchema,
-    address: addressSchema,
-    username: Joi.string().required(),
     email: Joi.string().email().required(),
-    password: Joi.string().required().min(8).max(100).regex(password),
     contactNumber: Joi.number().required().integer(),
-    designationId: Joi.string().required(),
+    address: addressSchema,
+    username: Joi.string().required(),  
+    password: Joi.string().required().min(8).max(50).regex(password),    
     countryId: Joi.string().required()
 });
 
 const updateSchema = Joi.object({
     name: nameSchema,
+    email: Joi.string().email(),
+    contactNumber: Joi.number().integer(),
     address: addressSchema,
     username: Joi.string(),
-    email: Joi.string().email(),
-    password: Joi.string().min(8).max(100).regex(password),
-    contactNumber: Joi.number().integer(),
-    designationId: Joi.string(),
+    password: Joi.string().min(8).max(50).regex(password),
     countryId: Joi.string()
 });
 

@@ -24,7 +24,7 @@ const getAllVehicles = async (req, res) => {
   }
 };
 
-const getvehicleById = async (req, res) => {
+const getVehicleById = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -150,7 +150,7 @@ const deleteVehicle = async (req, res) => {
 };
 module.exports = {
   getAllVehicles,
-  getvehicleById,
+  getVehicleById,
   createVehicle,
   updateVehicle,
   deleteVehicle,

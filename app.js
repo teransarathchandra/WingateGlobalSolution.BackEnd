@@ -3,10 +3,13 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const mongoose = require("mongoose");
 require('dotenv').config({ path: `.env` });
 
+const connectDatabase = require("./config/database");
 const routes = require("./routes");
+
+// connect to database
+connectDatabase();
 
 const app = express();
 
@@ -20,17 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log(process.env.MONGODB_URI);
-    console.log("Successfully connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log("Error occurred while connecting to MongoDB" + err.message);
-    process.exit(1); // Exit the process if MongoDB connection fails
-  });
-
+// import routes
 app.use(routes);
 
 // catch 404 and forward to error handler
@@ -45,8 +38,19 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
-  res.render("error");
+  // res.status(err.status || 500);
+  // res.render("error");
+
+  const status = err.status || 500;
+  const message = err.message || "Internal Server Error";
+  // console.error(err.stack);
+  console.error(message);
+  res.status(status).json({
+    error: {
+      status: status,
+      message: message,
+    },
+  });
   next();
 });
 

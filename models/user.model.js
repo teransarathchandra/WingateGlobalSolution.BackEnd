@@ -2,7 +2,9 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const { password, email } = require('../constants/regExp');
-const addressSchema = require("./address.model");
+const { comparePassword, hashPassword } = require("../helpers");
+const { nameSchema } = require('./name.model')
+const { addressSchema } = require("./address.model");
 
 const userSchema = new Schema(
   {
@@ -11,14 +13,8 @@ const userSchema = new Schema(
       required: true,
       unique: true,
     },
-    firstName: {
-      type: String,
-      required: true,
-      maxLength: 50,
-    },
-    lastName: {
-      type: String,
-      maxLength: 50,
+    name: {
+      type: nameSchema
     },
     email: {
       type: String,
@@ -53,5 +49,9 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 );
+
+userSchema.methods.comparePassword = comparePassword;
+
+userSchema.pre("save", hashPassword);
 
 module.exports = model("user", userSchema);
