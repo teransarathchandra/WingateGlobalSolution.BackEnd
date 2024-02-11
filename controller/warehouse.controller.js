@@ -82,22 +82,22 @@ const createWarehouse = async (req, res) => {
     }
 };
 
-const updateWarehouse = async(req, res) =>{
-    try{
-        const {id} = req.params;
+const updateWarehouse = async (req, res) => {
+    try {
+        const { id } = req.params;
 
-        if(!mongoose.Types.ObjectId.isValid(id)){
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ status: 404, error: "Invalid Warehouse id" });
         }
 
-        const{value , error} = Warehouse.validate(req.body);
-        
+        const { value, error } = Warehouse.validate(req.body);
+
         if (error) {
             return res.status(400).json({ status: 400, error: error });
         }
 
         const updatedWarehouse = await Warehouse.findByIdAndUpdate(id, value, { new: true });
-        
+
         if (!updatedWarehouse) {
             return res.status(404).json({ status: 404, message: "Warehouse not found" });
         }
@@ -105,7 +105,7 @@ const updateWarehouse = async(req, res) =>{
         res.status(200).json({ status: 200, data: updatedWarehouse, message: "Warehouse Updated Successfully" });
 
 
-    } catch (err){
+    } catch (err) {
         res.status(400).json({
             error: 'Your request could not be processed. Please try again.',
             message: err.message
@@ -114,7 +114,7 @@ const updateWarehouse = async(req, res) =>{
 
 }
 
- const deleteWarehouse = async (req, res) =>{
+const deleteWarehouse = async (req, res) => {
 
     try {
 
@@ -125,19 +125,19 @@ const updateWarehouse = async(req, res) =>{
         }
         const deletedWarehouse = await Warehouse.findByIdAndDelete(id);
 
-        if(!deletedWarehouse){
+        if (!deletedWarehouse) {
             return res.status(404).json({ status: 404, message: "Warehouse not found" });
 
         }
         res.status(200).json({ status: 200, message: "Warehouse Deleted Successfully" });
 
-    } catch (err){
+    } catch (err) {
         res.status(400).json({
             error: 'Your request could not be processed. Please try again.',
             message: err.message
         });
     }
 
- };
+};
 
-module.exports = { getAllWarehouse, getWarehouseById, createWarehouse, updateWarehouse, deleteWarehouse};
+module.exports = { getAllWarehouse, getWarehouseById, createWarehouse, updateWarehouse, deleteWarehouse };

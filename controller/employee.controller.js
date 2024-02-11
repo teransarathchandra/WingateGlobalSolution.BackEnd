@@ -97,7 +97,7 @@ const createEmployee = async (req, res) => {
         // Save the refreshToken with the employee
         employee.refreshToken = refreshToken;
         await employee.save();
-        
+
         if (!employee) {
             return res.status(400).json({ message: 'Employee Cannot Create' });
         }

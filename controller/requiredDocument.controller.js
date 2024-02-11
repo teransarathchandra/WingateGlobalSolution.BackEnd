@@ -80,22 +80,22 @@ const createRequiredDocument = async (req, res) => {
     }
 };
 
-const updateRequiredDocument = async(req, res) =>{
-    try{
-        const {id} = req.params;
+const updateRequiredDocument = async (req, res) => {
+    try {
+        const { id } = req.params;
 
-        if(!mongoose.Types.ObjectId.isValid(id)){
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ status: 404, error: "Invalid Required Document id" });
         }
 
-        const{value , error} = RequiredDocumentSchema.validate(req.body);
-        
+        const { value, error } = RequiredDocumentSchema.validate(req.body);
+
         if (error) {
             return res.status(400).json({ status: 400, error: error });
         }
 
         const updatedRequiredDocument = await RequiredDocument.findByIdAndUpdate(id, value, { new: true });
-        
+
         if (!updatedRequiredDocument) {
             return res.status(404).json({ status: 404, message: "Required Document not found" });
         }
@@ -103,7 +103,7 @@ const updateRequiredDocument = async(req, res) =>{
         res.status(200).json({ status: 200, data: updatedRequiredDocument, message: "Required Document Updated Successfully" });
 
 
-    } catch (err){
+    } catch (err) {
         res.status(400).json({
             error: 'Your request could not be processed. Please try again.',
             message: err.message
@@ -112,7 +112,7 @@ const updateRequiredDocument = async(req, res) =>{
 
 }
 
- const deleteRequiredDocument = async (req, res) =>{
+const deleteRequiredDocument = async (req, res) => {
 
     try {
 
@@ -123,19 +123,19 @@ const updateRequiredDocument = async(req, res) =>{
         }
         const deletedRequiredDocument = await RequiredDocument.findByIdAndDelete(id);
 
-        if(!deletedRequiredDocument){
+        if (!deletedRequiredDocument) {
             return res.status(404).json({ status: 404, message: "Required Document not found" });
 
         }
         res.status(200).json({ status: 200, message: "Required Document Deleted Successfully" });
 
-    } catch (err){
+    } catch (err) {
         res.status(400).json({
             error: 'Your request could not be processed. Please try again.',
             message: err.message
         });
     }
 
- };
+};
 
-module.exports = { getAllRequiredDocuments, getRequiredDocumentById, createRequiredDocument, updateRequiredDocument, deleteRequiredDocument};
+module.exports = { getAllRequiredDocuments, getRequiredDocumentById, createRequiredDocument, updateRequiredDocument, deleteRequiredDocument };

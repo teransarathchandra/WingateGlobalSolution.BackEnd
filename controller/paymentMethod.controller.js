@@ -104,7 +104,7 @@ const updatePaymentMethod = async (req, res) => {
             message: err.message
         });
     }
-};const deletePaymentMethod = async (req, res) => {
+}; const deletePaymentMethod = async (req, res) => {
 
     try {
         const { id } = req.params;

@@ -81,22 +81,22 @@ const createCategory = async (req, res) => {
     }
 };
 
-const updateCategory = async(req, res) =>{
-    try{
-        const {id} = req.params;
+const updateCategory = async (req, res) => {
+    try {
+        const { id } = req.params;
 
-        if(!mongoose.Types.ObjectId.isValid(id)){
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ status: 404, error: "Invalid Category id" });
         }
 
-        const{value , error} = CategorySchema.validate(req.body);
-        
+        const { value, error } = CategorySchema.validate(req.body);
+
         if (error) {
             return res.status(400).json({ status: 400, error: error });
         }
 
         const updatedCategory = await Category.findByIdAndUpdate(id, value, { new: true });
-        
+
         if (!updatedCategory) {
             return res.status(404).json({ status: 404, message: "Category not found" });
         }
@@ -104,7 +104,7 @@ const updateCategory = async(req, res) =>{
         res.status(200).json({ status: 200, data: updatedCategory, message: "Category Updated Successfully" });
 
 
-    } catch (err){
+    } catch (err) {
         res.status(400).json({
             error: 'Your request could not be processed. Please try again.',
             message: err.message
@@ -113,7 +113,7 @@ const updateCategory = async(req, res) =>{
 
 }
 
- const deleteCategory = async (req, res) =>{
+const deleteCategory = async (req, res) => {
 
     try {
 
@@ -124,19 +124,19 @@ const updateCategory = async(req, res) =>{
         }
         const deletedCategory = await Category.findByIdAndDelete(id);
 
-        if(!deletedCategory){
+        if (!deletedCategory) {
             return res.status(404).json({ status: 404, message: "Category not found" });
 
         }
         res.status(200).json({ status: 200, message: "Category Deleted Successfully" });
 
-    } catch (err){
+    } catch (err) {
         res.status(400).json({
             error: 'Your request could not be processed. Please try again.',
             message: err.message
         });
     }
 
- };
+};
 
-module.exports = { getAllCategory, getCategoryById, createCategory, updateCategory, deleteCategory};
+module.exports = { getAllCategory, getCategoryById, createCategory, updateCategory, deleteCategory };

@@ -83,22 +83,22 @@ const createLoan = async (req, res) => {
     }
 };
 
-const updateLoan = async(req, res) =>{
-    try{
-        const {id} = req.params;
+const updateLoan = async (req, res) => {
+    try {
+        const { id } = req.params;
 
-        if(!mongoose.Types.ObjectId.isValid(id)){
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ status: 404, error: "Invalid Loan id" });
         }
 
-        const{value , error} = LoanSchema.validate(req.body);
-        
+        const { value, error } = LoanSchema.validate(req.body);
+
         if (error) {
             return res.status(400).json({ status: 400, error: error });
         }
 
         const updatedLoan = await Loan.findByIdAndUpdate(id, value, { new: true });
-        
+
         if (!updatedLoan) {
             return res.status(404).json({ status: 404, message: "Loan not found" });
         }
@@ -106,7 +106,7 @@ const updateLoan = async(req, res) =>{
         res.status(200).json({ status: 200, data: updatedLoan, message: "Loan Updated Successfully" });
 
 
-    } catch (err){
+    } catch (err) {
         res.status(400).json({
             error: 'Your request could not be processed. Please try again.',
             message: err.message
@@ -115,7 +115,7 @@ const updateLoan = async(req, res) =>{
 
 }
 
- const deleteLoan = async (req, res) =>{
+const deleteLoan = async (req, res) => {
 
     try {
 
@@ -126,19 +126,19 @@ const updateLoan = async(req, res) =>{
         }
         const deletedLoan = await Loan.findByIdAndDelete(id);
 
-        if(!deletedLoan){
+        if (!deletedLoan) {
             return res.status(404).json({ status: 404, message: "Loan not found" });
 
         }
         res.status(200).json({ status: 200, message: "Loan Deleted Successfully" });
 
-    } catch (err){
+    } catch (err) {
         res.status(400).json({
             error: 'Your request could not be processed. Please try again.',
             message: err.message
         });
     }
 
- };
+};
 
-module.exports = { getAllLoans, getLoanById, createLoan, updateLoan, deleteLoan};
+module.exports = { getAllLoans, getLoanById, createLoan, updateLoan, deleteLoan };

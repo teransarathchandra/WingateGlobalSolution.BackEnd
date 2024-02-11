@@ -2,9 +2,7 @@ const mongoose = require('mongoose');
 
 const ContactPerson = require('../models/contactPerson.model');
 const { registerSchema, updateSchema } = require('../schemas/contactPerson.schema')
-
-
-
+const BadRequestError = require('../helpers/BadRequestError');
 
 const getAllContactPersons = async (req, res) => {
 
@@ -49,15 +47,13 @@ const getContactPersonById = async (req, res) => {
     }
 };
 
-
-
 const createContactPerson = async (req, res) => {
 
     try {
         const { value, error } = registerSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            BadRequestError(error);
         }
 
         const { customerId, contactPerson, contactNumber, email, } = value;
@@ -94,7 +90,7 @@ const updateContactPerson = async (req, res) => {
 
         const { value, error } = updateSchema.validate(req.body);
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            BadRequestError(error);
         }
 
         const updatedContactPerson = await ContactPerson.findByIdAndUpdate(id, value, { new: true });
@@ -135,6 +131,5 @@ const deleteContactPerson = async (req, res) => {
         });
     }
 };
-
 
 module.exports = { getAllContactPersons, getContactPersonById, createContactPerson, updateContactPerson, deleteContactPerson }

@@ -82,22 +82,22 @@ const createCountry = async (req, res) => {
     }
 };
 
-const updateCountry = async(req, res) =>{
-    try{
-        const {id} = req.params;
+const updateCountry = async (req, res) => {
+    try {
+        const { id } = req.params;
 
-        if(!mongoose.Types.ObjectId.isValid(id)){
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ status: 404, error: "Invalid Country id" });
         }
 
-        const{value , error} = CountrySchema.validate(req.body);
-        
+        const { value, error } = CountrySchema.validate(req.body);
+
         if (error) {
             return res.status(400).json({ status: 400, error: error });
         }
 
         const updatedCountry = await Country.findByIdAndUpdate(id, value, { new: true });
-        
+
         if (!updatedCountry) {
             return res.status(404).json({ status: 404, message: "Country not found" });
         }
@@ -105,7 +105,7 @@ const updateCountry = async(req, res) =>{
         res.status(200).json({ status: 200, data: updatedCountry, message: "Country Updated Successfully" });
 
 
-    } catch (err){
+    } catch (err) {
         res.status(400).json({
             error: 'Your request could not be processed. Please try again.',
             message: err.message
@@ -114,7 +114,7 @@ const updateCountry = async(req, res) =>{
 
 }
 
- const deleteCountry = async (req, res) =>{
+const deleteCountry = async (req, res) => {
 
     try {
 
@@ -125,19 +125,19 @@ const updateCountry = async(req, res) =>{
         }
         const deletedCountry = await Country.findByIdAndDelete(id);
 
-        if(!deletedCountry){
+        if (!deletedCountry) {
             return res.status(404).json({ status: 404, message: "Country not found" });
 
         }
         res.status(200).json({ status: 200, message: "Country Deleted Successfully" });
 
-    } catch (err){
+    } catch (err) {
         res.status(400).json({
             error: 'Your request could not be processed. Please try again.',
             message: err.message
         });
     }
 
- };
+};
 
-module.exports = { getAllCountries, getCountryById, createCountry, updateCountry, deleteCountry};
+module.exports = { getAllCountries, getCountryById, createCountry, updateCountry, deleteCountry };

@@ -60,7 +60,7 @@ const createDriver = async (req, res) => {
         const driver = await Driver.create({
             driverId,
             warehouseId,
-           
+
         });
 
         if (!driver) {

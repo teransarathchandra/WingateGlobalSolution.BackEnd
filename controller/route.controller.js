@@ -58,16 +58,16 @@ const createRoute = async (req, res) => {
             return res.status(400).json({ status: 400, error: error });
         }
 
-        const { routeId, transportMode, distance, priority, roundTripDays, routeShippingCost, startingPortId, endingPortId} = value;
+        const { routeId, transportMode, distance, priority, roundTripDays, routeShippingCost, startingPortId, endingPortId } = value;
 
         const route = await Route.create({
             routeId,
-            transportMode, 
-            distance, 
-            priority, 
-            roundTripDays, 
-            routeShippingCost, 
-            startingPortId, 
+            transportMode,
+            distance,
+            priority,
+            roundTripDays,
+            routeShippingCost,
+            startingPortId,
             endingPortId
         });
 
@@ -84,22 +84,22 @@ const createRoute = async (req, res) => {
     }
 };
 
-const updateRoute = async(req, res) =>{
-    try{
-        const {id} = req.params;
+const updateRoute = async (req, res) => {
+    try {
+        const { id } = req.params;
 
-        if(!mongoose.Types.ObjectId.isValid(id)){
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ status: 404, error: "Invalid Route id" });
         }
 
-        const{value , error} = RouteSchema.validate(req.body);
-        
+        const { value, error } = RouteSchema.validate(req.body);
+
         if (error) {
             return res.status(400).json({ status: 400, error: error });
         }
 
         const updatedRoute = await Route.findByIdAndUpdate(id, value, { new: true });
-        
+
         if (!updatedRoute) {
             return res.status(404).json({ status: 404, message: "Route not found" });
         }
@@ -107,7 +107,7 @@ const updateRoute = async(req, res) =>{
         res.status(200).json({ status: 200, data: updatedRoute, message: "Route Updated Successfully" });
 
 
-    } catch (err){
+    } catch (err) {
         res.status(400).json({
             error: 'Your request could not be processed. Please try again.',
             message: err.message
@@ -116,7 +116,7 @@ const updateRoute = async(req, res) =>{
 
 }
 
- const deleteRoute = async (req, res) =>{
+const deleteRoute = async (req, res) => {
 
     try {
 
@@ -127,19 +127,19 @@ const updateRoute = async(req, res) =>{
         }
         const deletedRoute = await Route.findByIdAndDelete(id);
 
-        if(!deletedRoute){
+        if (!deletedRoute) {
             return res.status(404).json({ status: 404, message: "Route not found" });
 
         }
         res.status(200).json({ status: 200, message: "Route Deleted Successfully" });
 
-    } catch (err){
+    } catch (err) {
         res.status(400).json({
             error: 'Your request could not be processed. Please try again.',
             message: err.message
         });
     }
 
- };
+};
 
-module.exports = { getAllRoutes, getRouteById, createRoute, updateRoute, deleteRoute};
+module.exports = { getAllRoutes, getRouteById, createRoute, updateRoute, deleteRoute };

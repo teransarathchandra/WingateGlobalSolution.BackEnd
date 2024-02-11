@@ -63,13 +63,13 @@ const createRestrictedOrder = async (req, res) => {
         const restrictedOrder = await RestrictedOrder.create({
             restrictedOrderId,
             maxQuantity,
-            exportLicense, 
-            importPermit, 
-            safetyDataSheets, 
-            phytosanitaryCertificate, 
-            dangerousGoodsDeclaration, 
-            categoryId, 
-            sendingCountryId, 
+            exportLicense,
+            importPermit,
+            safetyDataSheets,
+            phytosanitaryCertificate,
+            dangerousGoodsDeclaration,
+            categoryId,
+            sendingCountryId,
             receivingCountryId
         });
 
@@ -86,22 +86,22 @@ const createRestrictedOrder = async (req, res) => {
     }
 };
 
-const updateRestrictedOrder = async(req, res) =>{
-    try{
-        const {id} = req.params;
+const updateRestrictedOrder = async (req, res) => {
+    try {
+        const { id } = req.params;
 
-        if(!mongoose.Types.ObjectId.isValid(id)){
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ status: 404, error: "Invalid Restricted Order id" });
         }
 
-        const{value , error} = RestrictedOrderSchema.validate(req.body);
-        
+        const { value, error } = RestrictedOrderSchema.validate(req.body);
+
         if (error) {
             return res.status(400).json({ status: 400, error: error });
         }
 
         const updatedRestrictedOrder = await RestrictedOrder.findByIdAndUpdate(id, value, { new: true });
-        
+
         if (!updatedRestrictedOrder) {
             return res.status(404).json({ status: 404, message: "Restricted Order not found" });
         }
@@ -109,7 +109,7 @@ const updateRestrictedOrder = async(req, res) =>{
         res.status(200).json({ status: 200, data: updatedRestrictedOrder, message: "Restricted Order Updated Successfully" });
 
 
-    } catch (err){
+    } catch (err) {
         res.status(400).json({
             error: 'Your request could not be processed. Please try again.',
             message: err.message
@@ -118,7 +118,7 @@ const updateRestrictedOrder = async(req, res) =>{
 
 }
 
- const deleteRestrictedOrder = async (req, res) =>{
+const deleteRestrictedOrder = async (req, res) => {
 
     try {
 
@@ -129,19 +129,19 @@ const updateRestrictedOrder = async(req, res) =>{
         }
         const deletedRestrictedOrder = await RestrictedOrder.findByIdAndDelete(id);
 
-        if(!deletedRestrictedOrder){
+        if (!deletedRestrictedOrder) {
             return res.status(404).json({ status: 404, message: "Restricted Order not found" });
 
         }
         res.status(200).json({ status: 200, message: "Restricted Order Deleted Successfully" });
 
-    } catch (err){
+    } catch (err) {
         res.status(400).json({
             error: 'Your request could not be processed. Please try again.',
             message: err.message
         });
     }
 
- };
+};
 
-module.exports = { getAllRestrictedOrders, getRestrictedOrderById, createRestrictedOrder, updateRestrictedOrder, deleteRestrictedOrder};
+module.exports = { getAllRestrictedOrders, getRestrictedOrderById, createRestrictedOrder, updateRestrictedOrder, deleteRestrictedOrder };
