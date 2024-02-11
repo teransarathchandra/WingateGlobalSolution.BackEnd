@@ -23,7 +23,7 @@ const registerSchema = Joi.object({
     employeeId: Joi.number().required().integer(),
     name: nameSchema,
     address: addressSchema,
-    username: Joi.string().required(),
+    username: Joi.string(),
     email: Joi.string().email().required(),
     password: Joi.string().required().min(8).max(100).regex(password),
     contactNumber: Joi.number().required().integer(),

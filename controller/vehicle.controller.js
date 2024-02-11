@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const Vehicle = require("../models/vehicle.model");
-const VehicleSchema = require("../schemas/vehicleSchema");
+const VehicleSchema = require("../schemas/vehicle.schema");
 
 const getAllVehicles = async (req, res) => {
   try {

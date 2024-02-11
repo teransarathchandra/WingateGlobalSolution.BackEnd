@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllPayments, getPaymentById, createPayment, updatePayment, deletePayment } = require('../../controller/paymentController');
+const { getAllPayments, getPaymentById, createPayment, updatePayment, deletePayment } = require('../../controller/payment.controller');
 
 router.get('/', getAllPayments);
 router.get('/:id', getPaymentById);

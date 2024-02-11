@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const SystemAccess = require('../models/systemAccess.model');
-const SystemAccessSchema = require ('../schemas/systemAccessSchema');
+const SystemAccessSchema = require ('../schemas/systemAccess.schema');
 
 const getAllSystemAccess = async (req, res) => {
 

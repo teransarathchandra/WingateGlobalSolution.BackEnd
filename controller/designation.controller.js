@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Designation = require('../models/designation.model');
-const DesignationSchema = require ('../schemas/designationSchema');
+const DesignationSchema = require ('../schemas/designation.schema');
 const BadRequestError = require('../helpers/BadRequestError');
 
 const getAllDesignations = async (req, res) => {

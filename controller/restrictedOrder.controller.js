@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const RestrictedOrder = require('../models/restrictedOrder.model');
-const RestrictedOrderSchema = require('../schemas/restrictedOrderSchema');
+const RestrictedOrderSchema = require('../schemas/restrictedOrder.schema');
 
 const getAllRestrictedOrders = async (req, res) => {
 

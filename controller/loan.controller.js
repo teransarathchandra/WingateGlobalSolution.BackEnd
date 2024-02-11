@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Loan = require('../models/loan.model');
-const LoanSchema = require('../schemas/loanSchema');
+const LoanSchema = require('../schemas/loan.schema');
 
 const getAllLoans = async (req, res) => {
 

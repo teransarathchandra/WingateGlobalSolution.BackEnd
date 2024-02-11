@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
 
 const Employee = require('../models/employee.model');
-const { registerSchema, loginSchema, updateSchema } = require('../schemas/employeeSchema')
+const { registerSchema, loginSchema, updateSchema } = require('../schemas/employee.schema')
 const { hashedPassword, BadRequestError } = require('../helpers');
 
 const getAllEmployees = async (req, res) => {
@@ -177,7 +177,7 @@ const deleteEmployee = async (req, res) => {
 
 const loginEmployee = async (req, res) => {
     try {
-
+        console.log(req.body);
         const { value, error } = loginSchema.validate(req.body);
         if (error) {
             BadRequestError(error);
@@ -186,11 +186,11 @@ const loginEmployee = async (req, res) => {
         const { email, password } = value;
         const employee = await Employee.findOne({ email });
         if (!employee) {
-            return res.status(400).json({ status: 400, message: 'Invalid Email Address, Please try again' });
+            return res.status(400).json({ status: 400, errors: { email: 'Invalid Email Address, Please try again' } });
         }
 
         if (!employee.comparePassword(password)) {
-            return res.status(400).json({ status: 400, message: 'Invalid Password, Please try again' });
+            return res.status(400).json({ status: 400, errors: { password: 'Invalid Password, Please try again' } });
         }
 
         const { accessToken, refreshToken } = employee.signToken();

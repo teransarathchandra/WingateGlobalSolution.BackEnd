@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { createDesignation, getAllDesignations, getDesignationById, updateDesignation, deleteDesignation} = require('../../controller/designationController');
+const { createDesignation, getAllDesignations, getDesignationById, updateDesignation, deleteDesignation} = require('../../controller/designation.controller');
 
 router.get('/', getAllDesignations)
 router.get('/:id', getDesignationById)

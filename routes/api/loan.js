@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllLoans, getLoanById, createLoan, updateLoan, deleteLoan } = require('../../controller/loanController');
+const { getAllLoans, getLoanById, createLoan, updateLoan, deleteLoan } = require('../../controller/loan.controller');
 
 router.get('/', getAllLoans);
 router.get('/:id', getLoanById);

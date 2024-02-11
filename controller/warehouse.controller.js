@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Warehouse = require('../models/warehouse.model');
-const WarehouseJoiSchema = require('../schemas/warehouseSchema');
+const WarehouseJoiSchema = require('../schemas/warehouse.schema');
 
 const getAllWarehouse = async (req, res) => {
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllRequiredDocuments, getRequiredDocumentById, createRequiredDocument, updateRequiredDocument, deleteRequiredDocument } = require('../../controller/requiredDocumentController');
+const { getAllRequiredDocuments, getRequiredDocumentById, createRequiredDocument, updateRequiredDocument, deleteRequiredDocument } = require('../../controller/requiredDocument.controller');
 
 router.get('/', getAllRequiredDocuments);
 router.get('/:id', getRequiredDocumentById);

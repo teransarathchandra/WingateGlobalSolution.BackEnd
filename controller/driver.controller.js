@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Driver = require('../models/driver.model');
-const DriverSchema = require('../schemas/driverSchema')
+const DriverSchema = require('../schemas/driver.schema')
 
 const getAllDrivers = async (req, res) => {
 

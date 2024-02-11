@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllEmployees, getEmployeeById, createEmployee, updateEmployee, deleteEmployee, loginEmployee, logoutEmployee, refreshAccessToken } = require('../../controller/employeeController');
+const { getAllEmployees, getEmployeeById, createEmployee, updateEmployee, deleteEmployee, loginEmployee, logoutEmployee, refreshAccessToken } = require('../../controller/employee.controller');
 
 const { isAuthorized } = require('../../middlewares');
 

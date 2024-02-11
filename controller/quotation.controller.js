@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Quotation = require('../models/quotation.model');
-const QuotationSchema = require('../schemas/quotationSchema')
+const QuotationSchema = require('../schemas/quotation.schema')
 
 const getAllQuotations = async (req, res) => {
 

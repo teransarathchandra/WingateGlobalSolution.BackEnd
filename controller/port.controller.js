@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Port = require('../models/port.model');
-const PortSchema = require ('../schemas/portSchema');
+const PortSchema = require ('../schemas/port.schema');
 
 const getAllPorts = async (req, res) => {
 

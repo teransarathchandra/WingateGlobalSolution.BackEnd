@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Item = require('../models/item.model');
-const ItemSchema = require('../schemas/itemSchema')
+const ItemSchema = require('../schemas/item.schema')
 
 const getAllItems = async (req, res) => {
 

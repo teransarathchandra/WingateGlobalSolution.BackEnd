@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Country = require('../models/country.model');
-const CountrySchema = require('../schemas/countrySchema');
+const CountrySchema = require('../schemas/country.schema');
 
 const getAllCountries = async (req, res) => {
 

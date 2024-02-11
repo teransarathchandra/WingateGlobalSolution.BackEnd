@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllItems, getItemById, createItem, updateItem, deleteItem } = require('../../controller/itemController');
+const { getAllItems, getItemById, createItem, updateItem, deleteItem } = require('../../controller/item.controller');
 
 router.get('/', getAllItems);
 router.get('/:id', getItemById);

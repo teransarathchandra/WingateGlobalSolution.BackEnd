@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllWarehouse, getWarehouseById, createWarehouse, updateWarehouse, deleteWarehouse } = require('../../controller/warehouseController');
+const { getAllWarehouse, getWarehouseById, createWarehouse, updateWarehouse, deleteWarehouse } = require('../../controller/warehouse.controller');
 
 router.get('/', getAllWarehouse);
 router.get('/:id', getWarehouseById);

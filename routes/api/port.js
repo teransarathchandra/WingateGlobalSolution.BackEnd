@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { createPort, getAllPorts, getPortById, updatePort, deletePort} = require('../../controller/portController');
+const { createPort, getAllPorts, getPortById, updatePort, deletePort} = require('../../controller/port.controller');
 
 router.get('/', getAllPorts)
 router.get('/:id', getPortById)

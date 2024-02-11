@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const RequiredDocument = require('../models/requiredDocument.model');
-const RequiredDocumentSchema = require('../schemas/requiredDocumentSchema');
+const RequiredDocumentSchema = require('../schemas/requiredDocument.schema');
 
 const getAllRequiredDocuments = async (req, res) => {
 

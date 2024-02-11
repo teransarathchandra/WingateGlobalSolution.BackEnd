@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllRoutes, getRouteById, createRoute, updateRoute, deleteRoute } = require('../../controller/routeController');
+const { getAllRoutes, getRouteById, createRoute, updateRoute, deleteRoute } = require('../../controller/route.controller');
 
 router.get('/', getAllRoutes);
 router.get('/:id', getRouteById);

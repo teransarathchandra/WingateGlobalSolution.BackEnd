@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Route = require('../models/route.model');
-const RouteSchema = require('../schemas/routeSchema');
+const RouteSchema = require('../schemas/route.schema');
 
 const getAllRoutes = async (req, res) => {
 

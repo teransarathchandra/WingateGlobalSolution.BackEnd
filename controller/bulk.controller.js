@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Bulk = require('../models/bulk.model');
-const BulkSchema = require ('../schemas/bulkSchema');
+const BulkSchema = require ('../schemas/bulk.schema');
 
 const getAllBulks = async (req, res) => {
 

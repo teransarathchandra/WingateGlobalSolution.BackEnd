@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllVehicles, getVehicleById, createVehicle, updateVehicle, deleteVehicle } =  require('../../controller/vehicleController');
+const { getAllVehicles, getVehicleById, createVehicle, updateVehicle, deleteVehicle } =  require('../../controller/vehicle.controller');
 
 router.get('/', getAllVehicles);
 router.get('/:id', getVehicleById);

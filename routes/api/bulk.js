@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllBulks, createBulk, getBulkById, updateBulk, deleteBulk} = require('../../controller/bulkController');
+const { getAllBulks, createBulk, getBulkById, updateBulk, deleteBulk} = require('../../controller/bulk.controller');
 
 router.get('/', getAllBulks)
 router.get('/:id', getBulkById)

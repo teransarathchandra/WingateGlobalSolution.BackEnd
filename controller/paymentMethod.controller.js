@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const PaymentMethod = require('../models/paymentMethod.model');
-const PaymentMethodSchema = require('../schemas/paymentMethodSchema')
+const PaymentMethodSchema = require('../schemas/paymentMethod.schema')
 
 const getAllPaymentMethods = async (req, res) => {
     try {
