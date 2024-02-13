@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const RequiredDocument = require('../models/requiredDocument.model');
-const RequiredDocumentSchema = require('../schemas/requiredDocument.schema');
+const { RequiredDocument } = require('../models');
+const { requiredDocumentSchema } = require('../schemas');
 
 const getAllRequiredDocuments = async (req, res) => {
 
@@ -52,7 +52,7 @@ const getRequiredDocumentById = async (req, res) => {
 const createRequiredDocument = async (req, res) => {
 
     try {
-        const { value, error } = RequiredDocumentSchema.validate(req.body);
+        const { value, error } = requiredDocumentSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -88,7 +88,7 @@ const updateRequiredDocument = async (req, res) => {
             return res.status(404).json({ status: 404, error: "Invalid Required Document id" });
         }
 
-        const { value, error } = RequiredDocumentSchema.validate(req.body);
+        const { value, error } = requiredDocumentSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });

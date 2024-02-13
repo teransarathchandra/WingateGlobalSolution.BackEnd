@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const RestrictedOrder = require('../models/restrictedOrder.model');
-const RestrictedOrderSchema = require('../schemas/restrictedOrder.schema');
+const { RestrictedOrder } = require('../models');
+const { restrictedOrderSchema } = require('../schemas');
 
 const getAllRestrictedOrders = async (req, res) => {
 
@@ -52,7 +52,7 @@ const getRestrictedOrderById = async (req, res) => {
 const createRestrictedOrder = async (req, res) => {
 
     try {
-        const { value, error } = RestrictedOrderSchema.validate(req.body);
+        const { value, error } = restrictedOrderSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -94,7 +94,7 @@ const updateRestrictedOrder = async (req, res) => {
             return res.status(404).json({ status: 404, error: "Invalid Restricted Order id" });
         }
 
-        const { value, error } = RestrictedOrderSchema.validate(req.body);
+        const { value, error } = restrictedOrderSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });

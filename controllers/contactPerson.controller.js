@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const ContactPerson = require('../models/contactPerson.model');
-const { registerSchema, updateSchema } = require('../schemas/contactPerson.schema')
+const { ContactPerson } = require('../models');
+const { contactPersonSchema } = require('../schemas')
 const { BadRequestError } = require('../helpers');
 
 const getAllContactPersons = async (req, res) => {
@@ -50,7 +50,7 @@ const getContactPersonById = async (req, res) => {
 const createContactPerson = async (req, res) => {
 
     try {
-        const { value, error } = registerSchema.validate(req.body);
+        const { value, error } = contactPersonSchema.registerSchema.validate(req.body);
 
         if (error) {
             BadRequestError(error);
@@ -88,7 +88,7 @@ const updateContactPerson = async (req, res) => {
             return res.status(404).json({ status: 404, error: "Invalid Contact Person id" });
         }
 
-        const { value, error } = updateSchema.validate(req.body);
+        const { value, error } = contactPersonSchema.updateSchema.validate(req.body);
         if (error) {
             BadRequestError(error);
         }
@@ -117,8 +117,8 @@ const deleteContactPerson = async (req, res) => {
             return res.status(404).json({ status: 404, error: "Invalid Contact Person id" });
         }
 
-        const deletedcontactPerson = await ContactPerson.findByIdAndDelete(id);
-        if (!deletedcontactPerson) {
+        const deletedContactPerson = await ContactPerson.findByIdAndDelete(id);
+        if (!deletedContactPerson) {
             return res.status(404).json({ status: 404, message: "Contact Person not found" });
         }
 

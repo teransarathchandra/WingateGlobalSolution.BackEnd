@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const { createPort, getAllPorts, getPortById, updatePort, deletePort} = require('../../controller/port.controller');
+const { portController } = require('../../controllers');
 
-router.get('/', getAllPorts)
-router.get('/:id', getPortById)
-router.post('/', createPort);
-router.put('/:id', updatePort);
-router.delete('/:id', deletePort);
+router.get('/', portController.getAllPorts)
+router.get('/:id', portController.getPortById)
+router.post('/', portController.createPort);
+router.put('/:id', portController.updatePort);
+router.delete('/:id', portController.deletePort);
 
 module.exports = router;

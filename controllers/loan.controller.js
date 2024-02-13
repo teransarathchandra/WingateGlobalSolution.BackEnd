@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const Loan = require('../models/loan.model');
-const LoanSchema = require('../schemas/loan.schema');
+const { Loan } = require('../models');
+const { loanSchema } = require('../schemas');
 
 const getAllLoans = async (req, res) => {
 
@@ -52,7 +52,7 @@ const getLoanById = async (req, res) => {
 const createLoan = async (req, res) => {
 
     try {
-        const { value, error } = LoanSchema.validate(req.body);
+        const { value, error } = loanSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -91,7 +91,7 @@ const updateLoan = async (req, res) => {
             return res.status(404).json({ status: 404, error: "Invalid Loan id" });
         }
 
-        const { value, error } = LoanSchema.validate(req.body);
+        const { value, error } = loanSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });

@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllRoutes, getRouteById, createRoute, updateRoute, deleteRoute } = require('../../controller/route.controller');
+const { routeController } = require('../../controllers');
 
-router.get('/', getAllRoutes);
-router.get('/:id', getRouteById);
-router.post('/', createRoute);
-router.put('/:id', updateRoute);
-router.delete('/:id', deleteRoute);
+router.get('/', routeController.getAllRoutes);
+router.get('/:id', routeController.getRouteById);
+router.post('/', routeController.createRoute);
+router.put('/:id', routeController.updateRoute);
+router.delete('/:id', routeController.deleteRoute);
 
 module.exports = router;

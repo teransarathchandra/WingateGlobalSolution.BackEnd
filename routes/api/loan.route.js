@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllLoans, getLoanById, createLoan, updateLoan, deleteLoan } = require('../../controller/loan.controller');
+const { loanController } = require('../../controllers');
 
-router.get('/', getAllLoans);
-router.get('/:id', getLoanById);
-router.post('/', createLoan);
-router.put('/:id', updateLoan);
-router.delete('/:id', deleteLoan);
+router.get('/', loanController.getAllLoans);
+router.get('/:id', loanController.getLoanById);
+router.post('/', loanController.createLoan);
+router.put('/:id', loanController.updateLoan);
+router.delete('/:id', loanController.deleteLoan);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const Item = require('../models/item.model');
-const ItemSchema = require('../schemas/item.schema')
+const { Item } = require('../models');
+const { itemSchema } = require('../schemas')
 
 const getAllItems = async (req, res) => {
 
@@ -49,7 +49,7 @@ const getItemById = async (req, res) => {
 const createItem = async (req, res) => {
 
     try {
-        const { value, error } = ItemSchema.validate(req.body);
+        const { value, error } = itemSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -90,7 +90,7 @@ const updateItem = async (req, res) => {
             return res.status(404).json({ status: 404, error: "Invalid item id" });
         }
 
-        const { value, error } = ItemSchema.validate(req.body);
+        const { value, error } = itemSchema.validate(req.body);
         if (error) {
             return res.status(400).json({ status: 400, error: error });
         }

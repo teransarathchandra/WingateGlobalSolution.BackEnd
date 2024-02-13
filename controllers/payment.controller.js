@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const Payment = require('../models/payment.model');
-const PaymentSchema = require('../schemas/payment.schema')
+const { Payment } = require('../models');
+const { paymentSchema } = require('../schemas')
 
 const getAllPayments = async (req, res) => {
     try {
@@ -48,7 +48,7 @@ const getPaymentById = async (req, res) => {
 const createPayment = async (req, res) => {
 
     try {
-        const { value, error } = PaymentSchema.validate(req.body);
+        const { value, error } = paymentSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -88,7 +88,7 @@ const updatePayment = async (req, res) => {
             return res.status(404).json({ status: 404, error: "Invalid payment id" });
         }
 
-        const { value, error } = PaymentSchema.validate(req.body);
+        const { value, error } = paymentSchema.validate(req.body);
         if (error) {
             return res.status(400).json({ status: 400, error: error });
         }

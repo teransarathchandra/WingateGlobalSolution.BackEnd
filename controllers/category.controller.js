@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const Category = require('../models/category.model');
-const CategorySchema = require('../schemas/category.schema');
+const { Category } = require('../models');
+const { categorySchema } = require('../schemas');
 
 const getAllCategory = async (req, res) => {
 
@@ -52,7 +52,7 @@ const getCategoryById = async (req, res) => {
 const createCategory = async (req, res) => {
 
     try {
-        const { value, error } = CategorySchema.validate(req.body);
+        const { value, error } = categorySchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -89,7 +89,7 @@ const updateCategory = async (req, res) => {
             return res.status(404).json({ status: 404, error: "Invalid Category id" });
         }
 
-        const { value, error } = CategorySchema.validate(req.body);
+        const { value, error } = categorySchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });

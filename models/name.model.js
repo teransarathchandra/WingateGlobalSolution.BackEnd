@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const { name } = require('../constants/regExp');
+const { name } = require('../constants');
 
 const nameSchema = new Schema(
     {

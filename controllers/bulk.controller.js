@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const Bulk = require('../models/bulk.model');
-const BulkSchema = require('../schemas/bulk.schema');
+const { Bulk } = require('../models');
+const { bulkSchema } = require('../schemas');
 
 const getAllBulks = async (req, res) => {
 
@@ -53,7 +53,7 @@ const getBulkById = async (req, res) => {
 const createBulk = async (req, res) => {
 
     try {
-        const { value, error } = BulkSchema.validate(req.body);
+        const { value, error } = bulkSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -93,7 +93,7 @@ const updateBulk = async (req, res) => {
             return res.status(404).json({ status: 404, error: 'Invalid Bulk Id' });
         }
 
-        const { value, error } = BulkSchema.validate(req.body);
+        const { value, error } = bulkSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });

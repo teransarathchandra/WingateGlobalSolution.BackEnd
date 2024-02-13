@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-const Vehicle = require("../models/vehicle.model");
-const VehicleSchema = require("../schemas/vehicle.schema");
+const { Vehicle } = require("../models");
+const { vehicleSchema } = require("../schemas");
 
 const getAllVehicles = async (req, res) => {
   try {
@@ -57,7 +57,7 @@ const getVehicleById = async (req, res) => {
 
 const createVehicle = async (req, res) => {
   try {
-    const { value, error } = VehicleSchema.validate(req.body);
+    const { value, error } = vehicleSchema.validate(req.body);
 
     if (error) {
       return res.status(400).json({ status: 400, error: error });
@@ -94,7 +94,7 @@ const updateVehicle = async (req, res) => {
         .json({ status: 404, message: "Invalid  Vehicle Id" });
     }
 
-    const { value, error } = VehicleSchema.validate(req.body);
+    const { value, error } = vehicleSchema.validate(req.body);
 
     if (error) {
       return res.status(400).json({ status: 400, error: error });

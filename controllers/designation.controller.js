@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const Designation = require('../models/designation.model');
-const DesignationSchema = require('../schemas/designation.schema');
+const { Designation } = require('../models');
+const { designationSchema } = require('../schemas');
 const { BadRequestError } = require('../helpers');
 
 const getAllDesignations = async (req, res) => {
@@ -54,7 +54,7 @@ const getDesignationById = async (req, res) => {
 const createDesignation = async (req, res) => {
 
     try {
-        const { value, error } = DesignationSchema.validate(req.body);
+        const { value, error } = designationSchema.validate(req.body);
 
         if (error) {
             BadRequestError(error);
@@ -95,7 +95,7 @@ const updateDesignation = async (req, res) => {
             return res.status(404).json({ status: 404, error: 'Invalid Designation Id' });
         }
 
-        const { value, error } = DesignationSchema.validate(req.body);
+        const { value, error } = designationSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const Port = require('../models/port.model');
-const PortSchema = require('../schemas/port.schema');
+const { Port } = require('../models');
+const { portSchema } = require('../schemas');
 
 const getAllPorts = async (req, res) => {
 
@@ -53,7 +53,7 @@ const getPortById = async (req, res) => {
 const createPort = async (req, res) => {
 
     try {
-        const { value, error } = PortSchema.validate(req.body);
+        const { value, error } = portSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -91,7 +91,7 @@ const updatePort = async (req, res) => {
             return res.status(404).json({ status: 404, error: 'Invalid Port Id' });
         }
 
-        const { value, error } = PortSchema.validate(req.body);
+        const { value, error } = portSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });

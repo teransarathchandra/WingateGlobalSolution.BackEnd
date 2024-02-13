@@ -32,4 +32,4 @@ const stocksSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("stocks", stocksSchema);
+module.exports = model("stock", stocksSchema);

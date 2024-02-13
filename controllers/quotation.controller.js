@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const Quotation = require('../models/quotation.model');
-const QuotationSchema = require('../schemas/quotation.schema')
+const { Quotation } = require('../models');
+const { quotationSchema } = require('../schemas')
 
 const getAllQuotations = async (req, res) => {
 
@@ -49,7 +49,7 @@ const getQuotationById = async (req, res) => {
 const createQuotation = async (req, res) => {
 
     try {
-        const { value, error } = QuotationSchema.validate(req.body);
+        const { value, error } = quotationSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -89,7 +89,7 @@ const updateQuotation = async (req, res) => {
             return res.status(404).json({ status: 404, error: "Invalid quotation id" });
         }
 
-        const { value, error } = QuotationSchema.validate(req.body);
+        const { value, error } = quotationSchema.validate(req.body);
         if (error) {
             return res.status(400).json({ status: 400, error: error });
         }

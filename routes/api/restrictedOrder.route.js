@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllRestrictedOrders, getRestrictedOrderById, createRestrictedOrder, updateRestrictedOrder, deleteRestrictedOrder } = require('../../controller/restrictedOrder.controller');
+const { restrictedOrderController } = require('../../controllers');
 
-router.get('/', getAllRestrictedOrders);
-router.get('/:id', getRestrictedOrderById);
-router.post('/', createRestrictedOrder);
-router.put('/:id', updateRestrictedOrder);
-router.delete('/:id', deleteRestrictedOrder);
+router.get('/', restrictedOrderController.getAllRestrictedOrders);
+router.get('/:id', restrictedOrderController.getRestrictedOrderById);
+router.post('/', restrictedOrderController.createRestrictedOrder);
+router.put('/:id', restrictedOrderController.updateRestrictedOrder);
+router.delete('/:id', restrictedOrderController.deleteRestrictedOrder);
 
 module.exports = router;

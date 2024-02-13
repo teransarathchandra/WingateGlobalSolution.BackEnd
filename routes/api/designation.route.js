@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const { createDesignation, getAllDesignations, getDesignationById, updateDesignation, deleteDesignation} = require('../../controller/designation.controller');
+const { designationController } = require('../../controllers');
 
-router.get('/', getAllDesignations)
-router.get('/:id', getDesignationById)
-router.post('/', createDesignation);
-router.put('/:id', updateDesignation);
-router.delete('/:id', deleteDesignation);
+router.get('/', designationController.getAllDesignations)
+router.get('/:id', designationController.getDesignationById)
+router.post('/', designationController.createDesignation);
+router.put('/:id', designationController.updateDesignation);
+router.delete('/:id', designationController.deleteDesignation);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const Warehouse = require('../models/warehouse.model');
-const WarehouseJoiSchema = require('../schemas/warehouse.schema');
+const { Warehouse } = require('../models');
+const { wareHouseSchema } = require('../schemas');
 
 const getAllWarehouse = async (req, res) => {
 
@@ -52,7 +52,7 @@ const getWarehouseById = async (req, res) => {
 const createWarehouse = async (req, res) => {
 
     try {
-        const { value, error } = WarehouseJoiSchema.validate(req.body);
+        const { value, error } = wareHouseSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -90,7 +90,7 @@ const updateWarehouse = async (req, res) => {
             return res.status(404).json({ status: 404, error: "Invalid Warehouse id" });
         }
 
-        const { value, error } = Warehouse.validate(req.body);
+        const { value, error } = wareHouseSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });

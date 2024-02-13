@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const { password, email } = require('../constants/regExp');
+const { password, email } = require('../constants');
 const { signToken, comparePassword, hashPassword, getNextSequence } = require("../helpers");
 const { nameSchema } = require('./name.model')
 const { addressSchema } = require("./address.model");

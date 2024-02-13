@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
 
-const User = require('../models/user.model');
-const { registerSchema, loginSchema, updateSchema } = require('../schemas/user.schema');
+const { User } = require('../models');
+const { userSchema } = require('../schemas');
 const { hashedPassword, BadRequestError } = require('../helpers');
 
 const getAllUsers = async (req, res) => {
@@ -52,7 +52,7 @@ const getUserById = async (req, res) => {
 const createUser = async (req, res) => {
 
     try {
-        const { value, error } = registerSchema.validate(req.body);
+        const { value, error } = userSchema.registerSchema.validate(req.body);
 
         if (error) {
             BadRequestError(error);
@@ -113,7 +113,7 @@ const updateUser = async (req, res) => {
             return res.status(404).json({ status: 404, error: 'Invalid user id' });
         }
 
-        const { value, error } = updateSchema.validate(req.body);
+        const { value, error } = userSchema.updateSchema.validate(req.body);
         if (error) {
             BadRequestError(error);
         }
@@ -163,7 +163,7 @@ const deleteUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
     try {
-        const { value, error } = loginSchema.validate(req.body);
+        const { value, error } = userSchema.loginSchema.validate(req.body);
         if (error) {
             BadRequestError(error);
         }

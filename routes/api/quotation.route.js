@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllQuotations, getQuotationById, createQuotation, updateQuotation, deleteQuotation } = require('../../controller/quotation.controller');
-router.get('/', getAllQuotations);
-router.get('/:id', getQuotationById);
-router.post('/', createQuotation);
-router.put('/:id', updateQuotation);
-router.delete('/:id', deleteQuotation);
+const { quotationController } = require('../../controllers');
+router.get('/', quotationController.getAllQuotations);
+router.get('/:id', quotationController.getQuotationById);
+router.post('/', quotationController.createQuotation);
+router.put('/:id', quotationController.updateQuotation);
+router.delete('/:id', quotationController.deleteQuotation);
 
 module.exports = router;

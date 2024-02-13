@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const Customer = require('../models/customer.model');
-const { registerSchema, updateSchema } = require('../schemas/customer.schema')
+const { Customer } = require('../models');
+const { customerSchema } = require('../schemas')
 const { BadRequestError } = require('../helpers');
 
 const getAllCustomers = async (req, res) => {
@@ -50,7 +50,7 @@ const getCustomerById = async (req, res) => {
 const createCustomer = async (req, res) => {
 
     try {
-        const { value, error } = registerSchema.validate(req.body);
+        const { value, error } = customerSchema.registerSchema.validate(req.body);
 
         if (error) {
             BadRequestError(error);
@@ -86,7 +86,7 @@ const updateCustomer = async (req, res) => {
             return res.status(404).json({ status: 404, error: "Invalid customer id" });
         }
 
-        const { value, error } = updateSchema.validate(req.body);
+        const { value, error } = customerSchema.updateSchema.validate(req.body);
         if (error) {
             BadRequestError(error);
         }

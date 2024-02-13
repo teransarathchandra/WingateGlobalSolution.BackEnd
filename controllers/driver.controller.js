@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const Driver = require('../models/driver.model');
-const DriverSchema = require('../schemas/driver.schema')
+const { Driver } = require('../models');
+const { driverSchema } = require('../schemas')
 
 const getAllDrivers = async (req, res) => {
 
@@ -49,7 +49,7 @@ const getDriverById = async (req, res) => {
 const createDriver = async (req, res) => {
 
     try {
-        const { value, error } = DriverSchema.validate(req.body);
+        const { value, error } = driverSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -86,7 +86,7 @@ const updateDriver = async (req, res) => {
             return res.status(404).json({ status: 404, error: "Invalid driver id" });
         }
 
-        const { value, error } = DriverSchema.validate(req.body);
+        const { value, error } = driverSchema.validate(req.body);
         if (error) {
             return res.status(400).json({ status: 400, error: error });
         }

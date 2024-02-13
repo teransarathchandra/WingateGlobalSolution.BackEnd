@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllRequiredDocuments, getRequiredDocumentById, createRequiredDocument, updateRequiredDocument, deleteRequiredDocument } = require('../../controller/requiredDocument.controller');
+const { requiredDocumentController } = require('../../controllers');
 
-router.get('/', getAllRequiredDocuments);
-router.get('/:id', getRequiredDocumentById);
-router.post('/', createRequiredDocument);
-router.put('/:id', updateRequiredDocument);
-router.delete('/:id', deleteRequiredDocument);
+router.get('/', requiredDocumentController.getAllRequiredDocuments);
+router.get('/:id', requiredDocumentController.getRequiredDocumentById);
+router.post('/', requiredDocumentController.createRequiredDocument);
+router.put('/:id', requiredDocumentController.updateRequiredDocument);
+router.delete('/:id', requiredDocumentController.deleteRequiredDocument);
 
 module.exports = router;

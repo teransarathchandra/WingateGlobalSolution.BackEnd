@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const Route = require('../models/route.model');
-const RouteSchema = require('../schemas/route.schema');
+const { Route } = require('../models');
+const { routeSchema } = require('../schemas');
 
 const getAllRoutes = async (req, res) => {
 
@@ -52,7 +52,7 @@ const getRouteById = async (req, res) => {
 const createRoute = async (req, res) => {
 
     try {
-        const { value, error } = RouteSchema.validate(req.body);
+        const { value, error } = routeSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -92,7 +92,7 @@ const updateRoute = async (req, res) => {
             return res.status(404).json({ status: 404, error: "Invalid Route id" });
         }
 
-        const { value, error } = RouteSchema.validate(req.body);
+        const { value, error } = routeSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const SystemAccess = require('../models/systemAccess.model');
-const SystemAccessSchema = require('../schemas/systemAccess.schema');
+const { SystemAccess } = require('../models');
+const { systemAccessSchema } = require('../schemas');
 
 const getAllSystemAccess = async (req, res) => {
 
@@ -53,7 +53,7 @@ const getSystemAccessById = async (req, res) => {
 const createSystemAccess = async (req, res) => {
 
     try {
-        const { value, error } = SystemAccessSchema.validate(req.body);
+        const { value, error } = systemAccessSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });
@@ -88,7 +88,7 @@ const updateSystemAccess = async (req, res) => {
             return res.status(404).json({ status: 404, error: 'Invalid System Access Id' });
         }
 
-        const { value, error } = SystemAccessSchema.validate(req.body);
+        const { value, error } = systemAccessSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, error: error });

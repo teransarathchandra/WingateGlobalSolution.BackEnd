@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const { password, name } = require('../constants/regExp');
+const { password, name } = require('../constants');
 
 const nameSchema = Joi.object({
     firstName: Joi.string().required().min(5).max(255).regex(name),

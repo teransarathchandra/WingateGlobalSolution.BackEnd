@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllEmployees, getEmployeeById, createEmployee, updateEmployee, deleteEmployee, loginEmployee, logoutEmployee, refreshAccessToken } = require('../../controller/employee.controller');
+const { employeeController } = require('../../controllers');
 
 const { isAuthorized } = require('../../middlewares');
 
-router.get('/', isAuthorized, getAllEmployees);
-router.get('/:id', isAuthorized, getEmployeeById);
-router.post('/', createEmployee);
-router.put('/:id', isAuthorized, updateEmployee);
-router.delete('/:id', isAuthorized, deleteEmployee);
-router.post('/login', loginEmployee);
-router.post('/logout', isAuthorized, logoutEmployee);
-router.post('/refresh_token', refreshAccessToken);
+router.get('/', isAuthorized, employeeController.getAllEmployees);
+router.get('/:id', isAuthorized, employeeController.getEmployeeById);
+router.post('/', employeeController.createEmployee);
+router.put('/:id', isAuthorized, employeeController.updateEmployee);
+router.delete('/:id', isAuthorized, employeeController.deleteEmployee);
+router.post('/login', employeeController.loginEmployee);
+router.post('/logout', isAuthorized, employeeController.logoutEmployee);
+router.post('/refresh_token', employeeController.refreshAccessToken);
 
 module.exports = router;

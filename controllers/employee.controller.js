@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
 
-const Employee = require('../models/employee.model');
-const { registerSchema, loginSchema, updateSchema } = require('../schemas/employee.schema')
+const { Employee } = require('../models');
+const { employeeSchema } = require('../schemas')
 const { hashedPassword, BadRequestError } = require('../helpers');
 
 const getAllEmployees = async (req, res) => {
@@ -51,7 +51,7 @@ const getEmployeeById = async (req, res) => {
 const createEmployee = async (req, res) => {
 
     try {
-        const { value, error } = registerSchema.validate(req.body);
+        const { value, error } = employeeSchema.registerSchema.validate(req.body);
 
         if (error) {
             BadRequestError(error);
@@ -127,7 +127,7 @@ const updateEmployee = async (req, res) => {
             return res.status(404).json({ status: 404, error: 'Invalid employee id' });
         }
 
-        const { value, error } = updateSchema.validate(req.body);
+        const { value, error } = employeeSchema.updateSchema.validate(req.body);
         if (error) {
             BadRequestError(error);
         }
@@ -178,7 +178,7 @@ const deleteEmployee = async (req, res) => {
 const loginEmployee = async (req, res) => {
     try {
         console.log(req.body);
-        const { value, error } = loginSchema.validate(req.body);
+        const { value, error } = employeeSchema.loginSchema.validate(req.body);
         if (error) {
             BadRequestError(error);
         }
