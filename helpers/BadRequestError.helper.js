@@ -1,4 +1,4 @@
-const HttpError = require("./HttpError");
+const HttpError = require("./HttpError.helper");
 
 const BadRequestError = (error) => {
     if (error) {

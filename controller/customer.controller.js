@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Customer = require('../models/customer.model');
 const { registerSchema, updateSchema } = require('../schemas/customer.schema')
-const BadRequestError = require('../helpers/BadRequestError');
+const { BadRequestError } = require('../helpers');
 
 const getAllCustomers = async (req, res) => {
 

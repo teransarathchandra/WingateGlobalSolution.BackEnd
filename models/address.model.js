@@ -16,6 +16,11 @@ const addressSchema = new Schema({
         type: String,
         maxLength: 50,
         minLength: 5
+    },
+    country: {
+        type: String,
+        maxLength: 50,
+        minLength: 2
     }
 }
 );

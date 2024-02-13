@@ -2,15 +2,14 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const { password, email } = require('../constants/regExp');
-const { signToken, comparePassword, hashPassword } = require("../helpers");
+const { signToken, comparePassword, hashPassword, getNextSequence } = require("../helpers");
 const { nameSchema } = require('./name.model')
 const { addressSchema } = require("./address.model");
 
 const employeeSchema = new Schema(
   {
     employeeId: {
-      type: Number,
-      required: true,
+      type: String,
       unique: true,
     },
     name: {
@@ -18,9 +17,6 @@ const employeeSchema = new Schema(
     },
     address: {
       type: addressSchema
-    },
-    username: {
-      type: String
     },
     email: {
       type: String,
@@ -45,11 +41,6 @@ const employeeSchema = new Schema(
       ref: "designation",
       required: true,
     },
-    countryId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "country",
-      required: true,
-    },
     refreshToken: {
       type: String,
       required: false,
@@ -61,6 +52,14 @@ const employeeSchema = new Schema(
 employeeSchema.methods.comparePassword = comparePassword;
 
 employeeSchema.methods.signToken = signToken;
+
+employeeSchema.pre("save", async function(next) {
+  if (this.isNew) {
+    const nextId = await getNextSequence('employee');
+    this.employeeId = `EMP${nextId}`;
+  }
+  next();
+});
 
 employeeSchema.pre("save", hashPassword);
 

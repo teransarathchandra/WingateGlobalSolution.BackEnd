@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
 
 const User = require('../models/user.model');
-const { registerSchema, loginSchema, updateSchema } = require('../schemas/userSchema');
+const { registerSchema, loginSchema, updateSchema } = require('../schemas/user.schema');
 const { hashedPassword, BadRequestError } = require('../helpers');
 
 const getAllUsers = async (req, res) => {
@@ -58,7 +58,7 @@ const createUser = async (req, res) => {
             BadRequestError(error);
         }
 
-        const { userId, name, email, contactNumber, address, username, password, countryId } = value;
+        const { name, email, contactNumber, address, password } = value;
 
         // Check if the user already exists
         const existingUser = await User.findOne({ email });
@@ -66,28 +66,12 @@ const createUser = async (req, res) => {
             return res.status(409).json({ message: 'User already exists' });
         }
 
-        // Insert the user
-        // const user = await User.create({
-        //     userId,
-        //     name,
-        //     email,
-        //     contactNumber,
-        //     address,
-        //     username,
-        //     password,
-        //     countryId
-        // });
-
-        //Create the user
         const user = new User({
-            userId,
             name,
             email,
             contactNumber,
             address,
-            username,
             password,
-            countryId
         });
 
 

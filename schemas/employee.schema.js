@@ -11,6 +11,7 @@ const addressSchema = Joi.object({
     street: Joi.string().required().max(50).min(5),
     city: Joi.string().required().max(50).min(5),
     state: Joi.string().required().max(50).min(5),
+    country: Joi.string().required().max(50).min(2)
 });
 
 
@@ -20,26 +21,21 @@ const loginSchema = Joi.object({
 });
 
 const registerSchema = Joi.object({
-    employeeId: Joi.number().required().integer(),
     name: nameSchema,
     address: addressSchema,
-    username: Joi.string(),
     email: Joi.string().email().required(),
     password: Joi.string().required().min(8).max(100).regex(password),
     contactNumber: Joi.number().required().integer(),
-    designationId: Joi.string().required(),
-    countryId: Joi.string().required()
+    designationId: Joi.string().required()
 });
 
 const updateSchema = Joi.object({
     name: nameSchema,
     address: addressSchema,
-    username: Joi.string(),
     email: Joi.string().email(),
     password: Joi.string().min(8).max(100).regex(password),
     contactNumber: Joi.number().integer(),
-    designationId: Joi.string(),
-    countryId: Joi.string()
+    designationId: Joi.string()
 });
 
 module.exports = { registerSchema, loginSchema, updateSchema };

@@ -11,7 +11,7 @@ router.post('/', createEmployee);
 router.put('/:id', isAuthorized, updateEmployee);
 router.delete('/:id', isAuthorized, deleteEmployee);
 router.post('/login', loginEmployee);
-router.post('/logout', logoutEmployee);
+router.post('/logout', isAuthorized, logoutEmployee);
 router.post('/refresh_token', refreshAccessToken);
 
 module.exports = router;

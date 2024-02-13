@@ -1,26 +1,26 @@
 const router = require('express').Router();
 
-const employeeRoutes = require('./employee');
-const categoryRoutes = require('./category');
-const vehicleRoutes = require('./vehicle');
-const portRoutes = require('./port');
-const bulkRoutes = require('./bulk');
-const itemRoutes = require('./item');
-const restrictedOrderRoutes = require('./restrictedOrder');
-const requiredDocumentRoutes = require('./requiredDocument');
-const countryRoutes = require('./country');
-const routeRoutes = require('./route');
-const userRoutes = require('./user');
-const customerRoutes = require('./customer');
-const contactPersonRoutes = require('./contactPerson');
-const systemAccessRoutes = require('./systemAccess');
-const designationRoutes = require('./designation');
-const loanRoutes = require('./loan');
-const driverRoutes = require('./driver');
-const warehouseRoutes = require('./warehouse');
-const paymentRoutes = require('./payment');
-const quotationRoutes = require('./quotation');
-const paymentMethodRoutes = require('./paymentMethod');
+const employeeRoutes = require('./employee.route');
+const categoryRoutes = require('./category.route');
+const vehicleRoutes = require('./vehicle.route');
+const portRoutes = require('./port.route');
+const bulkRoutes = require('./bulk.route');
+const itemRoutes = require('./item.route');
+const restrictedOrderRoutes = require('./restrictedOrder.route');
+const requiredDocumentRoutes = require('./requiredDocument.route');
+const countryRoutes = require('./country.route');
+const routeRoutes = require('./route.route');
+const userRoutes = require('./user.route');
+const customerRoutes = require('./customer.route');
+const contactPersonRoutes = require('./contactPerson.route');
+const systemAccessRoutes = require('./systemAccess.route');
+const designationRoutes = require('./designation.route');
+const loanRoutes = require('./loan.route');
+const driverRoutes = require('./driver.route');
+const warehouseRoutes = require('./warehouse.route');
+const paymentRoutes = require('./payment.route');
+const quotationRoutes = require('./quotation.route');
+const paymentMethodRoutes = require('./paymentMethod.route');
 
 
 // employee routes

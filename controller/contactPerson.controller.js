@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const ContactPerson = require('../models/contactPerson.model');
 const { registerSchema, updateSchema } = require('../schemas/contactPerson.schema')
-const BadRequestError = require('../helpers/BadRequestError');
+const { BadRequestError } = require('../helpers');
 
 const getAllContactPersons = async (req, res) => {
 
