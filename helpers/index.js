@@ -1,8 +1,9 @@
-const HttpError = require("./HttpError");
-const BadRequestError = require("./BadRequestError");
-const signToken = require("./signToken");
-const { hashPassword, hashedPassword } = require("./hashPassword");
-const comparePassword = require("./comparePassword");
+const HttpError = require("./HttpError.helper");
+const BadRequestError = require("./BadRequestError.helper");
+const signToken = require("./signToken.helper");
+const { hashPassword, hashedPassword } = require("./hashPassword.helper");
+const comparePassword = require("./comparePassword.helper");
+const getNextSequence = require("./getNextSequence.helper");
 
 module.exports = {
   HttpError,
@@ -11,4 +12,5 @@ module.exports = {
   signToken,
   hashedPassword,
   comparePassword,
+  getNextSequence
 };

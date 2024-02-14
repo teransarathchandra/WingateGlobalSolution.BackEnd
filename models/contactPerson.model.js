@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const { email } = require('../constants/regExp');
+const { email } = require('../constants');
 
 const contactPersonSchema = new Schema(
   {

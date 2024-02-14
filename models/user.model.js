@@ -1,38 +1,27 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const { password, email } = require('../constants/regExp');
-const { signToken, comparePassword, hashPassword } = require("../helpers");
+const { password, email } = require('../constants');
+const { signToken, comparePassword, hashPassword, getNextSequence } = require("../helpers");
 const { nameSchema } = require('./name.model')
 const { addressSchema } = require("./address.model");
 
 const userSchema = new Schema(
   {
     userId: {
-      type: Number,
-      required: true,
+      type: String,
       unique: true,
     },
     name: {
       type: nameSchema
     },
+    address: {
+      type: addressSchema,
+    },
     email: {
       type: String,
       required: true,
       match: email,
-    },
-    contactNumber: {
-      type: Number,
-      required: true,
-      maxLength: 15,
-      minLength: 10,
-    },
-    address: {
-      type: addressSchema,
-    },
-    username: {
-      type: String,
-      required: true,
     },
     password: {
       type: String,
@@ -41,10 +30,11 @@ const userSchema = new Schema(
       minLength: 8,
       match: password,
     },
-    countryId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "country",
+    contactNumber: {
+      type: Number,
       required: true,
+      maxLength: 15,
+      minLength: 10,
     },
     refreshToken: {
       type: String,
@@ -57,6 +47,14 @@ const userSchema = new Schema(
 userSchema.methods.comparePassword = comparePassword;
 
 userSchema.methods.signToken = signToken;
+
+userSchema.pre("save", async function(next) {
+  if (this.isNew) {
+    const nextId = await getNextSequence('user');
+    this.userId = `USR${nextId}`;
+  }
+  next();
+});
 
 userSchema.pre("save", hashPassword);
 
