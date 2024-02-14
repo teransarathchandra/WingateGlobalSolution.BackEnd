@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const { name } = require('../constants');
+const { regExp } = require('../constants');
 
 const nameSchema = new Schema(
     {
@@ -10,14 +10,14 @@ const nameSchema = new Schema(
             required: true,
             maxLength: 255,
             minLength: 5,
-            match: name,
+            match: regExp.name,
         },
         lastName: {
             type: String,
             required: true,
             maxLength: 255,
             minLength: 5,
-            match: name,
+            match: regExp.name,
         }
     }
 );

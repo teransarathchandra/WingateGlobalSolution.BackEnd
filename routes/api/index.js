@@ -1,5 +1,6 @@
 const router = require('express').Router();
 
+const emailRoutes = require('./email.route');
 const employeeRoutes = require('./employee.route');
 const categoryRoutes = require('./category.route');
 const vehicleRoutes = require('./vehicle.route');
@@ -22,8 +23,10 @@ const paymentRoutes = require('./payment.route');
 const quotationRoutes = require('./quotation.route');
 const paymentMethodRoutes = require('./paymentMethod.route');
 
+//email routes
+router.use('/email', emailRoutes);
 
-// employee routes
+//employee routes
 router.use('/employee', employeeRoutes);
 
 //category routes

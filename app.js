@@ -6,7 +6,7 @@ const logger = require("morgan");
 const cors = require("cors");
 require('dotenv').config({ path: `.env` });
 
-const connectDatabase = require("./config/database");
+const { connectDatabase } = require("./config");
 const routes = require("./routes");
 
 // connect to database

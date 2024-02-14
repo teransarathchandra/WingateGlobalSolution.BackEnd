@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
 
 const { Employee } = require('../models');
-const { employeeSchema } = require('../schemas')
-const { hashedPassword, BadRequestError } = require('../helpers');
+const { employeeSchema } = require('../schemas');
+const { hashedPassword, BadRequestError, sendEmail } = require('../helpers');
+const { emailTemplates } = require('../constants');
 
 const getAllEmployees = async (req, res) => {
 
@@ -57,7 +58,7 @@ const createEmployee = async (req, res) => {
             BadRequestError(error);
         }
 
-        const { employeeId, name, address, username, email, password, contactNumber, designationId, countryId } = value;
+        const { name, address, email, password, contactNumber, designationId } = value;
 
         // Check if the employee already exists
         const existingEmployee = await Employee.findOne({ email });
@@ -80,15 +81,12 @@ const createEmployee = async (req, res) => {
 
         // Create the employee
         const employee = new Employee({
-            employeeId,
             name,
             address,
-            username,
             email,
             password,
             contactNumber,
-            designationId,
-            countryId
+            designationId
         });
 
         // Generate access and refresh tokens
@@ -106,6 +104,12 @@ const createEmployee = async (req, res) => {
         const employeeData = employee.toObject();
         delete employeeData.password;
         delete employeeData.refreshToken;
+
+        await sendEmail({
+            to: email,
+            subject: "Welcome to Wingate Global Solution!",
+            html: emailTemplates.signUpEmailHTML(name.firstName),
+        });
 
         res.status(201).json({ accessToken, data: employeeData, message: 'Employee Created Successfully' });
 

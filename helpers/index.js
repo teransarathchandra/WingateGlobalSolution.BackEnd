@@ -4,6 +4,7 @@ const signToken = require("./signToken.helper");
 const { hashPassword, hashedPassword } = require("./hashPassword.helper");
 const comparePassword = require("./comparePassword.helper");
 const getNextSequence = require("./getNextSequence.helper");
+const sendEmail = require("./sendEmail.helper");
 
 module.exports = {
   HttpError,
@@ -12,5 +13,6 @@ module.exports = {
   signToken,
   hashedPassword,
   comparePassword,
-  getNextSequence
+  getNextSequence,
+  sendEmail
 };

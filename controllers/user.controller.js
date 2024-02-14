@@ -3,7 +3,8 @@ const jwt = require("jsonwebtoken");
 
 const { User } = require('../models');
 const { userSchema } = require('../schemas');
-const { hashedPassword, BadRequestError } = require('../helpers');
+const { hashedPassword, BadRequestError, sendEmail } = require('../helpers');
+const { emailTemplates } = require('../constants');
 
 const getAllUsers = async (req, res) => {
 
@@ -92,6 +93,11 @@ const createUser = async (req, res) => {
         delete userData.password;
         delete userData.refreshToken;
 
+        await sendEmail({
+            to: email,
+            subject: "Welcome to Wingate Global Solution!",
+            html: emailTemplates.signUpEmailHTML(name.firstName),
+        });
 
         res.status(201).json({ accessToken, data: userData, message: 'User Created Successfully' });
 

@@ -5,6 +5,7 @@ const countryController = require('./country.controller');
 const customerController = require('./customer.controller');
 const designationController = require('./designation.controller');
 const driverController = require('./driver.controller');
+const emailController = require('./email.controller');
 const employeeController = require('./employee.controller');
 const itemController = require('./item.controller');
 const loanController = require('./loan.controller');
@@ -22,6 +23,6 @@ const wareHouseController = require('./wareHouse.controller');
 
 module.exports = {
     bulkController, categoryController, contactPersonController, countryController, customerController, designationController,
-    driverController, employeeController, itemController, loanController, paymentController, paymentMethodController, portController, quotationController,
+    driverController, emailController, employeeController, itemController, loanController, paymentController, paymentMethodController, portController, quotationController,
     requiredDocumentController, restrictedOrderController, routeController, systemAccessController, userController, vehicleController, wareHouseController
 };

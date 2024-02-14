@@ -5,6 +5,7 @@ const countrySchema = require('./country.schema');
 const customerSchema = require('./customer.schema');
 const designationSchema = require('./designation.schema');
 const driverSchema = require('./driver.schema');
+const emailSchema = require('./email.schema');
 const employeeSchema = require('./employee.schema');
 const itemSchema = require('./item.schema');
 const loanSchema = require('./loan.schema');
@@ -21,7 +22,7 @@ const vehicleSchema = require('./vehicle.schema');
 const wareHouseSchema = require('./warehouse.schema');
 
 module.exports = {
-    bulkSchema, categorySchema, contactPersonSchema, countrySchema, customerSchema, designationSchema, driverSchema, 
+    bulkSchema, categorySchema, contactPersonSchema, countrySchema, customerSchema, designationSchema, driverSchema, emailSchema,
     employeeSchema, itemSchema, loanSchema, paymentSchema, paymentMethodSchema, portSchema, quotationSchema, requiredDocumentSchema, 
     restrictedOrderSchema, routeSchema, systemAccessSchema, userSchema, vehicleSchema, wareHouseSchema
 };

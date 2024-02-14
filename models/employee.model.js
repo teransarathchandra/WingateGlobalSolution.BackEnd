@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const { password, email } = require('../constants');
+const { regExp } = require('../constants');
 const { signToken, comparePassword, hashPassword, getNextSequence } = require("../helpers");
-const { nameSchema } = require('./name.model')
-const { addressSchema } = require("./address.model");
+const nameSchema = require('./name.model')
+const addressSchema = require("./address.model");
 
 const employeeSchema = new Schema(
   {
@@ -21,14 +21,14 @@ const employeeSchema = new Schema(
     email: {
       type: String,
       required: true,
-      match: email,
+      match: regExp.email,
     },
     password: {
       type: String,
       required: true,
       maxLength: 100,
       minLength: 8,
-      match: password,
+      match: regExp.password,
     },
     contactNumber: {
       type: Number,
