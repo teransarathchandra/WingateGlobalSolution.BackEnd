@@ -2,11 +2,12 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+const { getNextSequence } = require('../helpers')
+
 const restrictedOrdersSchema = new Schema(
   {
     restrictedOrderId: {
-      type: Number,
-      required: true,
+      type: String,
       unique: true,
     },
     maxQuantity: {
@@ -51,6 +52,14 @@ const restrictedOrdersSchema = new Schema(
   },
   { timestamps: true }
 );
+
+restrictedOrdersSchema.pre("save", async function(next) {
+  if (this.isNew) {
+    const nextId = await getNextSequence('restrictedOrders');
+    this.restrictedOrderId = `RESORD${nextId}`;
+  }
+  next();
+});
 
 module.exports = model("restricted_orders", restrictedOrdersSchema , "restrictedOrders" );
 

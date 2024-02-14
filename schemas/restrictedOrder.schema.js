@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 const restrictedOrdersJoiSchema = Joi.object({
-  restrictedOrderId: Joi.number().required(),
+  restrictedOrderId: Joi.string(),
   maxQuantity: Joi.number().required(),
   exportLicense: Joi.boolean().required(),
   importPermit: Joi.boolean().required(),

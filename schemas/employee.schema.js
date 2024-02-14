@@ -1,10 +1,10 @@
 const Joi = require('joi');
 
-const { password, name } = require('../constants');
+const { regExp } = require('../constants');
 
 const nameSchema = Joi.object({
-    firstName: Joi.string().required().min(5).max(255).regex(name),
-    lastName: Joi.string().required().min(5).max(255).regex(name),
+    firstName: Joi.string().required().min(5).max(255).regex(regExp.name),
+    lastName: Joi.string().required().min(5).max(255).regex(regExp.name),
 });
 
 const addressSchema = Joi.object({
@@ -24,7 +24,7 @@ const registerSchema = Joi.object({
     name: nameSchema,
     address: addressSchema,
     email: Joi.string().email().required(),
-    password: Joi.string().required().min(8).max(100).regex(password),
+    password: Joi.string().required().min(8).max(100).regex(regExp.password),
     contactNumber: Joi.number().required().integer(),
     designationId: Joi.string().required()
 });
@@ -33,7 +33,7 @@ const updateSchema = Joi.object({
     name: nameSchema,
     address: addressSchema,
     email: Joi.string().email(),
-    password: Joi.string().min(8).max(100).regex(password),
+    password: Joi.string().min(8).max(100).regex(regExp.password),
     contactNumber: Joi.number().integer(),
     designationId: Joi.string()
 });

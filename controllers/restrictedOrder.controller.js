@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const { RestrictedOrder } = require('../models');
 const { restrictedOrderSchema } = require('../schemas');
+const { sendEmail } = require('../helpers');
+const { emailTemplates } = require('../constants');
 
 const getAllRestrictedOrders = async (req, res) => {
 
@@ -58,10 +60,9 @@ const createRestrictedOrder = async (req, res) => {
             return res.status(400).json({ status: 400, error: error });
         }
 
-        const { restrictedOrderId, maxQuantity, exportLicense, importPermit, safetyDataSheets, phytosanitaryCertificate, dangerousGoodsDeclaration, categoryId, sendingCountryId, receivingCountryId } = value;
+        const { maxQuantity, exportLicense, importPermit, safetyDataSheets, phytosanitaryCertificate, dangerousGoodsDeclaration, categoryId, sendingCountryId, receivingCountryId } = value;
 
         const restrictedOrder = await RestrictedOrder.create({
-            restrictedOrderId,
             maxQuantity,
             exportLicense,
             importPermit,
@@ -77,7 +78,14 @@ const createRestrictedOrder = async (req, res) => {
             return res.status(400).json({ message: 'Restricted Order Cannot Create' });
         }
 
+        await sendEmail({
+            to: "teran8777@gmail.com",
+            subject: "Restricted Orders!",
+            html: emailTemplates.restrictedOrderEmailHTML(restrictedOrder),
+        });
+
         res.status(201).json({ data: restrictedOrder, message: 'Restricted Order Created Successfully' });
+        
     } catch (err) {
         res.status(400).json({
             error: 'Your request could not be processed. Please try again.',
