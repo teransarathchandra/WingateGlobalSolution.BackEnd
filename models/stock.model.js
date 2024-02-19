@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+const { getNextSequence } = require("../helpers");
+
 const stocksSchema = new Schema(
   {
     stockId: {
-      type: Number,
-      required: true,
+      type:String,
       unique: true,
     },
     city: {
@@ -32,4 +33,11 @@ const stocksSchema = new Schema(
   { timestamps: true }
 );
 
+stocksSchema.pre("save", async function(next) {
+  if (this.isNew) {
+    const nextId = await getNextSequence('stock');
+    this.stockId = `STK${nextId}`;
+  }
+  next();
+});
 module.exports = model("stock", stocksSchema);
