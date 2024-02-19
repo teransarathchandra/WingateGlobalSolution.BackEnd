@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 const categoryJoiSchema = Joi.object({
-  categoryId: Joi.number().required(),
+  categoryId: Joi.string(),
   name: Joi.string().max(50).required(),
   description: Joi.string().max(255),
   profitRate: Joi.number().required().min(0),
