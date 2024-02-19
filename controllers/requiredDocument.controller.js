@@ -9,15 +9,15 @@ const getAllRequiredDocuments = async (req, res) => {
         const requiredDocuments = await RequiredDocument.find();
 
         if (!requiredDocuments) {
-            return res.status(404).json({ status: 404, message: "Required Documents Not Found" });
+            return res.status(404).json({ status: 404, message: "Required documents not found" });
         }
 
-        res.status(200).json({ status: 200, data: requiredDocuments, message: "Required Documents Found" });
+        res.status(200).json({ status: 200, data: requiredDocuments, message: "Required documents found successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 }
@@ -29,21 +29,21 @@ const getRequiredDocumentById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid Required Document Id" })
+            return res.status(404).json({ status: 404, message: "Invalid required document id" })
         }
 
         const requiredDocument = await RequiredDocument.findById(id);
 
         if (!requiredDocument) {
-            return res.status(404).json({ status: 404, message: "Required Document Not Found" });
+            return res.status(404).json({ status: 404, message: "Required document not found" });
         }
 
-        res.status(200).json({ status: 200, data: requiredDocument, message: "Required Document Found" });
+        res.status(200).json({ status: 200, data: requiredDocument, message: "Required document found successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -55,7 +55,7 @@ const createRequiredDocument = async (req, res) => {
         const { value, error } = requiredDocumentSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const { requiredDocumentId, documentType, documentPath, itemId } = value;
@@ -68,14 +68,14 @@ const createRequiredDocument = async (req, res) => {
         });
 
         if (!requiredDocument) {
-            return res.status(400).json({ message: 'Required Document Cannot Create' });
+            return res.status(400).json({ message: 'Required document cannot create' });
         }
 
-        res.status(201).json({ data: requiredDocument, message: 'Required Document Created Successfully' });
+        res.status(201).json({ data: requiredDocument, message: 'Required document created successfully' });
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -85,28 +85,28 @@ const updateRequiredDocument = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid Required Document id" });
+            return res.status(404).json({ status: 404, message: "Invalid required document id" });
         }
 
         const { value, error } = requiredDocumentSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const updatedRequiredDocument = await RequiredDocument.findByIdAndUpdate(id, value, { new: true });
 
         if (!updatedRequiredDocument) {
-            return res.status(404).json({ status: 404, message: "Required Document not found" });
+            return res.status(404).json({ status: 404, message: "Required document not found" });
         }
 
-        res.status(200).json({ status: 200, data: updatedRequiredDocument, message: "Required Document Updated Successfully" });
+        res.status(200).json({ status: 200, data: updatedRequiredDocument, message: "Required document updated successfully" });
 
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 
@@ -119,20 +119,20 @@ const deleteRequiredDocument = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid Required Document id" });
+            return res.status(404).json({ status: 404, message: "Invalid required document id" });
         }
         const deletedRequiredDocument = await RequiredDocument.findByIdAndDelete(id);
 
         if (!deletedRequiredDocument) {
-            return res.status(404).json({ status: 404, message: "Required Document not found" });
+            return res.status(404).json({ status: 404, message: "Required document not found" });
 
         }
-        res.status(200).json({ status: 200, message: "Required Document Deleted Successfully" });
+        res.status(200).json({ status: 200, message: "Required document deleted successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 

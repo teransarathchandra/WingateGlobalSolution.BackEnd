@@ -15,12 +15,12 @@ const getAllEmployees = async (req, res) => {
             return res.status(404).json({ status: 404, message: 'Employee not found' });
         }
 
-        res.status(200).json({ status: 200, data: employee, message: 'Employees Found' });
+        res.status(200).json({ status: 200, data: employee, message: 'Employees found successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -31,7 +31,7 @@ const getEmployeeById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: 'Invalid employee id' })
+            return res.status(404).json({ status: 404, message: 'Invalid employee id' })
         }
 
         const employee = await Employee.findById(id);
@@ -40,11 +40,11 @@ const getEmployeeById = async (req, res) => {
             return res.status(404).json({ status: 404, message: 'Employee not found' });
         }
 
-        res.status(200).json({ status: 200, data: employee, message: 'Employee Found' });
+        res.status(200).json({ status: 200, data: employee, message: 'Employee found successfully' });
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -97,7 +97,7 @@ const createEmployee = async (req, res) => {
         await employee.save();
 
         if (!employee) {
-            return res.status(400).json({ message: 'Employee Cannot Create' });
+            return res.status(400).json({ message: 'Employee cannot create' });
         }
 
         // sending response exclude the password and refresh token
@@ -111,13 +111,13 @@ const createEmployee = async (req, res) => {
             html: emailTemplates.signUpEmailHTML(name.firstName),
         });
 
-        res.status(201).json({ accessToken, data: employeeData, message: 'Employee Created Successfully' });
+        res.status(201).json({ accessToken, data: employeeData, message: 'Employee created successfully' });
 
     } catch (err) {
         console.error(err);
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -128,7 +128,7 @@ const updateEmployee = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: 'Invalid employee id' });
+            return res.status(404).json({ status: 404, message: 'Invalid employee id' });
         }
 
         const { value, error } = employeeSchema.updateSchema.validate(req.body);
@@ -145,12 +145,12 @@ const updateEmployee = async (req, res) => {
             return res.status(404).json({ status: 404, message: 'Employee not found' });
         }
 
-        res.status(200).json({ status: 200, data: updatedEmployee, message: 'Employee Updated Successfully' });
+        res.status(200).json({ status: 200, data: updatedEmployee, message: 'Employee updated successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -161,7 +161,7 @@ const deleteEmployee = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: 'Invalid employee id' });
+            return res.status(404).json({ status: 404, message: 'Invalid employee id' });
         }
 
         const deletedEmployee = await Employee.findByIdAndDelete(id);
@@ -169,12 +169,12 @@ const deleteEmployee = async (req, res) => {
             return res.status(404).json({ status: 404, message: 'Employee not found' });
         }
 
-        res.status(200).json({ status: 200, message: 'Employee Deleted Successfully' });
+        res.status(200).json({ status: 200, message: 'Employee deleted successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -190,11 +190,11 @@ const loginEmployee = async (req, res) => {
         const { email, password } = value;
         const employee = await Employee.findOne({ email });
         if (!employee) {
-            return res.status(400).json({ status: 400, errors: { email: 'Invalid Email Address, Please try again' } });
+            return res.status(400).json({ status: 400, errors: { email: 'Invalid email address, Please try again' } });
         }
 
         if (!employee.comparePassword(password)) {
-            return res.status(400).json({ status: 400, errors: { password: 'Invalid Password, Please try again' } });
+            return res.status(400).json({ status: 400, errors: { password: 'Invalid password, Please try again' } });
         }
 
         const { accessToken, refreshToken } = employee.signToken();
@@ -214,8 +214,8 @@ const loginEmployee = async (req, res) => {
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 

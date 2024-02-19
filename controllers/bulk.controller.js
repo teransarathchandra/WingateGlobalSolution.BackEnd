@@ -13,12 +13,12 @@ const getAllBulks = async (req, res) => {
             res.status(404).json({ status: 404, message: 'Bulk not found' });
         }
 
-        res.status(200).json({ status: 200, data: bulk, message: 'Bulk Found' });
+        res.status(200).json({ status: 200, data: bulk, message: 'Bulk found successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request cannot be processed. Please try again',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 
@@ -31,20 +31,20 @@ const getBulkById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ status: 400, error: 'Invalid Bulk Id' });
+            return res.status(400).json({ status: 400, message: 'Invalid bulk id' });
         }
 
         const bulk = await Bulk.findById(id);
 
         if (!bulk) {
-            return res.status(404).json({ status: 404, message: 'Bulk not Found' });
+            return res.status(404).json({ status: 404, message: 'Bulk not found' });
         }
 
-        res.status(200).json({ status: 200, data: bulk, message: 'Bulk Found' });
+        res.status(200).json({ status: 200, data: bulk, message: 'Bulk found successfully' });
     } catch (err) {
         res.status(400).json({
-            error: 'Your request cannot be processed. Please try again',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 
@@ -56,7 +56,7 @@ const createBulk = async (req, res) => {
         const { value, error } = bulkSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const { bulkId, currentLocation, arrivedTime, status, vehicleAssignedDate, vehicleId } = value;
@@ -72,15 +72,15 @@ const createBulk = async (req, res) => {
         })
 
         if (!bulk) {
-            return res.status(400).json({ message: 'Bulk Cannot Create' });
+            return res.status(400).json({ message: 'Bulk cannot create' });
         }
 
-        res.status(201).json({ data: Bulk, message: 'Bulk Created Successfully' });
+        res.status(201).json({ data: Bulk, message: 'Bulk created successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request cannot be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -90,27 +90,27 @@ const updateBulk = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: 'Invalid Bulk Id' });
+            return res.status(404).json({ status: 404, message: 'Invalid bulk id' });
         }
 
         const { value, error } = bulkSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const updatedBulk = await Bulk.findByIdAndUpdate(id, value, { new: true });
 
         if (!updatedBulk) {
-            return res.status(404).json({ status: 404, message: 'Bulk not Found' });
+            return res.status(404).json({ status: 404, message: 'Bulk not found' });
         }
 
-        res.status(200).json({ status: 200, data: updatedBulk, message: 'Bulk Updated Successfully' });
+        res.status(200).json({ status: 200, data: updatedBulk, message: 'Bulk updated successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request cannot be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -120,21 +120,21 @@ const deleteBulk = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: 'Invalid Bulk Id' });
+            return res.status(404).json({ status: 404, message: 'Invalid bulk id' });
         }
 
         const deletedBulk = await Bulk.findByIdAndDelete(id);
 
         if (!deletedBulk) {
-            return res.status(404).json({ status: 404, message: 'Bulk not Found' });
+            return res.status(404).json({ status: 404, message: 'Bulk not found' });
         }
 
         res.status(200).json({ status: 200, message: 'Bulk deleted successfully' });
 
     } catch (err) {
         res.status(404).json({
-            error: 'Your request cannot be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
 
     }

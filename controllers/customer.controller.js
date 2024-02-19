@@ -13,12 +13,12 @@ const getAllCustomers = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Customer not found" });
         }
 
-        res.status(200).json({ status: 200, data: customer, message: "Customer Found" });
+        res.status(200).json({ status: 200, data: customer, message: "Customer found successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 }
@@ -29,7 +29,7 @@ const getCustomerById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid customer id" })
+            return res.status(404).json({ status: 404, message: "Invalid customer id" })
         }
 
         const customer = await Customer.findById(id);
@@ -38,11 +38,11 @@ const getCustomerById = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Customer not found" });
         }
 
-        res.status(200).json({ status: 200, data: customer, message: "Customer Found" });
+        res.status(200).json({ status: 200, data: customer, message: "Customer found successfully" });
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -64,15 +64,15 @@ const createCustomer = async (req, res) => {
         });
 
         if (!customer) {
-            return res.status(400).json({ message: 'Customer Cannot Create' });
+            return res.status(400).json({ message: 'Customer cannot create' });
         }
 
-        res.status(201).json({ data: customer, message: 'Customer Created Successfully' });
+        res.status(201).json({ data: customer, message: 'Customer created successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -83,7 +83,7 @@ const updateCustomer = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid customer id" });
+            return res.status(404).json({ status: 404, message: "Invalid customer id" });
         }
 
         const { value, error } = customerSchema.updateSchema.validate(req.body);
@@ -96,12 +96,12 @@ const updateCustomer = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Customer not found" });
         }
 
-        res.status(200).json({ status: 200, data: updatedCustomer, message: "Customer Updated Successfully" });
+        res.status(200).json({ status: 200, data: updatedCustomer, message: "Customer updated successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -112,7 +112,7 @@ const deleteCustomer = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid Customer id" });
+            return res.status(404).json({ status: 404, message: "Invalid customer id" });
         }
 
         const deletedCustomer = await Customer.findByIdAndDelete(id);
@@ -120,12 +120,12 @@ const deleteCustomer = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Customer not found" });
         }
 
-        res.status(200).json({ status: 200, message: "Customer Deleted Successfully" });
+        res.status(200).json({ status: 200, message: "Customer deleted successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };

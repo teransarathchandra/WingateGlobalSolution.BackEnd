@@ -12,12 +12,12 @@ const getAllQuotations = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Quotations not found" });
         }
 
-        res.status(200).json({ status: 200, data: quotation, message: "Quotations Found" });
+        res.status(200).json({ status: 200, data: quotation, message: "Quotations found successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -28,7 +28,7 @@ const getQuotationById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid quotation id" })
+            return res.status(404).json({ status: 404, message: "Invalid quotation id" })
         }
 
         const quotation = await Quotation.findById(id);
@@ -37,11 +37,11 @@ const getQuotationById = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Quotation not found" });
         }
 
-        res.status(200).json({ status: 200, data: quotation, message: "Quotation Found" });
+        res.status(200).json({ status: 200, data: quotation, message: "Quotation found successfully" });
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -52,7 +52,7 @@ const createQuotation = async (req, res) => {
         const { value, error } = quotationSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const { quotationId, packagingCost, routeCost, unitWeightCost, surcharge, orderId } = value;
@@ -67,15 +67,15 @@ const createQuotation = async (req, res) => {
         });
 
         if (!quotation) {
-            return res.status(400).json({ message: 'Quotation Cannot Create' });
+            return res.status(400).json({ message: 'Quotation cannot create' });
         }
 
-        res.status(201).json({ data: quotation, message: 'Quotation Created Successfully' });
+        res.status(201).json({ data: quotation, message: 'Quotation created successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -86,12 +86,12 @@ const updateQuotation = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid quotation id" });
+            return res.status(404).json({ status: 404, message: "Invalid quotation id" });
         }
 
         const { value, error } = quotationSchema.validate(req.body);
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const updatedQuotation = await Quotation.findByIdAndUpdate(id, value, { new: true });
@@ -99,12 +99,12 @@ const updateQuotation = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Quotation not found" });
         }
 
-        res.status(200).json({ status: 200, data: updatedQuotation, message: "Quotation Updated Successfully" });
+        res.status(200).json({ status: 200, data: updatedQuotation, message: "Quotation updated successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -115,7 +115,7 @@ const deleteQuotation = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid quotation id" });
+            return res.status(404).json({ status: 404, message: "Invalid quotation id" });
         }
 
         const deleteQuotation = await Quotation.findByIdAndDelete(id);
@@ -123,12 +123,12 @@ const deleteQuotation = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Quotation not found" });
         }
 
-        res.status(200).json({ status: 200, message: "Quotation Deleted Successfully" });
+        res.status(200).json({ status: 200, message: "Quotation deleted successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };

@@ -15,11 +15,11 @@ const getAllVehicles = async (req, res) => {
 
     res
       .status(200)
-      .json({ status: 200, data: vehicle, message: "Vehicles Found" });
+      .json({ status: 200, data: vehicle, message: "Vehicles found successfully" });
   } catch (err) {
     res.status(400).json({
-      error: "Your request could not be processed. Please try again",
-      message: err.message,
+      error: err.message,
+            message: 'Your request cannot be processed. Please try again'
     });
   }
 };
@@ -31,7 +31,7 @@ const getVehicleById = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res
         .status(404)
-        .json({ status: 404, message: "Invalid  Vehicle Id" });
+        .json({ status: 404, message: "Invalid  vehicle id" });
     }
 
     const vehicle = await Vehicle.findById(id);
@@ -45,12 +45,12 @@ const getVehicleById = async (req, res) => {
     res.status(200).json({
       status: 200,
       data: vehicle,
-      message: "Vehicle Found Successfully",
+      message: "Vehicle found successfully",
     });
   } catch (err) {
     res.status(400).json({
-      error: "Your request could not be processed. Please try again",
-      message: err.message,
+      error: err.message,
+            message: 'Your request cannot be processed. Please try again'
     });
   }
 };
@@ -60,7 +60,7 @@ const createVehicle = async (req, res) => {
     const { value, error } = vehicleSchema.validate(req.body);
 
     if (error) {
-      return res.status(400).json({ status: 400, error: error });
+      return res.status(400).json({ status: 400, message: error });
     }
 
     const { vehicleId, vehicleType, availability } = value;
@@ -72,14 +72,14 @@ const createVehicle = async (req, res) => {
     });
 
     if (!vehicle) {
-      return res.status(400).json({ message: "Vehicle Cannot Create" });
+      return res.status(400).json({ message: "Vehicle cannot create" });
     }
 
-    res.status(201).json({ message: "Vehicle Created Successfully" });
+    res.status(201).json({ message: "Vehicle created successfully" });
   } catch (err) {
-    res.status(400).json({
-      error: "Your request could not be processed. Please try again",
-      message: err.message,
+      res.status(400).json({
+      error: err.message,
+      message: 'Your request cannot be processed. Please try again'
     });
   }
 };
@@ -91,13 +91,13 @@ const updateVehicle = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res
         .status(404)
-        .json({ status: 404, message: "Invalid  Vehicle Id" });
+        .json({ status: 404, message: "Invalid  vehicle id" });
     }
 
     const { value, error } = vehicleSchema.validate(req.body);
 
     if (error) {
-      return res.status(400).json({ status: 400, error: error });
+      return res.status(400).json({ status: 400, message: error });
     }
 
     const updateVehicle = await Vehicle.findByIdAndUpdate(id, value, {
@@ -113,12 +113,12 @@ const updateVehicle = async (req, res) => {
     res.status(200).json({
       status: 200,
       data: updateVehicle,
-      message: "Vehicle Updated Successfully",
+      message: "Vehicle updated successfully",
     });
   } catch (err) {
-    res.status(400).json({
-      error: "Your request could not be processed. Please try again",
-      message: err.message,
+      res.status(400).json({
+      error: err.message,
+      message: 'Your request cannot be processed. Please try again'
     });
   }
 };
@@ -128,7 +128,7 @@ const deleteVehicle = async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({ status: 404, error: "Invalid vehicle id" });
+      return res.status(404).json({ status: 404, message: "Invalid vehicle id" });
     }
 
     const deleteVehicle = await Vehicle.findByIdAndDelete(id);
@@ -140,11 +140,11 @@ const deleteVehicle = async (req, res) => {
 
     res
       .status(200)
-      .json({ status: 200, message: "Vehicle Deleted Successfully" });
+      .json({ status: 200, message: "Vehicle deleted successfully" });
   } catch (err) {
-    res.status(400).json({
-      error: "Your request could not be processed. Please try again",
-      message: err.message,
+      res.status(400).json({
+      error: err.message,
+      message: 'Your request cannot be processed. Please try again'
     });
   }
 };

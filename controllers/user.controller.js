@@ -15,12 +15,12 @@ const getAllUsers = async (req, res) => {
             return res.status(404).json({ status: 404, message: 'User not found' });
         }
 
-        res.status(200).json({ status: 200, data: users, message: 'Users Found' });
+        res.status(200).json({ status: 200, data: users, message: 'Users found successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -31,7 +31,7 @@ const getUserById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: 'Invalid user id' });
+            return res.status(404).json({ status: 404, message: 'Invalid user id' });
         }
 
         const user = await User.findById(id);
@@ -40,12 +40,12 @@ const getUserById = async (req, res) => {
             return res.status(404).json({ status: 404, message: 'User not found' });
         }
 
-        res.status(200).json({ status: 200, data: user, message: 'User Found' });
+        res.status(200).json({ status: 200, data: user, message: 'User found successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -85,7 +85,7 @@ const createUser = async (req, res) => {
 
 
         if (!user) {
-            return res.status(400).json({ message: 'User Cannot Create' });
+            return res.status(400).json({ message: 'User cannot create' });
         }
 
         // sending response exclude the password and refresh token
@@ -99,13 +99,13 @@ const createUser = async (req, res) => {
             html: emailTemplates.signUpEmailHTML(name.firstName),
         });
 
-        res.status(201).json({ accessToken, data: userData, message: 'User Created Successfully' });
+        res.status(201).json({ accessToken, data: userData, message: 'User created successfully' });
 
     } catch (err) {
         console.error(err);
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -116,7 +116,7 @@ const updateUser = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: 'Invalid user id' });
+            return res.status(404).json({ status: 404, message: 'Invalid user id' });
         }
 
         const { value, error } = userSchema.updateSchema.validate(req.body);
@@ -133,12 +133,12 @@ const updateUser = async (req, res) => {
             return res.status(404).json({ status: 404, message: 'User not found' });
         }
 
-        res.status(200).json({ status: 200, data: updatedUser, message: 'User Updated Successfully' });
+        res.status(200).json({ status: 200, data: updatedUser, message: 'User updated successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -149,7 +149,7 @@ const deleteUser = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: 'Invalid User id' });
+            return res.status(404).json({ status: 404, message: 'Invalid user id' });
         }
 
         const deletedUser = await User.findByIdAndDelete(id);
@@ -157,12 +157,12 @@ const deleteUser = async (req, res) => {
             return res.status(404).json({ status: 404, message: 'User not found' });
         }
 
-        res.status(200).json({ status: 200, message: 'User Deleted Successfully' });
+        res.status(200).json({ status: 200, message: 'User deleted successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -177,11 +177,11 @@ const loginUser = async (req, res) => {
         const { email, password } = value;
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ status: 400, message: 'Invalid Email Address, Please try again' });
+            return res.status(400).json({ status: 400, message: 'Invalid email address, Please try again' });
         }
 
         if (!user.comparePassword(password)) {
-            return res.status(400).json({ status: 400, message: 'Invalid Password, Please try again' });
+            return res.status(400).json({ status: 400, message: 'Invalid password, Please try again' });
         }
 
         const { accessToken, refreshToken } = user.signToken();
@@ -201,8 +201,8 @@ const loginUser = async (req, res) => {
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };

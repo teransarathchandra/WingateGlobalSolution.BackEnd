@@ -14,12 +14,12 @@ const getAllDesignations = async (req, res) => {
             res.status(404).json({ status: 404, message: 'Designation not found' });
         }
 
-        res.status(200).json({ status: 200, data: designation, message: 'Designation Found' });
+        res.status(200).json({ status: 200, data: designation, message: 'Designation found successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request cannot be processed. Please try again',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 
@@ -32,20 +32,20 @@ const getDesignationById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ status: 400, error: 'Invalid Designation Id' });
+            return res.status(400).json({ status: 400, message: 'Invalid designation id' });
         }
 
         const designation = await Designation.findById(id);
 
         if (!designation) {
-            return res.status(404).json({ status: 404, message: 'Designation not Found' });
+            return res.status(404).json({ status: 404, message: 'Designation not found' });
         }
 
-        res.status(200).json({ status: 200, data: designation, message: 'Designation Found' });
+        res.status(200).json({ status: 200, data: designation, message: 'Designation found successfully' });
     } catch (err) {
         res.status(400).json({
-            error: 'Your request cannot be processed. Please try again',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 
@@ -74,15 +74,15 @@ const createDesignation = async (req, res) => {
         })
 
         if (!designation) {
-            return res.status(400).json({ message: 'Designation Cannot Create' });
+            return res.status(400).json({ message: 'Designation cannot create' });
         }
 
-        res.status(201).json({ data: designation, message: 'Designation Created Successfully' });
+        res.status(201).json({ data: designation, message: 'Designation created successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request cannot be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -92,27 +92,27 @@ const updateDesignation = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: 'Invalid Designation Id' });
+            return res.status(404).json({ status: 404, message: 'Invalid designation id' });
         }
 
         const { value, error } = designationSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const updatedDesignation = await Designation.findByIdAndUpdate(id, value, { new: true });
 
         if (!updatedDesignation) {
-            return res.status(404).json({ status: 404, message: 'Designation not Found' });
+            return res.status(404).json({ status: 404, message: 'Designation not found' });
         }
 
-        res.status(200).json({ status: 200, data: updatedDesignation, message: 'Designation Updated Successfully' });
+        res.status(200).json({ status: 200, data: updatedDesignation, message: 'Designation updated successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request cannot be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -122,21 +122,21 @@ const deleteDesignation = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: 'Invalid Designation Id' });
+            return res.status(404).json({ status: 404, message: 'Invalid designation id' });
         }
 
         const deletedDesignation = await Designation.findByIdAndDelete(id);
 
         if (!deletedDesignation) {
-            return res.status(404).json({ status: 404, message: 'Designation not Found' });
+            return res.status(404).json({ status: 404, message: 'Designation not found' });
         }
 
         res.status(200).json({ status: 200, message: 'Designation deleted successfully' });
 
     } catch (err) {
         res.status(404).json({
-            error: 'Your request cannot be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
 
     }

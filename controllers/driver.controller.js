@@ -12,12 +12,12 @@ const getAllDrivers = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Driver not found" });
         }
 
-        res.status(200).json({ status: 200, data: driver, message: "Driver Found" });
+        res.status(200).json({ status: 200, data: driver, message: "Driver found successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -28,7 +28,7 @@ const getDriverById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid Driver id" })
+            return res.status(404).json({ status: 404, message: "Invalid driver id" })
         }
 
         const driver = await Driver.findById(id);
@@ -37,11 +37,11 @@ const getDriverById = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Driver not found" });
         }
 
-        res.status(200).json({ status: 200, data: driver, message: "Driver Found" });
+        res.status(200).json({ status: 200, data: driver, message: "Driver found successfully" });
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -52,7 +52,7 @@ const createDriver = async (req, res) => {
         const { value, error } = driverSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const { driverId, warehouseId } = value;
@@ -64,15 +64,15 @@ const createDriver = async (req, res) => {
         });
 
         if (!driver) {
-            return res.status(400).json({ message: 'Driver Cannot Create' });
+            return res.status(400).json({ message: 'Driver cannot create' });
         }
 
-        res.status(201).json({ data: driver, message: 'Driver Created Successfully' });
+        res.status(201).json({ data: driver, message: 'Driver created successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -83,7 +83,7 @@ const updateDriver = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid driver id" });
+            return res.status(404).json({ status: 404, message: "Invalid driver id" });
         }
 
         const { value, error } = driverSchema.validate(req.body);
@@ -96,12 +96,12 @@ const updateDriver = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Driver not found" });
         }
 
-        res.status(200).json({ status: 200, data: updatedDriver, message: "Driver Updated Successfully" });
+        res.status(200).json({ status: 200, data: updatedDriver, message: "Driver updated successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -112,7 +112,7 @@ const deleteDriver = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid Driver id" });
+            return res.status(404).json({ status: 404, message: "Invalid driver id" });
         }
 
         const deletedDriver = await Driver.findByIdAndDelete(id);
@@ -120,12 +120,12 @@ const deleteDriver = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Driver not found" });
         }
 
-        res.status(200).json({ status: 200, message: "Driver Deleted Successfully" });
+        res.status(200).json({ status: 200, message: "Driver deleted successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };

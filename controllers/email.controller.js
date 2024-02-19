@@ -24,7 +24,7 @@ const sendEmails = async (req, res, next) => {
         });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: "An error occurred while sending the email. Please try again later." });
+        res.status(500).json({status: 500, message: "An error occurred while sending the email. Please try again later." });
     }
 };
 
