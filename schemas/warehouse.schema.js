@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const warehouseJoiSchema = Joi.object({
-    warehouseId: Joi.number().required(),
+    warehouseId: Joi.string(),
     location: Joi.string().required(),
     storageCapacity: Joi.number().required(),
     availability: Joi.boolean().required(),

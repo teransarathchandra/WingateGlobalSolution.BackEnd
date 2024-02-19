@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const { Warehouse } = require('../models');
+const { WareHouse } = require('../models');
 const { wareHouseSchema } = require('../schemas');
 
 const getAllWarehouse = async (req, res) => {
 
     try {
-        const warehouse = await Warehouse.find();
+        const warehouse = await WareHouse.find();
 
         if (!warehouse) {
             return res.status(404).json({ status: 404, message: "Warehouse not found" });
@@ -32,7 +32,7 @@ const getWarehouseById = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Invalid warehouse id" })
         }
 
-        const warehouse = await Warehouse.findById(id);
+        const warehouse = await WareHouse.findById(id);
 
         if (!warehouse) {
             return res.status(404).json({ status: 404, message: "Warehouse not found" });
@@ -58,10 +58,9 @@ const createWarehouse = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { warehouseId, location, storageCapacity, availability, warehouseManagerId, countryId } = value;
+        const { location, storageCapacity, availability, warehouseManagerId, countryId } = value;
 
-        const warehouse = await Warehouse.create({
-            warehouseId,
+        const warehouse = await WareHouse.create({
             location,
             storageCapacity,
             availability,
@@ -76,7 +75,7 @@ const createWarehouse = async (req, res) => {
         res.status(201).json({ data: warehouse, message: 'Warehouse created successfully' });
     } catch (err) {
         res.status(400).json({
-            eerror: err.message,
+            error: err.message,
             message: 'Your request cannot be processed. Please try again'
         });
     }
@@ -96,7 +95,7 @@ const updateWarehouse = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const updatedWarehouse = await Warehouse.findByIdAndUpdate(id, value, { new: true });
+        const updatedWarehouse = await WareHouse.findByIdAndUpdate(id, value, { new: true });
 
         if (!updatedWarehouse) {
             return res.status(404).json({ status: 404, message: "Warehouse not found" });
@@ -123,7 +122,7 @@ const deleteWarehouse = async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ status: 404, message: "Invalid warehouse id" });
         }
-        const deletedWarehouse = await Warehouse.findByIdAndDelete(id);
+        const deletedWarehouse = await WareHouse.findByIdAndDelete(id);
 
         if (!deletedWarehouse) {
             return res.status(404).json({ status: 404, message: "Warehouse not found" });
