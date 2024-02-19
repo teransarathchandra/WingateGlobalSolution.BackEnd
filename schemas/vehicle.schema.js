@@ -1,11 +1,11 @@
 const Joi = require('joi');
 
 const vehicleJoiSchema = Joi.object({
-    vehicleId: Joi.number().required(),
+    vehicleId: Joi.string(),
     vehicleType: Joi.string().valid("Cargo Plane" , "Vessel Ship"),
     availability: Joi.boolean().required(),
     vehicleAssignedDate: Joi.date().required(),
-    routeI:Joi.string().required()
+    routeId:Joi.string().required()
 })
 
 

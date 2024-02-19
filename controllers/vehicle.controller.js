@@ -77,7 +77,7 @@ const createVehicle = async (req, res) => {
       return res.status(400).json({ message: "Vehicle cannot create" });
     }
 
-    res.status(201).json({ message: "Vehicle created successfully" });
+    res.status(201).json({data: vehicle, message: "Vehicle created successfully" });
   } catch (err) {
       res.status(400).json({
       error: err.message,
