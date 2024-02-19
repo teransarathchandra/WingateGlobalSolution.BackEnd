@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+const { getNextSequence } = require("../helpers");
+
 const requiredDocumentSchema = new Schema(
   {
     requiredDocumentId: {
-      type: Number,
-      required: true,
+      type: String,
       unique: true
     },
     documentType: {
@@ -25,4 +26,11 @@ const requiredDocumentSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("required_documents", requiredDocumentSchema, "requiredDocuments");
+requiredDocumentSchema.pre("save", async function(next) {
+  if (this.isNew) {
+    const nextId = await getNextSequence('requiredDocuments');
+    this.requiredDocumentId = `REQDOC${nextId}`;
+  }
+  next();
+});
+module.exports = model("requiredDocuments", requiredDocumentSchema, "requiredDocuments");
