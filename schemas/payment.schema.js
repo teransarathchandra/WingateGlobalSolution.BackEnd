@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const paymentJoiSchema = Joi.object({
-    paymentId: Joi.number().required(),
+    paymentId: Joi.string(),
     paymentDescription: Joi.string().max(255),
     amount: Joi.number().required(),
     paymentMethod: Joi.string().required(), 
