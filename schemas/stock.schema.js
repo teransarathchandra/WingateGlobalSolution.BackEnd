@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const categoryJoiSchema = Joi.object({
+const stockJoiSchema = Joi.object({
   stockId: Joi.number().required(),
   city: Joi.string().max(50).required(),
   country: Joi.string().max(50),
@@ -8,4 +8,4 @@ const categoryJoiSchema = Joi.object({
   bulkId: Joi.string().required(),
 });
 
-module.exports = categoryJoiSchema;
+module.exports = stockJoiSchema;

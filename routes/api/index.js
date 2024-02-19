@@ -22,6 +22,7 @@ const warehouseRoutes = require('./warehouse.route');
 const paymentRoutes = require('./payment.route');
 const quotationRoutes = require('./quotation.route');
 const paymentMethodRoutes = require('./paymentMethod.route');
+const stockRoutes = require('./stock.route');
 
 //email routes
 router.use('/email', emailRoutes);
@@ -88,5 +89,8 @@ router.use('/quotation', quotationRoutes)
 
 //paymentMethod routes
 router.use('/paymentMethod', paymentMethodRoutes)
+
+//stock routes
+router.use('/stock', stockRoutes)
 
 module.exports = router;
