@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const designationJoiSchema = Joi.object({
-  designationId: Joi.number().required(),
+  designationId: Joi.string(),
   basicSalary: Joi.number().required(),
   etf: Joi.number().required(),
   epf: Joi.number().required(),
