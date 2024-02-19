@@ -5,6 +5,7 @@ const { hashPassword, hashedPassword } = require("./hashPassword.helper");
 const comparePassword = require("./comparePassword.helper");
 const getNextSequence = require("./getNextSequence.helper");
 const sendEmail = require("./sendEmail.helper");
+const verifyGoogleToken = require("./googleAuth");
 
 module.exports = {
   HttpError,
@@ -14,5 +15,6 @@ module.exports = {
   hashedPassword,
   comparePassword,
   getNextSequence,
-  sendEmail
+  sendEmail,
+  verifyGoogleToken
 };

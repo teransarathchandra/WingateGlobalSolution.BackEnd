@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const { User } = require('../models');
 const { userSchema } = require('../schemas');
-const { hashedPassword, BadRequestError, sendEmail } = require('../helpers');
+const { hashedPassword, BadRequestError, sendEmail, verifyGoogleToken } = require('../helpers');
 const { emailTemplates } = require('../constants');
 
 const getAllUsers = async (req, res) => {
@@ -207,6 +207,46 @@ const loginUser = async (req, res) => {
     }
 };
 
+const googleSignIn = async (req, res) => {
+    try {
+        const { token } = req.body;
+        const googleUser = await verifyGoogleToken(token);
+
+        let user = await User.findOne({ email: googleUser.email });
+        if (!user) {
+            // // If user does not exist, create a new user
+            // user = new User({
+            //     name: { firstName: googleUser.name, lastName: '' }, // Adjust according to your schema
+            //     email: googleUser.email,
+            //     password: '', // Consider a strategy for handling passwords for OAuth users
+            //     contactNumber: '', // You might not have this information from Google
+            //     // Add any other required fields as per your user schema
+            // });
+            // await user.save();
+
+            return res.status(400).json({ status: 400, message: 'Invalid email address, Please try again' });
+        }
+
+        // Sign a JWT token or perform any other sign in logic you have
+        const { accessToken, refreshToken } = user.signToken();
+
+        // Update refreshToken in the database if necessary
+        // Respond with tokens and user information (excluding sensitive information)
+        res.status(200).json({
+            accessToken,
+            refreshToken,
+            data: user,
+            message: 'User logged in successfully'
+        });
+
+    } catch (err) {
+        res.status(400).json({
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
+        });
+    }
+};
+
 const logoutUser = async (req, res) => {
     const { id } = req.body;
 
@@ -250,4 +290,4 @@ const refreshAccessToken = async (req, res) => {
     }
 };
 
-module.exports = { getAllUsers, getUserById, createUser, updateUser, deleteUser, loginUser, logoutUser, refreshAccessToken };
+module.exports = { getAllUsers, getUserById, createUser, updateUser, deleteUser, loginUser, googleSignIn, logoutUser, refreshAccessToken };
