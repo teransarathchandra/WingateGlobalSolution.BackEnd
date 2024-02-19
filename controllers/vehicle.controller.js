@@ -63,12 +63,14 @@ const createVehicle = async (req, res) => {
       return res.status(400).json({ status: 400, message: error });
     }
 
-    const { vehicleId, vehicleType, availability } = value;
+    const { vehicleId, vehicleType, availability, vehicleAssignedDate, routeId } = value;
 
     const vehicle = await Vehicle.create({
       vehicleId,
       vehicleType,
       availability,
+      vehicleAssignedDate,
+      routeId
     });
 
     if (!vehicle) {
