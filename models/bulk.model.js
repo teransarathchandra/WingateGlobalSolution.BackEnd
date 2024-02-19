@@ -18,10 +18,6 @@ const bulkSchema = new Schema(
       type: String,
       enum: ["In Progress", "Arrived", "Delivered"],
     },
-    vehicleAssignedDate: {
-      type: Date,
-      required: true,
-    },
     vehicleId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "vehicle",

@@ -8,6 +8,9 @@ const customerSchema = new Schema(
       enum: ["High Priority", "Medium Priority", "Low Priority"],
       required: true,
     },
+    birthday: {
+      type: Date,
+    },
     customerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",

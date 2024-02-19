@@ -16,6 +16,15 @@ const vehicleSchema = new Schema(
       type: Boolean,
       required: true,
     },
+    vehicleAssignedDate: {
+      type: Date,
+      required: true,
+    },
+    routeId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "route",
+      required: true,
+    },
   },
   { timestamps: true }
 );
