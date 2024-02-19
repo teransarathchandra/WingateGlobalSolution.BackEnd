@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+const { getNextSequence } = require("../helpers");
+
+
 const bulkSchema = new Schema(
   {
     bulkId: {
-      type: Number,
-      required: true,
+      type: String,
       unique: true,
     },
     currentLocation: {
@@ -26,5 +28,13 @@ const bulkSchema = new Schema(
   },
   { timestamps: true }
 );
+
+bulkSchema.pre("save", async function(next) {
+  if (this.isNew) {
+    const nextId = await getNextSequence('bulk');
+    this.bulkId = `BLK${nextId}`;
+  }
+  next();
+});
 
 module.exports = model("bulk", bulkSchema);
