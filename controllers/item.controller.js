@@ -12,12 +12,12 @@ const getAllItems = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Items not found" });
         }
 
-        res.status(200).json({ status: 200, data: item, message: "Items Found" });
+        res.status(200).json({ status: 200, data: item, message: "Items found successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -28,7 +28,7 @@ const getItemById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid item id" })
+            return res.status(404).json({ status: 404, message: "Invalid item id" })
         }
 
         const item = await Item.findById(id);
@@ -37,11 +37,11 @@ const getItemById = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Item not found" });
         }
 
-        res.status(200).json({ status: 200, data: item, message: "Item Found" });
+        res.status(200).json({ status: 200, data: item, message: "Item found successfully" });
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -52,7 +52,7 @@ const createItem = async (req, res) => {
         const { value, error } = itemSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const { itemId, name, description, weight, itemValue, orderId, categoryId } = value;
@@ -68,15 +68,15 @@ const createItem = async (req, res) => {
         });
 
         if (!item) {
-            return res.status(400).json({ message: 'Item Cannot Create' });
+            return res.status(400).json({ message: 'Item cannot create' });
         }
 
-        res.status(201).json({ data: item, message: 'Item Created Successfully' });
+        res.status(201).json({ data: item, message: 'Item created successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -87,12 +87,12 @@ const updateItem = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid item id" });
+            return res.status(404).json({ status: 404, message: "Invalid item id" });
         }
 
         const { value, error } = itemSchema.validate(req.body);
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const updatedItem = await Item.findByIdAndUpdate(id, value, { new: true });
@@ -100,12 +100,12 @@ const updateItem = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Item not found" });
         }
 
-        res.status(200).json({ status: 200, data: updatedItem, message: "Item Updated Successfully" });
+        res.status(200).json({ status: 200, data: updatedItem, message: "Item updated successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -116,7 +116,7 @@ const deleteItem = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid item id" });
+            return res.status(404).json({ status: 404, message: "Invalid item id" });
         }
 
         const deletedItem = await Item.findByIdAndDelete(id);
@@ -124,12 +124,12 @@ const deleteItem = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Item not found" });
         }
 
-        res.status(200).json({ status: 200, message: "Item Deleted Successfully" });
+        res.status(200).json({ status: 200, message: "Item deleted successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };

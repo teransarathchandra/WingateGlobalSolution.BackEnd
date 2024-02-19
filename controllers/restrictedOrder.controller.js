@@ -11,15 +11,15 @@ const getAllRestrictedOrders = async (req, res) => {
         const restrictedOrder = await RestrictedOrder.find();
 
         if (!restrictedOrder) {
-            return res.status(404).json({ status: 404, message: "Restricted Orders Not Found" });
+            return res.status(404).json({ status: 404, message: "Restricted orders not found" });
         }
 
-        res.status(200).json({ status: 200, data: restrictedOrder, message: "Restricted Orders Found" });
+        res.status(200).json({ status: 200, data: restrictedOrder, message: "Restricted orders found successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 }
@@ -31,21 +31,21 @@ const getRestrictedOrderById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid Restricted Order Id" })
+            return res.status(404).json({ status: 404, message: "Invalid restricted order id" })
         }
 
         const restrictedOrder = await RestrictedOrder.findById(id);
 
         if (!restrictedOrder) {
-            return res.status(404).json({ status: 404, message: "Restricted Order Not Found" });
+            return res.status(404).json({ status: 404, message: "Restricted order not found" });
         }
 
-        res.status(200).json({ status: 200, data: restrictedOrder, message: "Restricted Order Found" });
+        res.status(200).json({ status: 200, data: restrictedOrder, message: "Restricted order found successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -57,7 +57,7 @@ const createRestrictedOrder = async (req, res) => {
         const { value, error } = restrictedOrderSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const { maxQuantity, exportLicense, importPermit, safetyDataSheets, phytosanitaryCertificate, dangerousGoodsDeclaration, categoryId, sendingCountryId, receivingCountryId } = value;
@@ -75,7 +75,7 @@ const createRestrictedOrder = async (req, res) => {
         });
 
         if (!restrictedOrder) {
-            return res.status(400).json({ message: 'Restricted Order Cannot Create' });
+            return res.status(400).json({ message: 'Restricted order cannot create' });
         }
 
         await sendEmail({
@@ -84,12 +84,12 @@ const createRestrictedOrder = async (req, res) => {
             html: emailTemplates.restrictedOrderEmailHTML(restrictedOrder),
         });
 
-        res.status(201).json({ data: restrictedOrder, message: 'Restricted Order Created Successfully' });
+        res.status(201).json({ data: restrictedOrder, message: 'Restricted order created sccessfully' });
         
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -99,28 +99,28 @@ const updateRestrictedOrder = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid Restricted Order id" });
+            return res.status(404).json({ status: 404, message: "Invalid restricted order id" });
         }
 
         const { value, error } = restrictedOrderSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const updatedRestrictedOrder = await RestrictedOrder.findByIdAndUpdate(id, value, { new: true });
 
         if (!updatedRestrictedOrder) {
-            return res.status(404).json({ status: 404, message: "Restricted Order not found" });
+            return res.status(404).json({ status: 404, message: "Restricted order not found" });
         }
 
-        res.status(200).json({ status: 200, data: updatedRestrictedOrder, message: "Restricted Order Updated Successfully" });
+        res.status(200).json({ status: 200, data: updatedRestrictedOrder, message: "Restricted order updated successfully" });
 
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 
@@ -133,20 +133,20 @@ const deleteRestrictedOrder = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid restricted Order id" });
+            return res.status(404).json({ status: 404, message: "Invalid restricted order id" });
         }
         const deletedRestrictedOrder = await RestrictedOrder.findByIdAndDelete(id);
 
         if (!deletedRestrictedOrder) {
-            return res.status(404).json({ status: 404, message: "Restricted Order not found" });
+            return res.status(404).json({ status: 404, message: "Restricted order not found" });
 
         }
-        res.status(200).json({ status: 200, message: "Restricted Order Deleted Successfully" });
+        res.status(200).json({ status: 200, message: "Restricted order deleted successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 

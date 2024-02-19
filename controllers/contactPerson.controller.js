@@ -13,12 +13,12 @@ const getAllContactPersons = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Contact Person not found" });
         }
 
-        res.status(200).json({ status: 200, data: contactPerson, message: "Contact Person Found" });
+        res.status(200).json({ status: 200, data: contactPerson, message: "Contact person found" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 }
@@ -29,20 +29,20 @@ const getContactPersonById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid Contact Person id" })
+            return res.status(404).json({ status: 404, message: "Invalid contact person id" })
         }
 
         const contactPerson = await ContactPerson.findById(id);
 
         if (!contactPerson) {
-            return res.status(404).json({ status: 404, message: "Contact Person not found" });
+            return res.status(404).json({ status: 404, message: "Contact person not found" });
         }
 
-        res.status(200).json({ status: 200, data: contactPerson, message: "Contact Person Found" });
+        res.status(200).json({ status: 200, data: contactPerson, message: "Contact person found successfully" });
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -66,15 +66,15 @@ const createContactPerson = async (req, res) => {
         });
 
         if (!contactperson) {
-            return res.status(400).json({ message: 'Contact Person Cannot Create' });
+            return res.status(400).json({ message: 'Contact person cannot create' });
         }
 
-        res.status(201).json({ data: contactperson, message: 'Contact Person Created Successfully' });
+        res.status(201).json({ data: contactperson, message: 'Contact person created successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -85,7 +85,7 @@ const updateContactPerson = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid Contact Person id" });
+            return res.status(404).json({ status: 404, message: "Invalid contact person id" });
         }
 
         const { value, error } = contactPersonSchema.updateSchema.validate(req.body);
@@ -95,15 +95,15 @@ const updateContactPerson = async (req, res) => {
 
         const updatedContactPerson = await ContactPerson.findByIdAndUpdate(id, value, { new: true });
         if (!updatedContactPerson) {
-            return res.status(404).json({ status: 404, message: "Contact Person not found" });
+            return res.status(404).json({ status: 404, message: "Contact person not found" });
         }
 
-        res.status(200).json({ status: 200, data: updatedContactPerson, message: "Contact Person Updated Successfully" });
+        res.status(200).json({ status: 200, data: updatedContactPerson, message: "Contact person updated successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -114,20 +114,20 @@ const deleteContactPerson = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid Contact Person id" });
+            return res.status(404).json({ status: 404, message: "Invalid contact person id" });
         }
 
         const deletedContactPerson = await ContactPerson.findByIdAndDelete(id);
         if (!deletedContactPerson) {
-            return res.status(404).json({ status: 404, message: "Contact Person not found" });
+            return res.status(404).json({ status: 404, message: "Contact person not found" });
         }
 
-        res.status(200).json({ status: 200, message: "Contact Person Deleted Successfully" });
+        res.status(200).json({ status: 200, message: "Contact Person deleted successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };

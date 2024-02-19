@@ -9,15 +9,15 @@ const getAllRoutes = async (req, res) => {
         const routes = await Route.find();
 
         if (!routes) {
-            return res.status(404).json({ status: 404, message: "Route Not Found" });
+            return res.status(404).json({ status: 404, message: "Route not found" });
         }
 
-        res.status(200).json({ status: 200, data: routes, message: "Route Found" });
+        res.status(200).json({ status: 200, data: routes, message: "Route found successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 }
@@ -29,21 +29,21 @@ const getRouteById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid Route Id" })
+            return res.status(404).json({ status: 404, message: "Invalid route id" })
         }
 
         const route = await Route.findById(id);
 
         if (!route) {
-            return res.status(404).json({ status: 404, message: "Route Not Found" });
+            return res.status(404).json({ status: 404, message: "Route not found" });
         }
 
-        res.status(200).json({ status: 200, data: route, message: "Route Found" });
+        res.status(200).json({ status: 200, data: route, message: "Route found successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -55,7 +55,7 @@ const createRoute = async (req, res) => {
         const { value, error } = routeSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const { routeId, transportMode, distance, priority, roundTripDays, routeShippingCost, startingPortId, endingPortId } = value;
@@ -72,14 +72,14 @@ const createRoute = async (req, res) => {
         });
 
         if (!route) {
-            return res.status(400).json({ message: 'Route Cannot Create' });
+            return res.status(400).json({ message: 'Route cannot create' });
         }
 
-        res.status(201).json({ data: route, message: 'Route Created Successfully' });
+        res.status(201).json({ data: route, message: 'Route created successfully' });
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -89,13 +89,13 @@ const updateRoute = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid Route id" });
+            return res.status(404).json({ status: 404, message: "Invalid route id" });
         }
 
         const { value, error } = routeSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const updatedRoute = await Route.findByIdAndUpdate(id, value, { new: true });
@@ -104,13 +104,13 @@ const updateRoute = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Route not found" });
         }
 
-        res.status(200).json({ status: 200, data: updatedRoute, message: "Route Updated Successfully" });
+        res.status(200).json({ status: 200, data: updatedRoute, message: "Route updated successfully" });
 
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 
@@ -123,7 +123,7 @@ const deleteRoute = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid route id" });
+            return res.status(404).json({ status: 404, message: "Invalid route id" });
         }
         const deletedRoute = await Route.findByIdAndDelete(id);
 
@@ -131,12 +131,12 @@ const deleteRoute = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Route not found" });
 
         }
-        res.status(200).json({ status: 200, message: "Route Deleted Successfully" });
+        res.status(200).json({ status: 200, message: "Route deleted successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 

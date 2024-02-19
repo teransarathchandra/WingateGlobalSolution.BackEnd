@@ -8,15 +8,15 @@ const getAllPaymentMethods = async (req, res) => {
         const paymentMethod = await PaymentMethod.find();
 
         if (!paymentMethod) {
-            return res.status(404).json({ status: 404, message: "Payment Methods not found" });
+            return res.status(404).json({ status: 404, message: "Payment methods not found" });
         }
 
-        res.status(200).json({ status: 200, data: paymentMethod, message: "Payment Methods Found" });
+        res.status(200).json({ status: 200, data: paymentMethod, message: "Payment methods found successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -27,20 +27,20 @@ const getPaymentMethodById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid paymentMethod id" })
+            return res.status(404).json({ status: 404, message: "Invalid payment method id" })
         }
 
         const paymentMethod = await PaymentMethod.findById(id);
 
         if (!paymentMethod) {
-            return res.status(404).json({ status: 404, message: "PaymentMethod not found" });
+            return res.status(404).json({ status: 404, message: "Payment method not found" });
         }
 
-        res.status(200).json({ status: 200, data: paymentMethod, message: "PaymentMethod Found" });
+        res.status(200).json({ status: 200, data: paymentMethod, message: "Payment method found successfully" });
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -51,7 +51,7 @@ const createPaymentMethod = async (req, res) => {
         const { value, error } = paymentMethodSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const { paymentMethodId, userName, amount, method } = value;
@@ -64,15 +64,15 @@ const createPaymentMethod = async (req, res) => {
         });
 
         if (!paymentMethod) {
-            return res.status(400).json({ message: 'Payment Method Cannot Create' });
+            return res.status(400).json({ message: 'Payment method cannot create' });
         }
 
-        res.status(201).json({ data: paymentMethod, message: 'Payment Method Created Successfully' });
+        res.status(201).json({ data: paymentMethod, message: 'Payment method created successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -83,25 +83,25 @@ const updatePaymentMethod = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid payment Method id" });
+            return res.status(404).json({ status: 404, message: "Invalid payment method id" });
         }
 
         const { value, error } = paymentMethodSchema.validate(req.body);
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const updatedPaymentMethod = await PaymentMethod.findByIdAndUpdate(id, value, { new: true });
         if (!updatedPaymentMethod) {
-            return res.status(404).json({ status: 404, message: "Payment Method not found" });
+            return res.status(404).json({ status: 404, message: "Payment method not found" });
         }
 
-        res.status(200).json({ status: 200, data: updatedPaymentMethod, message: "Payment Method Updated Successfully" });
+        res.status(200).json({ status: 200, data: updatedPaymentMethod, message: "Payment method updated successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 }; const deletePaymentMethod = async (req, res) => {
@@ -110,20 +110,20 @@ const updatePaymentMethod = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid paymentMethod id" });
+            return res.status(404).json({ status: 404, message: "Invalid payment method id" });
         }
 
         const deletePaymentMethod = await PaymentMethod.findByIdAndDelete(id);
         if (!deletePaymentMethod) {
-            return res.status(404).json({ status: 404, message: "PaymentMethod not found" });
+            return res.status(404).json({ status: 404, message: "Payment method not found" });
         }
 
-        res.status(200).json({ status: 200, message: "PaymentMethod Deleted Successfully" });
+        res.status(200).json({ status: 200, message: "Payment method deleted successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };

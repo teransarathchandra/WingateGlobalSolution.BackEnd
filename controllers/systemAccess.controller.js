@@ -10,15 +10,15 @@ const getAllSystemAccess = async (req, res) => {
         const systemAccess = await SystemAccess.find();
 
         if (!systemAccess) {
-            res.status(404).json({ status: 404, message: 'System Access not found' });
+            res.status(404).json({ status: 404, message: 'System access not found' });
         }
 
-        res.status(200).json({ status: 200, data: systemAccess, message: 'System Access Found' });
+        res.status(200).json({ status: 200, data: systemAccess, message: 'System access found successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request cannot be processed. Please try again',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 
@@ -31,20 +31,20 @@ const getSystemAccessById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ status: 400, error: 'Invalid System Access Id' });
+            return res.status(400).json({ status: 400, message: 'Invalid system access id' });
         }
 
         const systemAccess = await SystemAccess.findById(id);
 
         if (!systemAccess) {
-            return res.status(404).json({ status: 404, message: 'System Access not Found' });
+            return res.status(404).json({ status: 404, message: 'System access not found' });
         }
 
-        res.status(200).json({ status: 200, data: systemAccess, message: 'System Access Found' });
+        res.status(200).json({ status: 200, data: systemAccess, message: 'System access found successfully' });
     } catch (err) {
         res.status(400).json({
-            error: 'Your request cannot be processed. Please try again',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 
@@ -56,7 +56,7 @@ const createSystemAccess = async (req, res) => {
         const { value, error } = systemAccessSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const { accessLevelId, description } = value;
@@ -67,15 +67,15 @@ const createSystemAccess = async (req, res) => {
         })
 
         if (!systemAccess) {
-            return res.status(400).json({ message: 'System Access Cannot Create' });
+            return res.status(400).json({ message: 'System access cannot create' });
         }
 
-        res.status(201).json({ data: systemAccess, message: 'System Access Successfully' });
+        res.status(201).json({ data: systemAccess, message: 'System access created successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request cannot be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -85,27 +85,27 @@ const updateSystemAccess = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: 'Invalid System Access Id' });
+            return res.status(404).json({ status: 404, message: 'Invalid system access id' });
         }
 
         const { value, error } = systemAccessSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const updatedSystemAccess = await SystemAccess.findByIdAndUpdate(id, value, { new: true });
 
         if (!updatedSystemAccess) {
-            return res.status(404).json({ status: 404, message: 'System Access not Found' });
+            return res.status(404).json({ status: 404, message: 'System access not found' });
         }
 
-        res.status(200).json({ status: 200, data: updatedSystemAccess, message: 'System Access Updated Successfully' });
+        res.status(200).json({ status: 200, data: updatedSystemAccess, message: 'System access updated successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request cannot be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -115,21 +115,21 @@ const deleteSystemAccess = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: 'Invalid System Access Id' });
+            return res.status(404).json({ status: 404, message: 'Invalid system access id' });
         }
 
         const deletedSystemAccess = await SystemAccess.findByIdAndDelete(id);
 
         if (!deletedSystemAccess) {
-            return res.status(404).json({ status: 404, message: 'System Access not Found' });
+            return res.status(404).json({ status: 404, message: 'System access not found' });
         }
 
-        res.status(200).json({ status: 200, message: 'System Access deleted successfully' });
+        res.status(200).json({ status: 200, message: 'System access deleted successfully' });
 
     } catch (err) {
         res.status(404).json({
-            error: 'Your request cannot be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
 
     }

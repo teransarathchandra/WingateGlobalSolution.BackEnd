@@ -13,12 +13,12 @@ const getAllPorts = async (req, res) => {
             res.status(404).json({ status: 404, message: 'Port not found' });
         }
 
-        res.status(200).json({ status: 200, data: port, message: 'Port Found' });
+        res.status(200).json({ status: 200, data: port, message: 'Port found successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request cannot be processed. Please try again',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 
@@ -31,20 +31,20 @@ const getPortById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ status: 400, error: 'Invalid Port Id' });
+            return res.status(400).json({ status: 400, message: 'Invalid Port id' });
         }
 
         const port = await Port.findById(id);
 
         if (!port) {
-            return res.status(404).json({ status: 404, message: 'Port not Found' });
+            return res.status(404).json({ status: 404, message: 'Port not found' });
         }
 
-        res.status(200).json({ status: 200, data: port, message: 'Port Found' });
+        res.status(200).json({ status: 200, data: port, message: 'Port found successfully' });
     } catch (err) {
         res.status(400).json({
-            error: 'Your request cannot be processed. Please try again',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 
@@ -56,7 +56,7 @@ const createPort = async (req, res) => {
         const { value, error } = portSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const { portId, portCode, name, type, countryId } = value;
@@ -70,15 +70,15 @@ const createPort = async (req, res) => {
         })
 
         if (!port) {
-            return res.status(400).json({ message: 'Port Cannot Create' });
+            return res.status(400).json({ message: 'Port cannot create' });
         }
 
-        res.status(201).json({ data: port, message: 'Port Created Successfully' });
+        res.status(201).json({ data: port, message: 'Port created Successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request cannot be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -88,7 +88,7 @@ const updatePort = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: 'Invalid Port Id' });
+            return res.status(404).json({ status: 404, message: 'Invalid port id' });
         }
 
         const { value, error } = portSchema.validate(req.body);
@@ -100,15 +100,15 @@ const updatePort = async (req, res) => {
         const updatedPort = await Port.findByIdAndUpdate(id, value, { new: true });
 
         if (!updatedPort) {
-            return res.status(404).json({ status: 404, message: 'Port not Found' });
+            return res.status(404).json({ status: 404, message: 'Port not found' });
         }
 
-        res.status(200).json({ status: 200, data: updatedPort, message: 'Port Updated Successfully' });
+        res.status(200).json({ status: 200, data: updatedPort, message: 'Port updated Successfully' });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request cannot be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -118,21 +118,21 @@ const deletePort = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: 'Invalid Port Id' });
+            return res.status(404).json({ status: 404, message: 'Invalid port id' });
         }
 
         const deletedPort = await Port.findByIdAndDelete(id);
 
         if (!deletedPort) {
-            return res.status(404).json({ status: 404, message: 'Port not Found' });
+            return res.status(404).json({ status: 404, message: 'Port not found' });
         }
 
         res.status(200).json({ status: 200, message: 'Port deleted successfully' });
 
     } catch (err) {
         res.status(404).json({
-            error: 'Your request cannot be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
 
     }

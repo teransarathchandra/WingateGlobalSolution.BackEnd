@@ -9,15 +9,15 @@ const getAllLoans = async (req, res) => {
         const loans = await Loan.find();
 
         if (!loans) {
-            return res.status(404).json({ status: 404, message: "Loan Not Found" });
+            return res.status(404).json({ status: 404, message: "Loan not found" });
         }
 
-        res.status(200).json({ status: 200, data: loans, message: "Loan Found" });
+        res.status(200).json({ status: 200, data: loans, message: "Loan found successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 }
@@ -29,21 +29,21 @@ const getLoanById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid Loan Id" })
+            return res.status(404).json({ status: 404, message: "Invalid loan id" })
         }
 
         const loan = await Loan.findById(id);
 
         if (!loan) {
-            return res.status(404).json({ status: 404, message: "Loan Not Found" });
+            return res.status(404).json({ status: 404, message: "Loan not found" });
         }
 
-        res.status(200).json({ status: 200, data: loan, message: "Loan Found" });
+        res.status(200).json({ status: 200, data: loan, message: "Loan found successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -55,7 +55,7 @@ const createLoan = async (req, res) => {
         const { value, error } = loanSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const { loanId, amount, interestRate, recurrence, startDate, endDate, employeeId } = value;
@@ -71,14 +71,14 @@ const createLoan = async (req, res) => {
         });
 
         if (!loan) {
-            return res.status(400).json({ message: 'Loan Cannot Create' });
+            return res.status(400).json({ message: 'Loan cannot create' });
         }
 
-        res.status(201).json({ data: loan, message: 'Loan Created Successfully' });
+        res.status(201).json({ data: loan, message: 'Loan created successfully' });
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 };
@@ -88,13 +88,13 @@ const updateLoan = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid Loan id" });
+            return res.status(404).json({ status: 404, message: "Invalid loan id" });
         }
 
         const { value, error } = loanSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, error: error });
+            return res.status(400).json({ status: 400, message: error });
         }
 
         const updatedLoan = await Loan.findByIdAndUpdate(id, value, { new: true });
@@ -103,13 +103,13 @@ const updateLoan = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Loan not found" });
         }
 
-        res.status(200).json({ status: 200, data: updatedLoan, message: "Loan Updated Successfully" });
+        res.status(200).json({ status: 200, data: updatedLoan, message: "Loan updated successfully" });
 
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 
@@ -122,7 +122,7 @@ const deleteLoan = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, error: "Invalid loan id" });
+            return res.status(404).json({ status: 404, message: "Invalid loan id" });
         }
         const deletedLoan = await Loan.findByIdAndDelete(id);
 
@@ -130,12 +130,12 @@ const deleteLoan = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Loan not found" });
 
         }
-        res.status(200).json({ status: 200, message: "Loan Deleted Successfully" });
+        res.status(200).json({ status: 200, message: "Loan deleted successfully" });
 
     } catch (err) {
         res.status(400).json({
-            error: 'Your request could not be processed. Please try again.',
-            message: err.message
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
     }
 
