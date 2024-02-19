@@ -60,9 +60,10 @@ const createRestrictedOrder = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { maxQuantity, exportLicense, importPermit, safetyDataSheets, phytosanitaryCertificate, dangerousGoodsDeclaration, categoryId, sendingCountryId, receivingCountryId } = value;
+        const { restrictedOrderId, maxQuantity, exportLicense, importPermit, safetyDataSheets, phytosanitaryCertificate, dangerousGoodsDeclaration, categoryId, sendingCountryId, receivingCountryId } = value;
 
         const restrictedOrder = await RestrictedOrder.create({
+            restrictedOrderId,
             maxQuantity,
             exportLicense,
             importPermit,
