@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const loanJoiSchema = Joi.object({
-  loanId: Joi.number().required(),
+  loanId: Joi.string(),
   amount: Joi.number().required(),
   interestRate: Joi.number().required(),
   recurrence: Joi.number().required(),
