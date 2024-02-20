@@ -57,6 +57,9 @@ router.use('/driver', driverRoutes);
 //email routes
 router.use('/email', emailRoutes);
 
+//employee routes
+router.use('/employee', employeeRoutes);
+
 //item routes
 router.use('/item', itemRoutes);
 
@@ -86,6 +89,9 @@ router.use('/receiver', receiverRoutes);
 
 //reminder routes
 router.use('/reminder', reminderRoutes);
+
+//required document routes
+router.use('/requiredDocument', requiredDocumentRoutes)
 
 //restrictedOrder routes
 router.use('/restrictedOrder', restrictedOrderRoutes);
