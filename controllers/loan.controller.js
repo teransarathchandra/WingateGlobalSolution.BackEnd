@@ -58,10 +58,9 @@ const createLoan = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { loanId, amount, interestRate, recurrence, startDate, endDate, employeeId } = value;
+        const { amount, interestRate, recurrence, startDate, endDate, employeeId } = value;
 
         const loan = await Loan.create({
-            loanId,
             amount,
             interestRate,
             recurrence,

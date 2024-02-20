@@ -58,10 +58,9 @@ const createStock = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { stockId, city, country, warehouseId, bulkId } = value;
+        const { city, country, warehouseId, bulkId } = value;
 
         const stock = await Stock.create({
-            stockId,
             city, 
             country, 
             warehouseId, 

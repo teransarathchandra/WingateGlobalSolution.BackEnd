@@ -54,10 +54,9 @@ const createPaymentMethod = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { paymentMethodId, userName, amount, method } = value;
+        const { userName, amount, method } = value;
 
         const paymentMethod = await PaymentMethod.create({
-            paymentMethodId,
             userName,
             amount,
             method,

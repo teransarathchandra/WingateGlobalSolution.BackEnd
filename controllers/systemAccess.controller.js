@@ -59,10 +59,9 @@ const createSystemAccess = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { accessLevelId, description } = value;
+        const { description } = value;
 
         const systemAccess = await SystemAccess.create({
-            accessLevelId,
             description
         })
 

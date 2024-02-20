@@ -58,10 +58,9 @@ const createRequiredDocument = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { requiredDocumentId, documentType, documentPath, itemId } = value;
+        const { documentType, documentPath, itemId } = value;
 
         const requiredDocument = await RequiredDocument.create({
-            requiredDocumentId,
             documentType,
             documentPath,
             itemId
