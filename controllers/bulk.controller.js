@@ -59,14 +59,12 @@ const createBulk = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { bulkId, currentLocation, arrivedTime, status, vehicleAssignedDate, vehicleId } = value;
+        const { currentLocation, arrivedTime, status, vehicleId } = value;
 
         const bulk = await Bulk.create({
-            bulkId,
             currentLocation,
             arrivedTime,
             status,
-            vehicleAssignedDate,
             vehicleId
 
         })
@@ -75,7 +73,7 @@ const createBulk = async (req, res) => {
             return res.status(400).json({ message: 'Bulk cannot create' });
         }
 
-        res.status(201).json({ data: Bulk, message: 'Bulk created successfully' });
+        res.status(201).json({ data: bulk, message: 'Bulk created successfully' });
 
     } catch (err) {
         res.status(400).json({

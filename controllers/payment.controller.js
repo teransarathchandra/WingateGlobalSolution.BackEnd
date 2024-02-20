@@ -54,10 +54,9 @@ const createPayment = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { paymentId, paymentDescription, amount, paymentMethod, paymentStatus, orderId } = value;
+        const { paymentDescription, amount, paymentMethod, paymentStatus, orderId } = value;
 
         const payment = await Payment.create({
-            paymentId,
             paymentDescription,
             amount,
             paymentMethod,

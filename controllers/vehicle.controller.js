@@ -63,19 +63,20 @@ const createVehicle = async (req, res) => {
       return res.status(400).json({ status: 400, message: error });
     }
 
-    const { vehicleId, vehicleType, availability } = value;
+    const { vehicleType, availability, vehicleAssignedDate, routeId } = value;
 
     const vehicle = await Vehicle.create({
-      vehicleId,
       vehicleType,
       availability,
+      vehicleAssignedDate,
+      routeId
     });
 
     if (!vehicle) {
       return res.status(400).json({ message: "Vehicle cannot create" });
     }
 
-    res.status(201).json({ message: "Vehicle created successfully" });
+    res.status(201).json({data: vehicle, message: "Vehicle created successfully" });
   } catch (err) {
       res.status(400).json({
       error: err.message,

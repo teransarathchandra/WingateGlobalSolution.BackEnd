@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+const { getNextSequence } = require("../helpers");
+
 const paymentSchema = new Schema(
   {
     paymentId: {
-      type: Number,
-      required: true,
+      type: String,
       unique: true,
     },
     paymentDescription: {
@@ -34,5 +35,13 @@ const paymentSchema = new Schema(
   },
   { timestamps: true }
 );
+
+paymentSchema.pre("save", async function (next) {
+  if (this.isNew) {
+    const nextId = await getNextSequence("payment");
+    this.paymentId = `PAYMNT${nextId}`;
+  }
+  next();
+});
 
 module.exports = model("payment", paymentSchema);

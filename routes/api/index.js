@@ -1,27 +1,58 @@
 const router = require('express').Router();
 
+const bulkRoutes = require('./bulk.route');
+const categoryRoutes = require('./category.route');
+const commercialInvoiceRoutes = require('./commercialInvoice.route');
+const contactPersonRoutes = require('./contactPerson.route');
+const countryRoutes = require('./country.route');
+const customerRoutes = require('./customer.route');
+const designationRoutes = require('./designation.route');
+const driverRoutes = require('./driver.route');
 const emailRoutes = require('./email.route');
 const employeeRoutes = require('./employee.route');
-const categoryRoutes = require('./category.route');
-const vehicleRoutes = require('./vehicle.route');
-const portRoutes = require('./port.route');
-const bulkRoutes = require('./bulk.route');
 const itemRoutes = require('./item.route');
-const restrictedOrderRoutes = require('./restrictedOrder.route');
-const requiredDocumentRoutes = require('./requiredDocument.route');
-const countryRoutes = require('./country.route');
-const routeRoutes = require('./route.route');
-const userRoutes = require('./user.route');
-const customerRoutes = require('./customer.route');
-const contactPersonRoutes = require('./contactPerson.route');
-const systemAccessRoutes = require('./systemAccess.route');
-const designationRoutes = require('./designation.route');
 const loanRoutes = require('./loan.route');
-const driverRoutes = require('./driver.route');
-const warehouseRoutes = require('./warehouse.route');
-const paymentRoutes = require('./payment.route');
-const quotationRoutes = require('./quotation.route');
+const orderRoutes = require('./order.route');
+const packageTypeRoutes = require('./packageType.route');
 const paymentMethodRoutes = require('./paymentMethod.route');
+const paymentRoutes = require('./payment.route');
+const portRoutes = require('./port.route');
+const quotationRoutes = require('./quotation.route');
+const receiverRoutes = require('./receiver.route');
+const reminderRoutes = require('./reminder.route');
+const requiredDocumentRoutes = require('./requiredDocument.route');
+const restrictedOrderRoutes = require('./restrictedOrder.route');
+const routeRoutes = require('./route.route');
+const salesRoutes = require('./sales.route');
+const stockRoutes = require('./stock.route');
+const systemAccessRoutes = require('./systemAccess.route');
+const userRoutes = require('./user.route');
+const vehicleRoutes = require('./vehicle.route');
+const warehouseRoutes = require('./warehouse.route');
+
+//bulk routes
+router.use('/bulk', bulkRoutes);
+
+//category routes
+router.use('/category', categoryRoutes);
+
+//commercialInvoice routes
+router.use('/commercialInvoice', commercialInvoiceRoutes);
+
+//contactPerson routes
+router.use('/contactPerson', contactPersonRoutes);
+
+//country routes
+router.use('/country', countryRoutes);
+
+//customer routes
+router.use('/customer', customerRoutes);
+
+//designation routes
+router.use('/designation', designationRoutes);
+
+//driver routes
+router.use('/driver', driverRoutes);
 
 //email routes
 router.use('/email', emailRoutes);
@@ -29,64 +60,62 @@ router.use('/email', emailRoutes);
 //employee routes
 router.use('/employee', employeeRoutes);
 
-//category routes
-router.use('/category', categoryRoutes)
+//item routes
+router.use('/item', itemRoutes);
 
-//user routes
-router.use('/user', userRoutes);
+//loan routes
+router.use('/loan', loanRoutes);
 
-//customer routes
-router.use('/customer', customerRoutes);
+//order routes
+router.use('/order', orderRoutes);
 
-//driver routes
-router.use('/driver', driverRoutes)
+//packageType routes
+router.use('/packageType', packageTypeRoutes);
 
-//warehouse routes
-router.use('/warehouse', warehouseRoutes)
+//payment routes
+router.use('/payment', paymentRoutes);
 
-//vehicle routes
-router.use('/vehicle', vehicleRoutes);
+//paymentMethod routes
+router.use('/paymentMethod', paymentMethodRoutes);
 
 //port routes
-router.use('/port', portRoutes)
+router.use('/port', portRoutes);
 
-//bulk routes
-router.use('/bulk', bulkRoutes)
+//quotation routes
+router.use('/quotation', quotationRoutes);
 
-//item routes
-router.use('/item', itemRoutes)
+//receiver routes
+router.use('/receiver', receiverRoutes);
 
-//restricted order routes
-router.use('/restrictedOrder', restrictedOrderRoutes)
+//reminder routes
+router.use('/reminder', reminderRoutes);
 
 //required document routes
 router.use('/requiredDocument', requiredDocumentRoutes)
 
-//country routes
-router.use('/country', countryRoutes)
-
-//contactPerson routes
-router.use('/contactPerson', contactPersonRoutes)
+//restrictedOrder routes
+router.use('/restrictedOrder', restrictedOrderRoutes);
 
 //route routes
-router.use('/route', routeRoutes)
+router.use('/route', routeRoutes);
 
-//system access routes
-router.use('/systemAccess', systemAccessRoutes)
+//sales routes
+router.use('/sales', salesRoutes);
 
-//designation routes
-router.use('/designation', designationRoutes)
+//stock routes
+router.use('/stock', stockRoutes);
 
-//loans routes
-router.use('/loan', loanRoutes)
+//systemAccess routes
+router.use('/systemAccess', systemAccessRoutes);
 
-//payment routes
-router.use('/payment', paymentRoutes)
+//user routes
+router.use('/user', userRoutes);
 
-//quotation routes
-router.use('/quotation', quotationRoutes)
+//vehicle routes
+router.use('/vehicle', vehicleRoutes);
 
-//paymentMethod routes
-router.use('/paymentMethod', paymentMethodRoutes)
+//warehouse routes
+router.use('/warehouse', warehouseRoutes);
+
 
 module.exports = router;

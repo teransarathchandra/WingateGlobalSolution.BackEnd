@@ -1,7 +1,6 @@
 const Joi = require('joi');
 
 const countryJoiSchema = Joi.object({
-  countryId: Joi.number().required(),
   countryCode: Joi.string().required().min(2).max(5),
   name: Joi.string().required().min(10).max(255),
   mobileCode: Joi.string().required().min(2).max(10),

@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+const { getNextSequence } = require("../helpers");
+
 const routeSchema = new Schema(
   {
     routeId: {
-      type: Number,
-      required: true,
+      type: String,
       unique: true,
     },
     transportMode: {
@@ -44,4 +45,11 @@ const routeSchema = new Schema(
   { timestamps: true }
 );
 
+routeSchema.pre("save", async function(next) {
+  if (this.isNew) {
+    const nextId = await getNextSequence('route');
+    this.routeId = `RT${nextId}`;
+  }
+  next();
+});
 module.exports = model("route", routeSchema);

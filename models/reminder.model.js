@@ -1,12 +1,16 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+const { getNextSequence } = require("../helpers");
+
 const reminderSchema = new Schema(
   {
     reminderId: {
-      type: Number,
-      required: true,
-      unique: true,
+      type: String,
+    },
+    reminderType: {
+      type: String,
+      maxLength: 255,
     },
     reminderDescription: {
       type: String,
@@ -16,6 +20,9 @@ const reminderSchema = new Schema(
       type: Date,
       required: true,
     },
+    offer: {
+      type: Number,
+    },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
@@ -24,5 +31,13 @@ const reminderSchema = new Schema(
   },
   { timestamps: true }
 );
+
+reminderSchema.pre("save", async function(next) {
+  if (this.isNew) {
+    const nextId = await getNextSequence('reminder');
+    this.reminderId = `REM${nextId}`;
+  }
+  next();
+});
 
 module.exports = model("reminder", reminderSchema);

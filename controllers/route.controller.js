@@ -58,10 +58,9 @@ const createRoute = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { routeId, transportMode, distance, priority, roundTripDays, routeShippingCost, startingPortId, endingPortId } = value;
+        const { transportMode, distance, priority, roundTripDays, routeShippingCost, startingPortId, endingPortId } = value;
 
         const route = await Route.create({
-            routeId,
             transportMode,
             distance,
             priority,

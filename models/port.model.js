@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+const { getNextSequence } = require("../helpers");
+
 const portSchema = new Schema(
   {
     portId: {
-      type: Number,
-      required: true,
+      type: String,
       unique: true,
     },
     portCode: {
@@ -36,4 +37,11 @@ const portSchema = new Schema(
   { timestamps: true }
 );
 
+portSchema.pre("save", async function (next) {
+  if (this.isNew) {
+    const nextId = await getNextSequence("port");
+    this.portId = `PORT${nextId}`;
+  }
+  next();
+});
 module.exports = model("port", portSchema);

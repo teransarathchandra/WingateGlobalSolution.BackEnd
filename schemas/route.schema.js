@@ -1,7 +1,6 @@
 const Joi = require('joi');
 
 const routeJoiSchema = Joi.object({
-  routeId: Joi.number().required(),
   transportMode: Joi.string().max(10).required(),
   distance: Joi.number().required(),
   priority: Joi.string().required(),

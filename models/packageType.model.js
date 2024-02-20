@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+const { getNextSequence } = require("../helpers");
+
 const packageTypeSchema = new Schema(
   {
     packageId: {
       type: String,
-      required: true,
       unique: true,
     },
     packageName: {
       type: String,
       maxLength: 100,
-      minLength: 10,
       required: true,
     },
     packagingCost: {
@@ -39,12 +39,20 @@ const packageTypeSchema = new Schema(
       type: Number,
       min: 0,
     },
-    packageType: {
+    type: {
       type: String,
       required: true,
     },
   },
   { timestamps: true }
 );
+
+packageTypeSchema.pre("save", async function(next) {
+  if (this.isNew) {
+    const nextId = await getNextSequence('packageType');
+    this.packageId = `PCKTYP${nextId}`;
+  }
+  next();
+});
 
 module.exports = model("packageType", packageTypeSchema);

@@ -1,6 +1,7 @@
 const Joi = require('joi');
 
 const registerSchema = Joi.object({
+  contactPersonId:Joi.string(),
   customerId: Joi.string().required(),
   contactPerson: Joi.string().required().max(50),
   contactNumber: Joi.number().required().integer(),
@@ -8,9 +9,10 @@ const registerSchema = Joi.object({
 });
 
 const updateSchema = Joi.object({
-  contactPerson: Joi.string().required().max(50),
-  contactNumber: Joi.number().required().integer(),
-  email: Joi.string().required()
+  customerId: Joi.string(),
+  contactPerson: Joi.string().max(50),
+  contactNumber: Joi.number().integer(),
+  email: Joi.string()
 });
 
 module.exports = { registerSchema, updateSchema };
