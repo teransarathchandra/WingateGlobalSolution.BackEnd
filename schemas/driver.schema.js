@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const driverJoiSchema = Joi.object({
-    driverId: Joi.string().required(),
+    employeeId: Joi.string().required(),
     warehouseId: Joi.string().required() 
 });
 

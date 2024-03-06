@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+const { getNextSequence } = require("../helpers");
+
 const categorySchema = new Schema(
   {
     categoryId: {
-      type: Number,
-      required: true,
+      type: String,
       unique: true,
     },
     name: {
@@ -30,5 +31,13 @@ const categorySchema = new Schema(
   },
   { timestamps: true }
 );
+
+categorySchema.pre("save", async function(next) {
+  if (this.isNew) {
+    const nextId = await getNextSequence('category');
+    this.categoryId = `CATGRY${nextId}`;
+  }
+  next();
+});
 
 module.exports = model("category", categorySchema);

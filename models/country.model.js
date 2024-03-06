@@ -2,11 +2,12 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+const { getNextSequence } = require("../helpers");
+
 const countrySchema = new Schema(
   {
     countryId: {
-      type: Number,
-      required: true,
+      type: String,
       unique: true,
     },
     countryCode: {
@@ -45,4 +46,11 @@ const countrySchema = new Schema(
   { timestamps: true }
 );
 
+countrySchema.pre("save", async function(next) {
+  if (this.isNew) {
+    const nextId = await getNextSequence('country');
+    this.countryId = `CNTRY${nextId}`;
+  }
+  next();
+});
 module.exports = model("country", countrySchema);

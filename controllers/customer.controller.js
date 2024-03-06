@@ -56,11 +56,12 @@ const createCustomer = async (req, res) => {
             BadRequestError(error);
         }
 
-        const { priorityLevel, customerId } = value;
+        const { userId, priorityLevel, birthday } = value;
 
         const customer = await Customer.create({
+            userId,
             priorityLevel,
-            customerId
+            birthday
         });
 
         if (!customer) {

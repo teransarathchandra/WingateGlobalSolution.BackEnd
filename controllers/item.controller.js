@@ -55,10 +55,9 @@ const createItem = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { itemId, name, description, weight, itemValue, orderId, categoryId } = value;
+        const { name, description, weight, itemValue, orderId, categoryId } = value;
 
         const item = await Item.create({
-            itemId,
             name,
             description,
             weight,

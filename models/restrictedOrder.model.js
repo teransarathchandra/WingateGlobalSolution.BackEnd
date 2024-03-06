@@ -61,5 +61,5 @@ restrictedOrdersSchema.pre("save", async function(next) {
   next();
 });
 
-module.exports = model("restricted_orders", restrictedOrdersSchema , "restrictedOrders" );
+module.exports = model("restrictedOrders", restrictedOrdersSchema , "restrictedOrders" );
 

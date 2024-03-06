@@ -59,10 +59,9 @@ const createPort = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { portId, portCode, name, type, countryId } = value;
+        const { portCode, name, type, countryId } = value;
 
         const port = await Port.create({
-            portId,
             portCode,
             name,
             type,

@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+const { getNextSequence } = require("../helpers");
+
 const vehicleSchema = new Schema(
   {
     vehicleId: {
-      type: Number,
-      required: true,
+      type: String,
       unique: true,
     },
     vehicleType: {
@@ -16,8 +17,24 @@ const vehicleSchema = new Schema(
       type: Boolean,
       required: true,
     },
+    vehicleAssignedDate: {
+      type: Date,
+      required: true,
+    },
+    routeId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "route",
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
+vehicleSchema.pre("save", async function(next) {
+  if (this.isNew) {
+    const nextId = await getNextSequence('vehicle');
+    this.vehicleId = `VHCL${nextId}`;
+  }
+  next();
+});
 module.exports = model("vehicle", vehicleSchema);

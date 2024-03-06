@@ -9,14 +9,14 @@ const nameSchema = new Schema(
             type: String,
             required: true,
             maxLength: 255,
-            minLength: 5,
+            minLength: 2,
             match: regExp.name,
         },
         lastName: {
             type: String,
             required: true,
             maxLength: 255,
-            minLength: 5,
+            minLength: 2,
             match: regExp.name,
         }
     }

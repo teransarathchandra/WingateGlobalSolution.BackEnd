@@ -55,10 +55,10 @@ const createDriver = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { driverId, warehouseId } = value;
+        const { employeeId, warehouseId } = value;
 
         const driver = await Driver.create({
-            driverId,
+            employeeId,
             warehouseId,
 
         });

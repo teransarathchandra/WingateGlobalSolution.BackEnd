@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
+const { getNextSequence } = require("../helpers");
+
 const quotationSchema = new Schema(
   {
     quotationId: {
-      type: Number,
-      required: true,
+      type: String,
       unique: true,
     },
     packagingCost: {
@@ -36,5 +37,13 @@ const quotationSchema = new Schema(
   },
   { timestamps: true }
 );
+
+quotationSchema.pre("save", async function (next) {
+  if (this.isNew) {
+    const nextId = await getNextSequence("quotation");
+    this.quotationId = `QUOT${nextId}`;
+  }
+  next();
+});
 
 module.exports = model("quotation", quotationSchema);

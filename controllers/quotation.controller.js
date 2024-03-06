@@ -55,10 +55,9 @@ const createQuotation = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { quotationId, packagingCost, routeCost, unitWeightCost, surcharge, orderId } = value;
+        const { packagingCost, routeCost, unitWeightCost, surcharge, orderId } = value;
 
         const quotation = await Quotation.create({
-            quotationId,
             packagingCost,
             routeCost,
             unitWeightCost,
