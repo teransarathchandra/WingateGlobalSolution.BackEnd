@@ -4,7 +4,7 @@ const { Schema, model } = mongoose;
 const bulkSchema = new Schema(
   {
     bulkId: {
-      type: Number,
+      type: String,
       required: true,
       unique: true,
     },
