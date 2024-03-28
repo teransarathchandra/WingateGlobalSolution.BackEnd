@@ -200,6 +200,7 @@ const loginEmployee = async (req, res) => {
         const { accessToken, refreshToken } = employee.signToken();
         await Employee.findByIdAndUpdate(employee._id, { $set: { refreshToken: refreshToken } }, { new: true });
 
+        res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
         res.json({
             status: 200,
             accessToken,

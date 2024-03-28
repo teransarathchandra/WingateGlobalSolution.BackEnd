@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
-
 const { User } = require('../models');
 const { userSchema } = require('../schemas');
 const { hashedPassword, BadRequestError, sendEmail, verifyGoogleToken } = require('../helpers');
+const { frontEndHostConfig } = require('../config')
 const { emailTemplates } = require('../constants');
+const { generateVerificationToken } = require('../utils');
 
 const getAllUsers = async (req, res) => {
 
@@ -75,6 +76,13 @@ const createUser = async (req, res) => {
             password,
         });
 
+        if (!user) {
+            return res.status(400).json({ message: 'User cannot create' });
+        }
+
+        // Generate verification token
+        const verificationToken = generateVerificationToken();
+        user.verificationToken = verificationToken;
 
         // Generate access and refresh tokens
         const { accessToken, refreshToken } = user.signToken();
@@ -83,21 +91,25 @@ const createUser = async (req, res) => {
         user.refreshToken = refreshToken;
         await user.save();
 
-
-        if (!user) {
-            return res.status(400).json({ message: 'User cannot create' });
-        }
-
         // sending response exclude the password and refresh token
         const userData = user.toObject();
         delete userData.password;
+        delete userData.accessToken;
         delete userData.refreshToken;
+
+        const verificationLink = `${frontEndHostConfig.verificationLinkHost}/verify-email/${verificationToken}`;
 
         await sendEmail({
             to: email,
-            subject: "Welcome to Wingate Global Solution!",
-            html: emailTemplates.signUpEmailHTML(name.firstName),
+            subject: "Verify Your Email",
+            html: emailTemplates.emailVerification({ name: name.firstName, link: verificationLink }),
         });
+
+        // await sendEmail({
+        //     to: email,
+        //     subject: "Welcome to Wingate Global Solution!",
+        //     html: emailTemplates.signUpEmailHTML(name.firstName),
+        // });
 
         res.status(201).json({ accessToken, data: userData, message: 'User created successfully' });
 
@@ -187,6 +199,7 @@ const loginUser = async (req, res) => {
         const { accessToken, refreshToken } = user.signToken();
         await User.findByIdAndUpdate(user._id, { $set: { refreshToken: refreshToken } }, { new: true });
 
+        res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
         res.json({
             status: 200,
             accessToken,
@@ -232,6 +245,7 @@ const googleSignIn = async (req, res) => {
 
         // Update refreshToken in the database if necessary
         // Respond with tokens and user information (excluding sensitive information)
+        res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
         res.status(200).json({
             accessToken,
             refreshToken,
@@ -248,10 +262,10 @@ const googleSignIn = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
-    const { id } = req.body;
 
     try {
-        // Invalidate the refresh token by setting it to null or removing it
+        const { id } = req.body;
+
         await User.findByIdAndUpdate(id, { $unset: { refreshToken: "" } });
 
         res.status(200).json({ message: "Logout successful." });
@@ -259,6 +273,34 @@ const logoutUser = async (req, res) => {
         res.status(500).json({ message: "An error occurred during logout." });
     }
 }
+
+const verifyEmail = async (req, res) => {
+    try {
+        const token = req.params.token;
+        if (!token) {
+            return res.status(400).json({ message: 'Invalid or expired verification token' });
+        }
+
+        const user = await User.findOne({ verificationToken: token });
+        if (!user) {
+            return res.status(200).json({ message: 'Invalid verification token or Email is already verified.' });
+        }
+
+        user.emailVerified = true;
+        user.verificationToken = undefined; // Clear the verification token
+        await user.save();
+
+        await sendEmail({
+            to: user.email,
+            subject: "Welcome to Wingate Global Solution!",
+            html: emailTemplates.signUpEmailHTML(user.name.firstName),
+        });
+
+        res.status(200).json({ message: 'Email verified successfully' });
+    } catch (err) {
+        res.status(500).json({ message: 'An error occurred', error: err.message });
+    }
+};
 
 const refreshAccessToken = async (req, res) => {
     const { refreshToken } = req.body; // Assuming the refresh token is sent in the body
@@ -290,4 +332,4 @@ const refreshAccessToken = async (req, res) => {
     }
 };
 
-module.exports = { getAllUsers, getUserById, createUser, updateUser, deleteUser, loginUser, googleSignIn, logoutUser, refreshAccessToken };
+module.exports = { getAllUsers, getUserById, createUser, updateUser, deleteUser, loginUser, googleSignIn, logoutUser, verifyEmail, refreshAccessToken };
