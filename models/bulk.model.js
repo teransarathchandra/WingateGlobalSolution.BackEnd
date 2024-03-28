@@ -18,12 +18,20 @@ const bulkSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ["In Progress", "Arrived", "Delivered"],
+      enum: ["In Progress", "Completed"],
     },
-    vehicleId: {
+    destinationCountry: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "vehicle",
+      ref: "country",
       required: true,
+    },
+    flightId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "flight",
+      required: true,
+    },
+    masterAirwayBillId: {
+      type: String,
     },
   },
   { timestamps: true }

@@ -59,13 +59,16 @@ const createBulk = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { currentLocation, arrivedTime, status, vehicleId } = value;
+        const { currentLocation, arrivedTime, status, destinationCountry, flightId, masterAirwayBillId } = value;
 
         const bulk = await Bulk.create({
             currentLocation,
             arrivedTime,
             status,
-            vehicleId
+            destinationCountry,
+            flightId,
+            masterAirwayBillId
+
 
         })
 
