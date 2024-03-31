@@ -27,9 +27,10 @@ const systemAccessSchema = require('./systemAccess.schema');
 const userSchema = require('./user.schema');
 const vehicleSchema = require('./vehicle.schema');
 const wareHouseSchema = require('./warehouse.schema');
+const flightSchema = require('./flight.schema');
 
 module.exports = {
     bulkSchema, categorySchema, commercialInvoiceSchema, contactPersonSchema, countrySchema, customerSchema, designationSchema, driverSchema, emailSchema,
     employeeSchema, itemSchema, loanSchema, orderSchema, packageTypeSchema, paymentSchema, paymentMethodSchema, portSchema, quotationSchema, receiverSchema,
-    reminderSchema, requiredDocumentSchema, restrictedOrderSchema, routeSchema, salesSchema, stockSchema, systemAccessSchema, userSchema, vehicleSchema, wareHouseSchema
+    reminderSchema, requiredDocumentSchema, restrictedOrderSchema, routeSchema, salesSchema, stockSchema, systemAccessSchema, userSchema, vehicleSchema, wareHouseSchema, flightSchema
 };

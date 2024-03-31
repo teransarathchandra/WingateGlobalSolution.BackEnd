@@ -8,7 +8,7 @@ const bulkJoiSchema = Joi.object({
   status: Joi.string().valid('In Progress', 'Completed'),
   destinationCountry: Joi.string().required(),
   masterAirwayBillId: Joi.string(),
-  flightId: Joi.string().required
+  flightId: Joi.string().required()
 });
 
 module.exports = bulkJoiSchema;

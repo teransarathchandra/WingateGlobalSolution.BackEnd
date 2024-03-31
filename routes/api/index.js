@@ -29,6 +29,7 @@ const systemAccessRoutes = require('./systemAccess.route');
 const userRoutes = require('./user.route');
 const vehicleRoutes = require('./vehicle.route');
 const warehouseRoutes = require('./warehouse.route');
+const flightRoutes = require('./flight.route');
 
 //bulk routes
 router.use('/bulk', bulkRoutes);
@@ -116,6 +117,9 @@ router.use('/vehicle', vehicleRoutes);
 
 //warehouse routes
 router.use('/warehouse', warehouseRoutes);
+
+//flight routes
+router.use('/flight', flightRoutes);
 
 
 module.exports = router;
