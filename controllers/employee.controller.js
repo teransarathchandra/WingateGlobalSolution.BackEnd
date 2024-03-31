@@ -203,8 +203,6 @@ const loginEmployee = async (req, res) => {
         res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
         res.json({
             status: 200,
-            accessToken,
-            refreshToken,
             employee: {
                 name: employee.name,
                 email: employee.email,

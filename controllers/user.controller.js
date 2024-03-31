@@ -202,8 +202,6 @@ const loginUser = async (req, res) => {
         res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
         res.json({
             status: 200,
-            accessToken,
-            refreshToken,
             user: {
                 firstName: user.firstName,
                 email: user.email,
@@ -242,14 +240,15 @@ const googleSignIn = async (req, res) => {
 
         // Sign a JWT token or perform any other sign in logic you have
         const { accessToken, refreshToken } = user.signToken();
-
-        // Update refreshToken in the database if necessary
-        // Respond with tokens and user information (excluding sensitive information)
+        await User.findByIdAndUpdate(user._id, { $set: { refreshToken: refreshToken } }, { new: true });
+        
         res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
         res.status(200).json({
-            accessToken,
-            refreshToken,
-            data: user,
+            user: {
+                firstName: user.firstName,
+                email: user.email,
+                contactNumber: user.contactNumber
+            },
             message: 'User logged in successfully'
         });
 
