@@ -58,15 +58,13 @@ const createCountry = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { countryCode, name, mobileCode, currency, exchangeRate } = value;
+        const { countryCode, name, currency } = value;
 
         const country = await Country.create({
 
             countryCode,
             name,
-            mobileCode,
             currency,
-            exchangeRate
         });
 
         if (!country) {

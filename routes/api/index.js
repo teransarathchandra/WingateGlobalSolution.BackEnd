@@ -20,11 +20,11 @@ const portRoutes = require('./port.route');
 const quotationRoutes = require('./quotation.route');
 const receiverRoutes = require('./receiver.route');
 const reminderRoutes = require('./reminder.route');
-const requiredDocumentRoutes = require('./requiredDocument.route');
 const restrictedOrderRoutes = require('./restrictedOrder.route');
 const routeRoutes = require('./route.route');
 const salesRoutes = require('./sales.route');
 const stockRoutes = require('./stock.route');
+const submittedDocumentRoutes = require('./submittedDocument.route');
 const systemAccessRoutes = require('./systemAccess.route');
 const userRoutes = require('./user.route');
 const vehicleRoutes = require('./vehicle.route');
@@ -93,7 +93,7 @@ router.use('/receiver', receiverRoutes);
 router.use('/reminder', reminderRoutes);
 
 //required document routes
-router.use('/requiredDocument', requiredDocumentRoutes)
+router.use('/submittedDocument', submittedDocumentRoutes)
 
 //restrictedOrder routes
 router.use('/restrictedOrder', restrictedOrderRoutes);

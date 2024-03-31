@@ -19,29 +19,19 @@ const countrySchema = new Schema(
     },
     name: {
       type: String,
-      required: true,
       maxLength: 255,
       minLength: 10,
       unique: true,
     },
-    mobileCode: {
-      type: String,
-      required: true,
-      maxLength: 10,
-      minLength: 3,
-      unique: true,
-    },
+  
     currency: {
       type: String,
       required: true,
       maxLength: 5,
       minLength: 1,
-      unique: true,
+  
     },
-    exchangeRate: {
-      type: Number,
-      required: true,
-    },
+    
   },
   { timestamps: true }
 );
