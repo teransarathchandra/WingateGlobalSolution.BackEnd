@@ -52,7 +52,7 @@ const getOrderById = async (req, res) => {
 const createOrder = async (req, res) => {
 
     try {
-        const { value, error } = orderSchema.validate(req.body);
+        const { value, error } = orderSchema.createOrderJoiSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, message: error });
@@ -91,13 +91,13 @@ const updateOrder = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Invalid order id" });
         }
 
-        const { value, error } = orderSchema.validate(req.body);
+        const { value, error } = orderSchema.updateOrderJoiSchema.validate(req.body);
 
         if (error) {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const updatedOrder = await Order.findByIdAndUpdate(id, value, { new: true });
+        const updatedOrder = await Order.findByIdAndUpdate({_id: id}, value, { new: true });
 
         if (!updatedOrder) {
             return res.status(404).json({ status: 404, message: "Order not found" });
