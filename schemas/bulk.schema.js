@@ -2,13 +2,13 @@ const Joi = require('joi');
 
 const bulkJoiSchema = Joi.object({
 
-  bulkId: Joi.string().required(),
+  bulkId: Joi.string(),
   currentLocation: Joi.string(),
   arrivedTime: Joi.string(),
   status: Joi.string().valid('In Progress', 'Completed'),
-  destinationCountry: Joi.string().required(),
+  destinationCountry: Joi.string(),
   masterAirwayBillId: Joi.string(),
-  flightId: Joi.string().required()
+  flightId: Joi.string()
 });
 
 module.exports = bulkJoiSchema;

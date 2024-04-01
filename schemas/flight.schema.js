@@ -1,14 +1,14 @@
 const Joi = require('joi');
 
 const flightJoiSchema = Joi.object({
-  flightId: Joi.string().required(),
+  flightId: Joi.string(),
   type: Joi.string(),
   routeCostPerKilo: Joi.number(),
-  arrival: Joi.string().required(),
+  arrival: Joi.string(),
   arrivalTime: Joi.string(),
-  departure: Joi.string().required(),
+  departure: Joi.string(),
   departureTime: Joi.string(),
-  AirlineId: Joi.string().required()
+  AirlineId: Joi.string()
 });
 
 module.exports = flightJoiSchema;

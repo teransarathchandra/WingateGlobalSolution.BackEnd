@@ -23,12 +23,12 @@ const bulkSchema = new Schema(
     destinationCountry: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "country",
-      required: true,
+     // required: true,
     },
     flightId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "flight",
-      required: true,
+      //required: true,
     },
     masterAirwayBillId: {
       type: String,

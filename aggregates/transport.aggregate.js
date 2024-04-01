@@ -12,7 +12,7 @@ const aggType = [
       }
     }, {
       '$project': {
-        '_id': 0, 
+        '_id': 1, 
         'bulkId': 1, 
         'masterAirwayBillId': 1, 
         'flightId': '$flightInfo.flightId'
@@ -34,7 +34,7 @@ const aggType = [
       }
     }, {
       '$project': {
-        '_id': 0, 
+        '_id': 1, 
         'flightId': 1, 
         'type': 1, 
         'routeCostPerKilo': 1, 

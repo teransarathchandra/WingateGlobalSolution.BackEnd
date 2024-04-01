@@ -10,7 +10,7 @@ const getAllBulks = async (req, res) => {
         let bulk
         const { type } = req.query;
 
-        if( type == 'flightIds'){
+        if( type == 'bulkIds'){
             bulk = await Bulk.aggregate(transportAgg.aggType);
         }else {
             bulk = await Bulk.find();

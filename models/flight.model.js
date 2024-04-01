@@ -15,27 +15,30 @@ const flightSchema = new Schema(
     },
     routeCostPerKilo: {
       type: Number,
+      
     },
     arrival: {
       type: String,
-      required: true
+      
     },
     arrivalTime: {
       type: String,
       
+      
     },
     departure: {
         type: String,
-        required: true
+        
       },
       departureTime: {
         type: String,
+        
         
       },
     AirlineId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "airline",
-      required: true,
+     
     },
   },
   { timestamps: true }
