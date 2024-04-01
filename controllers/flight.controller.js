@@ -2,12 +2,21 @@ const mongoose = require('mongoose');
 
 const { Flight } = require('../models');
 const { flightSchema } = require('../schemas');
+const { transportAgg } = require('../aggregates');
 
 const getAllFlights = async (req, res) => {
 
     try {
 
-        const flight = await Flight.find();
+        let flight 
+         const { type } = req.query;
+         if( type == 'airlineIds'){
+            flight = await Flight.aggregate(transportAgg.aggFlight);
+        }else {
+            flight = await Flight.find();
+        }
+
+        
 
         if (!flight) {
             res.status(404).json({ status: 404, message: 'Flight not found' });

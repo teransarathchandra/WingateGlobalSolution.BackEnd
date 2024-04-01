@@ -21,7 +21,7 @@ const flightSchema = new Schema(
       required: true
     },
     arrivalTime: {
-      type: Date,
+      type: String,
       
     },
     departure: {
@@ -29,7 +29,7 @@ const flightSchema = new Schema(
         required: true
       },
       departureTime: {
-        type: Date,
+        type: String,
         
       },
     AirlineId: {
@@ -41,12 +41,5 @@ const flightSchema = new Schema(
   { timestamps: true }
 );
 
-flightSchema.pre("save", async function(next) {
-  if (this.isNew) {
-    const nextId = await getNextSequence('flight');
-    this.flightId = `FLIGHT${nextId}`;
-  }
-  next();
-});
 
 module.exports = model("flight", flightSchema);

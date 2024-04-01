@@ -5,9 +5,9 @@ const flightJoiSchema = Joi.object({
   type: Joi.string(),
   routeCostPerKilo: Joi.number(),
   arrival: Joi.string().required(),
-  arrivalTime: Joi.date(),
+  arrivalTime: Joi.string(),
   departure: Joi.string().required(),
-  departureTime: Joi.date(),
+  departureTime: Joi.string(),
   AirlineId: Joi.string().required()
 });
 

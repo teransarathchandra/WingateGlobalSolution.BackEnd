@@ -2,12 +2,19 @@ const mongoose = require('mongoose');
 
 const { Bulk } = require('../models');
 const { bulkSchema } = require('../schemas');
+const { transportAgg } = require('../aggregates');
 
 const getAllBulks = async (req, res) => {
 
     try {
+        let bulk
+        const { type } = req.query;
 
-        const bulk = await Bulk.find();
+        if( type == 'flightIds'){
+            bulk = await Bulk.aggregate(transportAgg.aggType);
+        }else {
+            bulk = await Bulk.find();
+        }
 
         if (!bulk) {
             res.status(404).json({ status: 404, message: 'Bulk not found' });
