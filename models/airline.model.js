@@ -5,7 +5,7 @@ const { getNextSequence } = require("../helpers");
 const airlineSchema = new Schema({
     airlineId: {
         type: String,
-        required: true
+        
     },
     code: {
         type: String,

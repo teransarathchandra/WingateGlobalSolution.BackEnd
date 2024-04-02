@@ -10,6 +10,10 @@ const aggType = [
       '$unwind': {
         'path': '$flightInfo'
       }
+    // },{
+    //   '$match': {
+    //     'status': 'In Progress'
+    //   }
     }, {
       '$project': {
         '_id': 1, 
