@@ -36,6 +36,14 @@ const userSchema = new Schema(
       maxLength: 15,
       minLength: 10,
     },
+    emailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: false,
+    },
     refreshToken: {
       type: String,
       required: false,

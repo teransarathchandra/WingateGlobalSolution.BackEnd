@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 const { orderController } = require('../../controllers');
+const { isAuthorized } = require('../../middlewares');
 
-router.get('/', orderController.getAllOrder);
+router.get('/', isAuthorized, orderController.getAllOrder);
 router.get('/:id', orderController.getOrderById);
 router.post('/', orderController.createOrder);
 router.put('/:id', orderController.updateOrder);

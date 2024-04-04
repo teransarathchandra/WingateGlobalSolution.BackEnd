@@ -13,7 +13,7 @@ const orderSchema = new Schema(
       type: String,
       required: true,
       maxLength: 255,
-      minLength: 10,
+      minLength: 3,
     },
     packageCount: {
       type: Number,

@@ -9,6 +9,8 @@ router.post('/', userController.createUser);
 router.put('/:id', userController.updateUser);
 router.delete('/:id', userController.deleteUser);
 router.post('/login', userController.loginUser);
+router.post('/logout', userController.logoutUser);
+router.get('/verify-email/:token', userController.verifyEmail);
 router.post('/auth/google', userController.googleSignIn);
 
 module.exports = router;
