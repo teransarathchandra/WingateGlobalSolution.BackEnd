@@ -10,6 +10,22 @@ const restrictedOrdersSchema = new Schema(
       type: String,
       unique: true,
     },
+
+    sendingCountryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "country",
+      required: true,
+    },
+    receivingCountryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "country",
+      required: true,
+    },
+    categoryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "category",
+      required: true,
+    },
     maxQuantity: {
       type: Number,
       required: true,
@@ -33,22 +49,7 @@ const restrictedOrdersSchema = new Schema(
     dangerousGoodsDeclaration: {
       type: Boolean,
       required: true,
-    },
-    categoryId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "category",
-      required: true,
-    },
-    sendingCountryId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "country",
-      required: true,
-    },
-    receivingCountryId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "country",
-      required: true,
-    },
+    }
   },
   { timestamps: true }
 );

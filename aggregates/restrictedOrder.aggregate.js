@@ -75,15 +75,15 @@ const restrictedOrderTypes = [[
           '$project': {
             '_id': 1, 
             'restrictedOrderId': 1, 
+            'sendingCountryId': '$sendingCountryName.countryCode', 
+            'receivingCountryId': '$receivingCountryName.countryCode',
+            'categoryId': '$categoryName.name', 
             'maxQuantity': 1, 
             'exportLicense': 1, 
             'importPermit': 1, 
             'safetyDataSheets': 1, 
             'phytosanitaryCertificate': 1, 
-            'dangerousGoodsDeclaration': 1, 
-            'categoryId': '$categoryName.name', 
-            'sendingCountryId': '$sendingCountryName.countryCode', 
-            'receivingCountryId': '$receivingCountryName.countryCode'
+            'dangerousGoodsDeclaration': 1         
           }
         }
       ]
