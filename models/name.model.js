@@ -19,7 +19,7 @@ const nameSchema = new Schema(
             minLength: 2,
             match: regExp.name,
         }
-    }
+    }, { _id: false }
 );
 
 module.exports = { nameSchema };
