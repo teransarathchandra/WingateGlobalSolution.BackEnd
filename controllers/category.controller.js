@@ -58,13 +58,12 @@ const createCategory = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { name, description, profitRate, costPerKilo } = value;
+        const { name, description, costPerKilo } = value;
 
         const category = await Category.create({
             name,
             description,
-            profitRate,
-            costPerKilo
+                    costPerKilo
         });
 
         if (!category) {

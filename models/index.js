@@ -20,11 +20,11 @@ const Port = require('./port.model');
 const Quotation = require('./quotation.model');
 const Receiver = require('./receiver.model');
 const Reminder = require('./reminder.model');
-const RequiredDocument = require('./requiredDocument.model');
 const RestrictedOrder = require('./restrictedOrder.model');
 const Route = require('./route.model');
 const Sales = require('./sales.model');
 const Stock = require('./stock.model');
+const SubmittedDocument = require('./submittedDocument.model');
 const SystemAccess = require('./systemAccess.model');
 const User = require('./user.model');
 const Vehicle = require('./vehicle.model');
@@ -53,11 +53,11 @@ module.exports = {
     Quotation,
     Receiver,
     Reminder,
-    RequiredDocument,
     RestrictedOrder,
     Route,
     Sales,
     Stock,
+    SubmittedDocument,
     SystemAccess,
     User,
     Vehicle,
