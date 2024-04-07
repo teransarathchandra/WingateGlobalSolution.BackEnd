@@ -6,7 +6,7 @@ const { restrictedOrderController } = require('../../controllers');
 router.get('/', restrictedOrderController.getAllRestrictedOrders);
 router.get('/:id', restrictedOrderController.getRestrictedOrderById);
 router.post('/', restrictedOrderController.createRestrictedOrder);
-router.put('/:id', restrictedOrderController.updateRestrictedOrder);
+router.patch('/:id', restrictedOrderController.updateRestrictedOrder);
 router.delete('/:id', restrictedOrderController.deleteRestrictedOrder);
 
 module.exports = router;

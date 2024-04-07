@@ -94,8 +94,8 @@ const createUser = async (req, res) => {
         // sending response exclude the password and refresh token
         const userData = user.toObject();
         delete userData.password;
-        delete userData.accessToken;
-        delete userData.refreshToken;
+        // delete userData.accessToken;
+        // delete userData.refreshToken;
 
         const verificationLink = `${frontEndHostConfig.verificationLinkHost}/verify-email/${verificationToken}`;
 
@@ -199,13 +199,17 @@ const loginUser = async (req, res) => {
         const { accessToken, refreshToken } = user.signToken();
         await User.findByIdAndUpdate(user._id, { $set: { refreshToken: refreshToken } }, { new: true });
 
-        res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
+        // res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
         res.json({
             status: 200,
+            accessToken,
             user: {
+                userId: user.userId,
                 firstName: user.firstName,
+                lastName: user.lastName,
                 email: user.email,
-                contactNumber: user.contactNumber
+                contactNumber: user.contactNumber,
+                address: user.address,
             },
             message: 'User logged in successfully'
         });
@@ -242,12 +246,17 @@ const googleSignIn = async (req, res) => {
         const { accessToken, refreshToken } = user.signToken();
         await User.findByIdAndUpdate(user._id, { $set: { refreshToken: refreshToken } }, { new: true });
         
-        res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
+        // res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
         res.status(200).json({
+            status: 200,
+            accessToken,
             user: {
+                userId: user.userId,
                 firstName: user.firstName,
+                lastName: user.lastName,
                 email: user.email,
-                contactNumber: user.contactNumber
+                contactNumber: user.contactNumber,
+                address: user.address,
             },
             message: 'User logged in successfully'
         });

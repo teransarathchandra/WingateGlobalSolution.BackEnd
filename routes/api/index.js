@@ -96,7 +96,7 @@ router.use('/reminder', reminderRoutes);
 router.use('/submittedDocument', submittedDocumentRoutes)
 
 //restrictedOrder routes
-router.use('/restrictedOrder', restrictedOrderRoutes);
+router.use('/restrictedOrderType', restrictedOrderRoutes);
 
 //route routes
 router.use('/route', routeRoutes);
