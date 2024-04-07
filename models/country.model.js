@@ -20,7 +20,7 @@ const countrySchema = new Schema(
     name: {
       type: String,
       maxLength: 255,
-      minLength: 10,
+      minLength: 1,
       unique: true,
     },
   
