@@ -58,7 +58,7 @@ const getRestrictedOrderById = async (req, res) => {
     }
 };
 
-
+debugger;
 const createRestrictedOrder = async (req, res) => {
 
     try {
@@ -106,7 +106,6 @@ const createRestrictedOrder = async (req, res) => {
 
 const updateRestrictedOrder = async (req, res) => {
     try {
-        debugger;
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -162,5 +161,9 @@ const deleteRestrictedOrder = async (req, res) => {
     }
 
 };
+
+
+
+
 
 module.exports = { getAllRestrictedOrders, getRestrictedOrderById, createRestrictedOrder, updateRestrictedOrder, deleteRestrictedOrder };
