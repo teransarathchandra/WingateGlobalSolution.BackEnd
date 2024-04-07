@@ -48,7 +48,37 @@ const aggType = [
         'departureTime': 1, 
         'airlineName': '$airlineInfo.name'
       }
-    }
+    },
   ];
 
-  module.exports = { aggType, aggFlight };
+  const aggLastBulk = [
+    {
+      '$lookup': {
+        'from': 'countries', 
+        'localField': 'destinationCountry', 
+        'foreignField': '_id', 
+        'as': 'country'
+      }
+    }, {
+      '$unwind': {
+        'path': '$country'
+      }
+    }, {
+      '$project': {
+        '_id': 1, 
+        'createdAt': 1, 
+        'bulkId': 1, 
+        '__v': 1, 
+        'arrivedTime': 1, 
+        'masterAirwayBillId': 1, 
+        'flightId': 1, 
+        '_id': 1, 
+        'currentLocation': 1, 
+        'status': 1, 
+        'updatedAt': 1, 
+        'destinationCountry': '$country.name'
+      }
+    },{ $sort: { bulkId: -1 } }, { $limit: 1 }
+  ];
+
+  module.exports = { aggType, aggFlight, aggLastBulk };

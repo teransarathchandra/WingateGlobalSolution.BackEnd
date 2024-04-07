@@ -1,7 +1,6 @@
 const Joi = require('joi');
 
 const bulkJoiSchema = Joi.object({
-
   bulkId: Joi.string(),
   currentLocation: Joi.string(),
   arrivedTime: Joi.string(),

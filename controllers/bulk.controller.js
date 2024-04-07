@@ -30,6 +30,31 @@ const getAllBulks = async (req, res) => {
     }
 
 };
+const getLastAddedBulk = async (req, res) => {
+    try {
+        let lastBulk;
+        const { type } = req.query;
+
+        if( type == 'lastBulkIds'){
+             lastBulk = await Bulk.aggregate(transportAgg.aggLastBulk).sort({ bulkId: -1 });
+        }else {
+             lastBulk = await Bulk.findOne().sort({ _id: -1 });
+        }
+        
+
+        if (!lastBulk) {
+            return res.status(404).json({ status: 404, message: 'No bulk found' });
+        }
+
+        res.status(200).json({ status: 200, data: lastBulk, message: 'Last added bulk found successfully' });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
+        });
+    }
+};
+
 
 const getBulkById = async (req, res) => {
 
@@ -148,4 +173,4 @@ const deleteBulk = async (req, res) => {
     }
 };
 
-module.exports = { createBulk, getAllBulks, getBulkById, updateBulk, deleteBulk };
+module.exports = { createBulk, getAllBulks, getBulkById, updateBulk, deleteBulk, getLastAddedBulk };
