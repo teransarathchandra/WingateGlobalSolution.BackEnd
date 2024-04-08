@@ -321,7 +321,20 @@ const verifyEmail = async (req, res) => {
             html: emailTemplates.signUpEmailHTML(user.name.firstName),
         });
 
-        res.status(200).json({ message: 'Email verified successfully', isUserVerified: true });
+        const { accessToken } = user.signToken();
+
+        res.status(200).json({
+            message: 'Email verified successfully', isUserVerified: true, status: 200,
+            accessToken,
+            user: {
+                userId: user.userId,
+                firstName: user.name.firstName,
+                lastName: user.name.lastName,
+                email: user.email,
+                contactNumber: user.contactNumber,
+                address: user.address,
+            },
+        });
     } catch (err) {
         res.status(500).json({ message: 'An error occurred', isUserVerified: false, error: err.message });
     }
