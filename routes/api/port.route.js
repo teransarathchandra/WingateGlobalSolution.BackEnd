@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const { portController } = require('../../controllers');
+const { isAuthorized } = require('../../middlewares');
 
-router.get('/', portController.getAllPorts)
-router.get('/:id', portController.getPortById)
-router.post('/', portController.createPort);
-router.put('/:id', portController.updatePort);
-router.delete('/:id', portController.deletePort);
+router.get('/', isAuthorized, portController.getAllPorts)
+router.get('/:id', isAuthorized, portController.getPortById)
+router.post('/', isAuthorized, portController.createPort);
+router.put('/:id', isAuthorized, portController.updatePort);
+router.delete('/:id', isAuthorized, portController.deletePort);
 
 module.exports = router;

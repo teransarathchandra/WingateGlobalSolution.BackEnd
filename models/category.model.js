@@ -12,7 +12,6 @@ const categorySchema = new Schema(
     name: {
       type: String,
       maxLength: 50,
-      required: true,
     },
     description: {
       type: String,

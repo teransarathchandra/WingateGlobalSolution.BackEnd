@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { RestrictedOrder } = require('../models');
 const { restrictedOrderSchema } = require('../schemas');
 //const { sendEmail } = require('../helpers');
-const { emailTemplates } = require('../constants');
+//const { emailTemplates } = require('../constants');
 const { restrictedOrderAgg } = require('../aggregates');
 
 const getAllRestrictedOrders = async (req, res) => {
@@ -12,13 +12,11 @@ const getAllRestrictedOrders = async (req, res) => {
         let restrictedOrder;
         const { type } = req.query;
         
-        if (type == 'countryNames') {
-            restrictedOrder = await RestrictedOrder.aggregate(restrictedOrderAgg.aggTypeOne);
+        if (type == 'restrictedOrderTypes') {
+            restrictedOrder = await RestrictedOrder.aggregate(restrictedOrderAgg.restrictedOrderTypes);
         } else {
             restrictedOrder = await RestrictedOrder.find();
         }
-
-        
 
         if (!restrictedOrder) {
             return res.status(404).json({ status: 404, message: "Restricted orders not found" });
@@ -60,7 +58,6 @@ const getRestrictedOrderById = async (req, res) => {
     }
 };
 
-
 const createRestrictedOrder = async (req, res) => {
 
     try {
@@ -70,18 +67,20 @@ const createRestrictedOrder = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { maxQuantity, exportLicense, importPermit, safetyDataSheets, phytosanitaryCertificate, dangerousGoodsDeclaration, categoryId, sendingCountryId, receivingCountryId } = value;
+        const { sendingCountryId, receivingCountryId, categoryId, maxQuantity, exportLicense, importPermit, safetyDataSheets, phytosanitaryCertificate, dangerousGoodsDeclaration } = value;
 
         const restrictedOrder = await RestrictedOrder.create({
+            sendingCountryId,
+            receivingCountryId,
+            categoryId,
             maxQuantity,
             exportLicense,
             importPermit,
             safetyDataSheets,
             phytosanitaryCertificate,
-            dangerousGoodsDeclaration,
-            categoryId,
-            sendingCountryId,
-            receivingCountryId
+            dangerousGoodsDeclaration
+            
+            
         });
 
         if (!restrictedOrder) {
@@ -94,7 +93,7 @@ const createRestrictedOrder = async (req, res) => {
         //     html: emailTemplates.restrictedOrderEmailHTML(restrictedOrder),
         // });
 
-        res.status(201).json({ data: restrictedOrder, message: 'Restricted order created sccessfully' });
+        res.status(201).json({ data: restrictedOrder, message: 'Restricted order created successfully' });
         
     } catch (err) {
         res.status(400).json({
@@ -161,5 +160,9 @@ const deleteRestrictedOrder = async (req, res) => {
     }
 
 };
+
+
+
+
 
 module.exports = { getAllRestrictedOrders, getRestrictedOrderById, createRestrictedOrder, updateRestrictedOrder, deleteRestrictedOrder };
