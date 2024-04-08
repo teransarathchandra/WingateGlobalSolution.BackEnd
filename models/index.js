@@ -29,6 +29,8 @@ const SystemAccess = require('./systemAccess.model');
 const User = require('./user.model');
 const Vehicle = require('./vehicle.model');
 const WareHouse = require('./wareHouse.model');
+const Flight = require('./flight.model');
+const Airline = require('./airline.model');
 
 module.exports = {
     Address,
@@ -61,5 +63,7 @@ module.exports = {
     SystemAccess,
     User,
     Vehicle,
-    WareHouse
+    WareHouse,
+    Flight,
+    Airline
 };

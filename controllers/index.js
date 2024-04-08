@@ -27,10 +27,12 @@ const systemAccessController = require('./systemAccess.controller');
 const userController = require('./user.controller');
 const vehicleController = require('./vehicle.controller');
 const wareHouseController = require('./wareHouse.controller');
+const flightController = require('./flight.controller');
+const airlineController = require('./airline.controller');
 
 module.exports = {
     bulkController, categoryController, commercialInvoiceController,  contactPersonController, countryController, customerController, designationController,
     driverController, emailController, employeeController, itemController, loanController, orderController, packageTypeController, paymentController, 
     paymentMethodController, portController, quotationController, receiverController, reminderController, restrictedOrderController, 
-    routeController, salesController, stockController, submittedDocumentController, systemAccessController, userController, vehicleController, wareHouseController
+    routeController, salesController, stockController, submittedDocumentController, systemAccessController, userController, vehicleController, wareHouseController, flightController, airlineController
 };

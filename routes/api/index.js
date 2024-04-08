@@ -29,6 +29,8 @@ const systemAccessRoutes = require('./systemAccess.route');
 const userRoutes = require('./user.route');
 const vehicleRoutes = require('./vehicle.route');
 const warehouseRoutes = require('./warehouse.route');
+const flightRoutes = require('./flight.route');
+const airlineRotes = require('./airline.route');
 
 //bulk routes
 router.use('/bulk', bulkRoutes);
@@ -94,7 +96,7 @@ router.use('/reminder', reminderRoutes);
 router.use('/submittedDocument', submittedDocumentRoutes)
 
 //restrictedOrder routes
-router.use('/restrictedOrder', restrictedOrderRoutes);
+router.use('/restrictedOrderType', restrictedOrderRoutes);
 
 //route routes
 router.use('/route', routeRoutes);
@@ -116,6 +118,12 @@ router.use('/vehicle', vehicleRoutes);
 
 //warehouse routes
 router.use('/warehouse', warehouseRoutes);
+
+//flight routes
+router.use('/flight', flightRoutes);
+
+//airline routes
+router.use('/airline', airlineRotes);
 
 
 module.exports = router;
