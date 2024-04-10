@@ -85,7 +85,7 @@ const createUser = async (req, res) => {
         user.verificationToken = verificationToken;
 
         // Generate access and refresh tokens
-        const { accessToken, refreshToken } = user.signToken();
+        const { refreshToken } = user.signToken();
 
         // Save the refreshToken with the user
         user.refreshToken = refreshToken;
@@ -216,6 +216,7 @@ const loginUser = async (req, res) => {
         res.json({
             status: 200,
             accessToken,
+            refreshToken,
             user: {
                 userId: user.userId,
                 firstName: user.name.firstName,
@@ -354,11 +355,15 @@ const refreshAccessToken = async (req, res) => {
             return res.status(401).json({ message: "Invalid or expired refresh token" });
         }
 
-        // Generate a new access cancelToken: new CancelToken(()=>{})
-        const newAccessToken = user.signToken().accessToken;
-        const newRefreshToken = user.signToken().refreshToken;
+        // // Generate a new access cancelToken: new CancelToken(()=>{})
+        // const newAccessToken = user.signToken().accessToken;
+        // const newRefreshToken = user.signToken().refreshToken;
 
-        await User.findByIdAndUpdate(user._id, { $set: { refreshToken: refreshToken } }, { new: true });
+        // Generate new tokens
+        const { accessToken: newAccessToken, refreshToken: newRefreshToken } = user.signToken();
+
+
+        await User.findByIdAndUpdate(user._id, { $set: { refreshToken: newRefreshToken } }, { new: true });
 
         res.json({
             newAccessToken: newAccessToken,
