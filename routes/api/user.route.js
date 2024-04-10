@@ -13,5 +13,7 @@ router.post('/login', userController.loginUser);
 router.post('/logout', userController.logoutUser);
 router.get('/verify-email/:token', userController.verifyEmail);
 router.post('/auth/google', userController.googleSignIn);
+router.get('/orders/:userId', isAuthorized, userController.getUserOrders);
+
 
 module.exports = router;

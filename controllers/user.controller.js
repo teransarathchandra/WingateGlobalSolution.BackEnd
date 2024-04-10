@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
-const { User } = require('../models');
+const { User ,Order } = require('../models');
 const { userSchema } = require('../schemas');
 const { hashedPassword, BadRequestError, sendEmail, verifyGoogleToken } = require('../helpers');
 const { frontEndHostConfig } = require('../config')
@@ -357,4 +357,47 @@ const refreshAccessToken = async (req, res) => {
     }
 };
 
-module.exports = { getAllUsers, getUserById, createUser, updateUser, deleteUser, loginUser, googleSignIn, logoutUser, verifyEmail, refreshAccessToken };
+
+// In user.controller.js
+
+const getUserOrders = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(404).json({ message: "Invalid user ID" });
+        }
+
+        const orders = await Order.aggregate([
+            {
+                '$lookup': {
+                    'from': 'users', // Ensure this matches the name of your user collection in MongoDB
+                    'localField': 'userId', // Field in the orders collection
+                    'foreignField': '_id', // Assuming this is the correct field to join on in the users collection
+                    'as': 'userDetails' // The result of the join will be stored here
+                }
+            },
+            {
+                '$unwind': {
+                    'path': '$userDetails', // Unwind the userDetails to flatten
+                    'preserveNullAndEmptyArrays': true // Optional: Keeps orders even if there's no matching user
+                }
+            }
+            // Additional stages as needed
+        ]);
+        // const user = await User.findById(userId);
+
+
+
+        if (!orders) {
+            return res.status(404).json({ message: "No orders found for this user" });
+        }
+
+        res.json({ data: orders });
+    } catch (error) {
+        console.error('Error fetching user orders:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+module.exports = { getAllUsers, getUserById, createUser, updateUser, deleteUser, loginUser, googleSignIn, logoutUser, verifyEmail, refreshAccessToken, getUserOrders };
