@@ -259,8 +259,6 @@ const googleSignIn = async (req, res) => {
         // res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
         res.status(200).json({
             status: 200,
-            accessToken,
-            refreshToken,
             user: {
                 userId: user.userId,
                 firstName: user.name.firstName,
@@ -268,6 +266,8 @@ const googleSignIn = async (req, res) => {
                 email: user.email,
                 contactNumber: user.contactNumber,
                 address: user.address,
+                accessToken,
+                refreshToken,
             },
             message: 'User logged in successfully'
         });
