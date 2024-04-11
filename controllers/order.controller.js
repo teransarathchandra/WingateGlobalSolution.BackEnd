@@ -2,11 +2,38 @@ const mongoose = require('mongoose');
 
 const { Order } = require('../models');
 const { orderSchema } = require('../schemas');
+const { transportAgg } = require('../aggregates');
 
 const getAllOrder = async (req, res) => {
 
     try {
         const order = await Order.find();
+
+        if (!order) {
+            return res.status(404).json({ status: 404, message: "Order not found" });
+        }
+
+        res.status(200).json({ status: 200, data: order, message: "Order found successfully" });
+
+    } catch (err) {
+        res.status(400).json({
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
+        });
+    }
+}
+
+const getAllOrderTransport = async (req, res) => {
+
+    try {
+        let order
+        const { type } = req.query;
+
+        if( type == 'orderIds'){
+            order = await Order.aggregate(transportAgg.aggOrders);
+        }else {
+            order = await Order.find();
+        }
 
         if (!order) {
             return res.status(404).json({ status: 404, message: "Order not found" });
@@ -52,22 +79,30 @@ const getOrderById = async (req, res) => {
 const createOrder = async (req, res) => {
 
     try {
-        const { value, error } = orderSchema.createOrderJoiSchema.validate(req.body);
+        // const { value, error } = orderSchema.createOrderJoiSchema.validate(req.body);
 
-        if (error) {
-            return res.status(400).json({ status: 400, message: error });
-        }
-
-        const { status, packageCount, orderType, userId, routeId, stockId, packageId } = value;
+        // if (error) {
+        //     return res.status(400).json({ status: 400, message: error });
+        // }
+        const value = req.body
+        const { status, packageCount, userId, stockId, packageId, bulkdId, paymentId, invoiceId, itemId, senderId, receiverId, quotationId, isPickupOrder, pickupDate, priority } = value;
 
         const order = await Order.create({
             status, 
             packageCount, 
-            orderType, 
             userId, 
-            routeId, 
             stockId, 
-            packageId
+            packageId, 
+            bulkdId, 
+            paymentId, 
+            invoiceId, 
+            itemId, 
+            senderId, 
+            receiverId, 
+            quotationId, 
+            isPickupOrder, 
+            pickupDate, 
+            priority
         });
 
         if (!order) {
@@ -141,4 +176,4 @@ const deleteOrder = async (req, res) => {
 
 };
 
-module.exports = { getAllOrder, getOrderById, createOrder, updateOrder, deleteOrder };
+module.exports = { getAllOrder, getOrderById, createOrder, updateOrder, deleteOrder, getAllOrderTransport };
