@@ -86,7 +86,7 @@ const createUser = async (req, res) => {
         user.verificationToken = verificationToken;
 
         // Generate access and refresh tokens
-        const { accessToken, refreshToken } = user.signToken();
+        const { refreshToken } = user.signToken();
 
         // Save the refreshToken with the user
         user.refreshToken = refreshToken;
@@ -216,7 +216,8 @@ const loginUser = async (req, res) => {
         // res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
         res.json({
             status: 200,
-            accessToken,
+            // accessToken,
+            // refreshToken,
             user: {
                 userId: user.userId,
                 firstName: user.name.firstName,
@@ -224,6 +225,8 @@ const loginUser = async (req, res) => {
                 email: user.email,
                 contactNumber: user.contactNumber,
                 address: user.address,
+                accessToken,
+                refreshToken,
             },
             message: 'User logged in successfully'
         });
@@ -258,6 +261,7 @@ const googleSignIn = async (req, res) => {
         res.status(200).json({
             status: 200,
             accessToken,
+            refreshToken,
             user: {
                 userId: user.userId,
                 firstName: user.name.firstName,
@@ -322,7 +326,20 @@ const verifyEmail = async (req, res) => {
             html: emailTemplates.signUpEmailHTML(user.name.firstName),
         });
 
-        res.status(200).json({ message: 'Email verified successfully', isUserVerified: true });
+        const { accessToken } = user.signToken();
+
+        res.status(200).json({
+            message: 'Email verified successfully', isUserVerified: true, status: 200,
+            accessToken,
+            user: {
+                userId: user.userId,
+                firstName: user.name.firstName,
+                lastName: user.name.lastName,
+                email: user.email,
+                contactNumber: user.contactNumber,
+                address: user.address,
+            },
+        });
     } catch (err) {
         res.status(500).json({ message: 'An error occurred', isUserVerified: false, error: err.message });
     }
@@ -342,11 +359,15 @@ const refreshAccessToken = async (req, res) => {
             return res.status(401).json({ message: "Invalid or expired refresh token" });
         }
 
-        // Generate a new access cancelToken: new CancelToken(()=>{})
-        const newAccessToken = user.signToken().accessToken;
-        const newRefreshToken = user.signToken().refreshToken;
+        // // Generate a new access cancelToken: new CancelToken(()=>{})
+        // const newAccessToken = user.signToken().accessToken;
+        // const newRefreshToken = user.signToken().refreshToken;
 
-        await User.findByIdAndUpdate(user._id, { $set: { refreshToken: refreshToken } }, { new: true });
+        // Generate new tokens
+        const { accessToken: newAccessToken, refreshToken: newRefreshToken } = user.signToken();
+
+
+        await User.findByIdAndUpdate(user._id, { $set: { refreshToken: newRefreshToken } }, { new: true });
 
         res.json({
             newAccessToken: newAccessToken,
