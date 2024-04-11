@@ -61,6 +61,7 @@ const createQuotation = async (req, res) => {
             packagingCost,
             routeCost,
             unitWeightCost,
+            pickUpCost,
             surcharge,
             orderId
         });
