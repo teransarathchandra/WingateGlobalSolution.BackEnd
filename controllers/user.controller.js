@@ -6,6 +6,7 @@ const { hashedPassword, BadRequestError, sendEmail, verifyGoogleToken } = requir
 const { frontEndHostConfig } = require('../config')
 const { emailTemplates } = require('../constants');
 const { generateVerificationToken } = require('../utils');
+const userOrdersAgg = require('../aggregates/userOrders.aggregate');
 
 const getAllUsers = async (req, res) => {
 
@@ -378,12 +379,24 @@ const getUserOrders = async (req, res) => {
                 }
             },
             {
+                '$match': {
+                    'userId': new mongoose.Types.ObjectId(userId)
+                }
+            },
+            {
                 '$unwind': {
                     'path': '$userDetails', // Unwind the userDetails to flatten
                     'preserveNullAndEmptyArrays': true // Optional: Keeps orders even if there's no matching user
                 }
+            }, {
+                '$project': {
+                  '_id': 1, 
+                  'orderId': 1, 
+                  'createdAt': 1, 
+                  'status' : 1,
+                  'userId': '$userDetails.userId'
+                }
             }
-            // Additional stages as needed
         ]);
         // const user = await User.findById(userId);
 
