@@ -31,6 +31,7 @@ const Vehicle = require('./vehicle.model');
 const WareHouse = require('./wareHouse.model');
 const Flight = require('./flight.model');
 const Airline = require('./airline.model');
+const FileUpload = require('./fileUpload.model');
 
 module.exports = {
     Address,
@@ -65,5 +66,6 @@ module.exports = {
     Vehicle,
     WareHouse,
     Flight,
-    Airline
+    Airline,
+    FileUpload
 };
