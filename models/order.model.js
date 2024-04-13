@@ -15,7 +15,7 @@ const orderSchema = new Schema(
       maxLength: 255,
       minLength: 3,
       required: true,
-    }, //InProgress, Processing, Completed. Pending(Until Released from Restricted Order Criteria)
+    }, //Default: InProgress, Processing, Completed. Pending(Until Released from Restricted Order Criteria)
     packageCount: {
       type: Number,
       min:1,
