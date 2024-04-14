@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { RestrictedOrder } = require('../models');
 const { restrictedOrderSchema } = require('../schemas');
+const Country = require('../models/country.model');
 //const { sendEmail } = require('../helpers');
 //const { emailTemplates } = require('../constants');
 const { restrictedOrderAgg } = require('../aggregates');
@@ -11,7 +12,7 @@ const getAllRestrictedOrders = async (req, res) => {
     try {
         let restrictedOrder;
         const { type } = req.query;
-        
+
         if (type == 'restrictedOrderTypes') {
             restrictedOrder = await RestrictedOrder.aggregate(restrictedOrderAgg.restrictedOrderTypes);
         } else {
@@ -39,7 +40,7 @@ const getRestrictedOrderById = async (req, res) => {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ status: 404, message: "Invalid restricted order id" })
+            return res.status(404).json({ status: 404, message: "Invalid restricted order id. you come get by ID" })
         }
 
         const restrictedOrder = await RestrictedOrder.findById(id);
@@ -79,8 +80,8 @@ const createRestrictedOrder = async (req, res) => {
             safetyDataSheets,
             phytosanitaryCertificate,
             dangerousGoodsDeclaration
-            
-            
+
+
         });
 
         if (!restrictedOrder) {
@@ -94,7 +95,7 @@ const createRestrictedOrder = async (req, res) => {
         // });
 
         res.status(201).json({ data: restrictedOrder, message: 'Restricted order created successfully' });
-        
+
     } catch (err) {
         res.status(400).json({
             error: err.message,
@@ -162,7 +163,43 @@ const deleteRestrictedOrder = async (req, res) => {
 };
 
 
+const filterRestrictedOrders = async (req, res) => {
+    debugger;
+    try {
+        const { receivingCountryCode, sendingCountryCode, categoryId } = req.body;
+
+        const filteringData = await RestrictedOrder.create({
+            receivingCountryCode, 
+            sendingCountryCode, 
+            categoryId
+        });
+
+        const receivingCountry = await Country.findOne({ countryCode: receivingCountryCode });
+        if (!receivingCountry) throw new Error('Receiving country not found');
+
+        const sendingCountry = await Country.findOne({ countryCode: sendingCountryCode });
+        if (!sendingCountry) throw new Error('Sending country not found');
+
+        const existingOrder = await RestrictedOrder.findOne({
+            receivingCountryId: receivingCountry._id,
+            sendingCountryId: sendingCountry._id,
+            categoryId: categoryId
+        });
+        console.log(receivingCountryId , sendingCountryId ,categoryId );
+        return existingOrder != null;
+
+
+    } catch (err) {
+        res.status(400).json({
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
+        });
+    }
+
+}
 
 
 
-module.exports = { getAllRestrictedOrders, getRestrictedOrderById, createRestrictedOrder, updateRestrictedOrder, deleteRestrictedOrder };
+
+
+module.exports = { getAllRestrictedOrders, getRestrictedOrderById, createRestrictedOrder, updateRestrictedOrder, deleteRestrictedOrder, filterRestrictedOrders };
