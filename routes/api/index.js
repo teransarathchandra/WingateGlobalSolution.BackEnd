@@ -30,7 +30,8 @@ const userRoutes = require('./user.route');
 const vehicleRoutes = require('./vehicle.route');
 const warehouseRoutes = require('./warehouse.route');
 const flightRoutes = require('./flight.route');
-const airlineRotes = require('./airline.route');
+const airlineRoutes = require('./airline.route');
+const uploadFileRoutes = require('./fileUpload.route');
 
 //bulk routes
 router.use('/bulk', bulkRoutes);
@@ -123,7 +124,10 @@ router.use('/warehouse', warehouseRoutes);
 router.use('/flight', flightRoutes);
 
 //airline routes
-router.use('/airline', airlineRotes);
+router.use('/airline', airlineRoutes);
+
+//upload file routes
+router.use('/uploadFile', uploadFileRoutes);
 
 
 module.exports = router;
