@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { RestrictedOrder } = require('../models');
 const { restrictedOrderSchema } = require('../schemas');
 const Country = require('../models/country.model');
+const Category = require('../models/category.model');
 //const { sendEmail } = require('../helpers');
 //const { emailTemplates } = require('../constants');
 const { restrictedOrderAgg } = require('../aggregates');
@@ -164,29 +165,34 @@ const deleteRestrictedOrder = async (req, res) => {
 
 
 const filterRestrictedOrders = async (req, res) => {
-    debugger;
+
     try {
         const { receivingCountryCode, sendingCountryCode, categoryId } = req.body;
 
-        const filteringData = await RestrictedOrder.create({
-            receivingCountryCode, 
-            sendingCountryCode, 
-            categoryId
-        });
+        if (!mongoose.Types.ObjectId.isValid(categoryId)) {
+            return res.status(404).json({ status: 404, message: "Invalid category id. " })
+        }
 
         const receivingCountry = await Country.findOne({ countryCode: receivingCountryCode });
-        if (!receivingCountry) throw new Error('Receiving country not found');
-
+        if (!receivingCountry) {
+            return res.status(400).json({status: 400 , message: 'Invalid receiving country'});
+        }
         const sendingCountry = await Country.findOne({ countryCode: sendingCountryCode });
-        if (!sendingCountry) throw new Error('Sending country not found');
+        if (!sendingCountry) { 
+            return res.status(400).json({status: 400 , message: 'Invalid sending country'});
+        }
 
-        const existingOrder = await RestrictedOrder.findOne({
+        const existingRestrictedOrder = await RestrictedOrder.findOne({
             receivingCountryId: receivingCountry._id,
             sendingCountryId: sendingCountry._id,
             categoryId: categoryId
         });
-        console.log(receivingCountryId , sendingCountryId ,categoryId );
-        return existingOrder != null;
+
+        if (!existingRestrictedOrder) {
+            return res.status(200).json({ status: 200, isRestrictedOrderFound: false, message: "Filtered restricted order not found" })
+        }
+
+        res.status(200).json({ status: 200, isRestrictedOrderFound: true, data: existingRestrictedOrder, message: "Filtered restricted order found" });
 
 
     } catch (err) {
