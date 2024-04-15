@@ -37,4 +37,4 @@ fileUploadSchema.pre("save", async function (next) {
     next();
 });
 
-module.exports = model('Upload', fileUploadSchema);
+module.exports = model('fileUpload', fileUploadSchema);
