@@ -39,30 +39,62 @@ const aggType = [
 
   const aggFlight = [
     {
-      '$lookup': {
-        'from': 'airlines', 
-        'localField': 'AirlineId', 
-        'foreignField': '_id', 
-        'as': 'airlineInfo'
-      }
-    }, {
-      '$unwind': {
-        'path': '$airlineInfo'
-      }
-    }, {
-      '$project': {
-        '_id': 1, 
-        'flightId': 1, 
-        'type': 1, 
-        'routeCostPerKilo': 1, 
-        'arrival': 1, 
-        'arrivalTime': 1, 
-        'departure': 1, 
-        'departureTime': 1, 
-        'airlineName': '$airlineInfo.name'
-      }
+        '$lookup': {
+            'from': 'airlines', 
+            'localField': 'AirlineId', 
+            'foreignField': '_id', 
+            'as': 'airlineInfo'
+        }
     },
-  ];
+    {
+        '$lookup': {
+            'from': 'countries', 
+            'localField': 'arrival', 
+            'foreignField': '_id', 
+            'as': 'arrivalInfo'
+        }
+    },
+    {
+        '$lookup': {
+            'from': 'countries', 
+            'localField': 'departure', 
+            'foreignField': '_id', 
+            'as': 'departureInfo'
+        }
+    },
+    {
+        '$unwind': {
+            'path': '$airlineInfo',
+            'preserveNullAndEmptyArrays': true
+        }
+    },
+    {
+        '$unwind': {
+            'path': '$arrivalInfo',
+            'preserveNullAndEmptyArrays': true
+        }
+    },
+    {
+        '$unwind': {
+            'path': '$departureInfo',
+            'preserveNullAndEmptyArrays': true
+        }
+    },
+    {
+        '$project': {
+            '_id': 1, 
+            'flightId': 1, 
+            'type': 1, 
+            'routeCostPerKilo': 1, 
+            'arrival': '$arrivalInfo.name', 
+            'arrivalTime': 1, 
+            'departure': '$departureInfo.name', 
+            'departureTime': 1, 
+            'airlineName': '$airlineInfo.name'
+        }
+    }
+];
+
 
   const aggLastBulk = [
     {

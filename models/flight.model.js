@@ -18,7 +18,8 @@ const flightSchema = new Schema(
       
     },
     arrival: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "country",
       
     },
     arrivalTime: {
@@ -27,8 +28,8 @@ const flightSchema = new Schema(
       
     },
     departure: {
-        type: String,
-        
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "country",
       },
       departureTime: {
         type: String,
