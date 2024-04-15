@@ -29,7 +29,7 @@ const PaymentMethodSchema = new Schema(
 
 PaymentMethodSchema.pre("save", async function(next) {
     if (this.isNew) {
-      const nextId = await getNextSequence('category');
+      const nextId = await getNextSequence('paymentMethod');
       this.paymentMethodId = `PAYMETH${nextId}`;
     }
     next();

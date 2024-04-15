@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const { BadRequestError } = require('../helpers');
+
 const { Item } = require('../models');
 const { itemSchema } = require('../schemas')
 
@@ -52,25 +54,28 @@ const createItem = async (req, res) => {
         const { value, error } = itemSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
-        const { name, description, weight, itemValue, orderId, categoryId } = value;
+        const { itemName, description, weight, itemValue, packageCount, categoryId, packageTypeId, isPickupOrder, pickupOrderDate } = value;
 
         const item = await Item.create({
-            name,
+            itemName,
             description,
             weight,
             itemValue,
-            orderId,
-            categoryId
+            packageCount,
+            categoryId,
+            packageTypeId,
+            isPickupOrder,
+            pickupOrderDate
         });
 
         if (!item) {
             return res.status(400).json({ message: 'Item cannot create' });
         }
 
-        res.status(201).json({ data: item, message: 'Item created successfully' });
+        res.status(201).json({ status: 201, data: item, message: 'Item created successfully' });
 
     } catch (err) {
         res.status(400).json({

@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const { driverController } = require('../../controllers');
+const { isAuthorized } = require('../../middlewares');
 
-router.get('/', driverController.getAllDrivers);
-router.get('/:id', driverController.getDriverById);
-router.post('/', driverController.createDriver);
-router.put('/:id', driverController.updateDriver);
-router.delete('/:id', driverController.deleteDriver);
+router.get('/', isAuthorized, driverController.getAllDrivers);
+router.get('/:id', isAuthorized, driverController.getDriverById);
+router.post('/', isAuthorized, driverController.createDriver);
+router.put('/:id', isAuthorized, driverController.updateDriver);
+router.delete('/:id', isAuthorized, driverController.deleteDriver);
 
 module.exports = router;8

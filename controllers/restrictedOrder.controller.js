@@ -58,7 +58,6 @@ const getRestrictedOrderById = async (req, res) => {
     }
 };
 
-debugger;
 const createRestrictedOrder = async (req, res) => {
 
     try {
