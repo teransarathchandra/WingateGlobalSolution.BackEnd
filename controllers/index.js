@@ -30,11 +30,12 @@ const wareHouseController = require('./wareHouse.controller');
 const flightController = require('./flight.controller');
 const airlineController = require('./airline.controller');
 const fileUploadController = require('./fileUpload.controller');
+const pdfController = require('./pdf.controller');
 
 module.exports = {
     bulkController, categoryController, commercialInvoiceController,  contactPersonController, countryController, customerController, designationController,
     driverController, emailController, employeeController, itemController, loanController, orderController, packageTypeController, paymentController, 
     paymentMethodController, portController, quotationController, receiverController, reminderController, restrictedOrderController, 
     routeController, salesController, stockController, submittedDocumentController, systemAccessController, userController, vehicleController, 
-    wareHouseController, flightController, airlineController, fileUploadController
+    wareHouseController, flightController, airlineController, fileUploadController, pdfController
 };
