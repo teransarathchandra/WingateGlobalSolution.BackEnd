@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const { Airline } = require('../models');
 const { airlineSchema } = require('../schemas');
-const { boolean } = require('joi');
 
 const getAllAirlines = async (req, res) => {
 
