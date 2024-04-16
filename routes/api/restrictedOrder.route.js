@@ -5,6 +5,7 @@ const { restrictedOrderController } = require('../../controllers');
 const { isAuthorized } = require('../../middlewares');
 
 router.get('/', isAuthorized, restrictedOrderController.getAllRestrictedOrders);
+router.post('/filter', isAuthorized, restrictedOrderController.filterRestrictedOrders);
 router.get('/:id', isAuthorized, restrictedOrderController.getRestrictedOrderById);
 router.post('/', isAuthorized, restrictedOrderController.createRestrictedOrder);
 router.patch('/:id', isAuthorized, restrictedOrderController.updateRestrictedOrder);
