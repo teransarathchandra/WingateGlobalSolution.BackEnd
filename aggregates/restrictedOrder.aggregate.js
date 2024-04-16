@@ -51,4 +51,4 @@ const restrictedOrderTypes = [[
 
 ];
 
-module.exports = restrictedOrderTypes;
+module.exports = {restrictedOrderTypes};
