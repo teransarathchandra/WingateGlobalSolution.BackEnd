@@ -14,16 +14,15 @@ const flightSchema = new Schema(
       type: Number,
     },
     arrival: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "country",
+      type: String,
       
     },
     arrivalTime: {
       type: String,
     },
     departure: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "country",
+        type: String,
+        
       },
       departureTime: {
         type: String,
