@@ -2,12 +2,20 @@ const mongoose = require('mongoose');
 
 const { Order } = require('../models');
 const { orderSchema } = require('../schemas');
-const { transportAgg } = require('../aggregates');
+const { orderAgg, transportAgg} = require('../aggregates');
+
 
 const getAllOrder = async (req, res) => {
 
     try {
-        const order = await Order.find();
+        let order
+        const { type } = req.query;
+
+        if( type == 'orderIds'){
+            order = await Order.aggregate(orderAgg.aggType);
+        }else {
+            order = await Order.find();
+        }
 
         if (!order) {
             return res.status(404).json({ status: 404, message: "Order not found" });
@@ -48,6 +56,31 @@ const getAllOrderTransport = async (req, res) => {
         });
     }
 }
+const getAllOrderInfo = async (req, res) => {
+
+    try {
+        let order
+        const { type } = req.query;
+
+        if( type == 'orderInfoIds'){
+            order = await Order.aggregate(transportAgg.aggOrderInfo);
+        }else {
+            order = await Order.find();
+        }
+
+        if (!order) {
+            return res.status(404).json({ status: 404, message: "Order not found" });
+        }
+
+        res.status(200).json({ status: 200, data: order, message: "Order found successfully" });
+
+    } catch (err) {
+        res.status(400).json({
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
+        });
+    }
+}
 
 const getOrderById = async (req, res) => {
 
@@ -60,6 +93,30 @@ const getOrderById = async (req, res) => {
         }
 
         const order = await Order.findById(id);
+
+        if (!order) {
+            return res.status(404).json({ status: 404, message: "Order not found" });
+        }
+
+        res.status(200).json({ status: 200, data: order, message: "Order found successfully" });
+
+    } catch (err) {
+        res.status(400).json({
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
+        });
+    }
+};
+
+const getOrderByOrderId = async (req, res) => {
+
+    try {
+        let order;
+        const { type } = req.query;
+        const { orderId } = req.params;
+
+
+        order = await Order.findOne({ orderId: orderId });
 
         if (!order) {
             return res.status(404).json({ status: 404, message: "Order not found" });
@@ -176,4 +233,4 @@ const deleteOrder = async (req, res) => {
 
 };
 
-module.exports = { getAllOrder, getOrderById, createOrder, updateOrder, deleteOrder, getAllOrderTransport };
+module.exports = { getAllOrder, getOrderById, createOrder, updateOrder, deleteOrder, getAllOrderTransport, getAllOrderInfo, getOrderByOrderId };

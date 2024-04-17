@@ -36,9 +36,9 @@ const getLastAddedBulk = async (req, res) => {
         const { type } = req.query;
 
         if( type == 'lastBulkIds'){
-             lastBulk = await Bulk.aggregate(transportAgg.aggLastBulk).sort({ bulkId: -1 });
+             lastBulk = await Bulk.aggregate(transportAgg.aggLastBulk).sort({ createdDate: 1 }).limit(1);
         }else {
-             lastBulk = await Bulk.findOne().sort({ _id: -1 });
+             lastBulk = await Bulk.findOne().sort({ createdDate: 1 });
         }
         
 
@@ -91,7 +91,7 @@ const createBulk = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { currentLocation, arrivedTime, status, destinationCountry, flightId, masterAirwayBillId } = value;
+        const { currentLocation, arrivedTime, status, destinationCountry, flightId, masterAirwayBillId, category, priority } = value;
 
         const bulk = await Bulk.create({
             currentLocation,
@@ -99,7 +99,9 @@ const createBulk = async (req, res) => {
             status,
             destinationCountry,
             flightId,
-            masterAirwayBillId
+            masterAirwayBillId,
+            category,
+            priority
 
 
         })
