@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Order } = require('../models');
 const { orderSchema } = require('../schemas');
-const { orderAgg, transportAgg} = require('../aggregates');
+const { orderAgg, transportAgg } = require('../aggregates');
 
 
 const getAllOrder = async (req, res) => {
@@ -112,11 +112,11 @@ const getOrderByOrderId = async (req, res) => {
 
     try {
         let order;
-        const { type } = req.query;
         const { orderId } = req.params;
 
+        const aggregationPipeline = transportAgg.getOrdersByOrderIds(orderId);
 
-        order = await Order.findOne({ orderId: orderId });
+        order = await Order.aggregate(aggregationPipeline);
 
         if (!order) {
             return res.status(404).json({ status: 404, message: "Order not found" });
