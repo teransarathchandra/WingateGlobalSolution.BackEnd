@@ -2,12 +2,19 @@ const mongoose = require('mongoose');
 
 const { Bulk } = require('../models');
 const { bulkSchema } = require('../schemas');
+const { transportAgg } = require('../aggregates');
 
 const getAllBulks = async (req, res) => {
 
     try {
+        let bulk
+        const { type } = req.query;
 
-        const bulk = await Bulk.find();
+        if( type == 'bulkIds'){
+            bulk = await Bulk.aggregate(transportAgg.aggType);
+        }else {
+            bulk = await Bulk.find();
+        }
 
         if (!bulk) {
             res.status(404).json({ status: 404, message: 'Bulk not found' });
@@ -23,6 +30,31 @@ const getAllBulks = async (req, res) => {
     }
 
 };
+const getLastAddedBulk = async (req, res) => {
+    try {
+        let lastBulk;
+        const { type } = req.query;
+
+        if( type == 'lastBulkIds'){
+             lastBulk = await Bulk.aggregate(transportAgg.aggLastBulk).sort({ createdDate: 1 }).limit(1);
+        }else {
+             lastBulk = await Bulk.findOne().sort({ createdDate: 1 });
+        }
+        
+
+        if (!lastBulk) {
+            return res.status(404).json({ status: 404, message: 'No bulk found' });
+        }
+
+        res.status(200).json({ status: 200, data: lastBulk, message: 'Last added bulk found successfully' });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
+        });
+    }
+};
+
 
 const getBulkById = async (req, res) => {
 
@@ -59,13 +91,18 @@ const createBulk = async (req, res) => {
             return res.status(400).json({ status: 400, message: error });
         }
 
-        const { currentLocation, arrivedTime, status, vehicleId } = value;
+        const { currentLocation, arrivedTime, status, destinationCountry, flightId, masterAirwayBillId, category, priority } = value;
 
         const bulk = await Bulk.create({
             currentLocation,
             arrivedTime,
             status,
-            vehicleId
+            destinationCountry,
+            flightId,
+            masterAirwayBillId,
+            category,
+            priority
+
 
         })
 
@@ -138,4 +175,4 @@ const deleteBulk = async (req, res) => {
     }
 };
 
-module.exports = { createBulk, getAllBulks, getBulkById, updateBulk, deleteBulk };
+module.exports = { createBulk, getAllBulks, getBulkById, updateBulk, deleteBulk, getLastAddedBulk };

@@ -9,8 +9,9 @@ const itemSchema = new Schema(
       type: String,
       unique: true
     },
-    name: {
-      type: String
+    itemName: {
+      type: String,
+      required: true
     },
     description: {
       type: String
@@ -20,11 +21,11 @@ const itemSchema = new Schema(
       required: true
     },
     itemValue: {
-      type: Number
+      type: Number,
+      required: true
     },
-    orderId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "order",
+    packageCount: {
+      type: Number,
       required: true
     },
     categoryId: {
@@ -32,13 +33,26 @@ const itemSchema = new Schema(
       ref: "category",
       required: true
     },
+    packageTypeId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "packageType",
+      required: true
+    },
+    isPickupOrder: {
+      type: Boolean,
+      required: true
+    },
+    pickupOrderDate: {
+      type: Date,
+      required: function() { return this.isPickupOrder; }
+    }
   },
   { timestamps: true }
 );
 
 itemSchema.pre("save", async function(next) {
   if (this.isNew) {
-    const nextId = await getNextSequence('employee');
+    const nextId = await getNextSequence('item');
     this.itemId = `ITM${nextId}`;
   }
   next();

@@ -12,16 +12,10 @@ const categorySchema = new Schema(
     name: {
       type: String,
       maxLength: 50,
-      required: true,
     },
     description: {
       type: String,
       maxLength: 255,
-    },
-    profitRate: {
-      type: Number,
-      required: true,
-      min: 0,
     },
     costPerKilo: {
       type: Number,

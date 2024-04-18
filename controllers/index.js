@@ -18,19 +18,25 @@ const portController = require('./port.controller');
 const quotationController = require('./quotation.controller');
 const receiverController = require('./receiver.controller');
 const reminderController = require('./reminder.controller');
-const requiredDocumentController = require('./requiredDocument.controller');
 const restrictedOrderController = require('./restrictedOrder.controller');
 const routeController = require('./route.controller');
 const salesController = require('./sales.controller');
+const senderController = require('./sender.controller');
 const stockController = require('./stock.controller');
+const submittedDocumentController = require('./submittedDocument.controller');
 const systemAccessController = require('./systemAccess.controller');
 const userController = require('./user.controller');
 const vehicleController = require('./vehicle.controller');
 const wareHouseController = require('./wareHouse.controller');
+const flightController = require('./flight.controller');
+const airlineController = require('./airline.controller');
+const fileUploadController = require('./fileUpload.controller');
+const pdfController = require('./pdf.controller');
 
 module.exports = {
     bulkController, categoryController, commercialInvoiceController,  contactPersonController, countryController, customerController, designationController,
     driverController, emailController, employeeController, itemController, loanController, orderController, packageTypeController, paymentController, 
-    paymentMethodController, portController, quotationController, receiverController, reminderController, requiredDocumentController, restrictedOrderController, 
-    routeController, salesController, stockController, systemAccessController, userController, vehicleController, wareHouseController
+    paymentMethodController, portController, quotationController, receiverController, reminderController, restrictedOrderController, 
+    routeController, salesController, senderController, stockController, submittedDocumentController, systemAccessController, userController, vehicleController, 
+    wareHouseController, flightController, airlineController, fileUploadController, pdfController
 };

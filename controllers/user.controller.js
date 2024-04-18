@@ -85,17 +85,26 @@ const createUser = async (req, res) => {
         user.verificationToken = verificationToken;
 
         // Generate access and refresh tokens
-        const { accessToken, refreshToken } = user.signToken();
+        const { refreshToken } = user.signToken();
 
         // Save the refreshToken with the user
         user.refreshToken = refreshToken;
         await user.save();
 
         // sending response exclude the password and refresh token
-        const userData = user.toObject();
-        delete userData.password;
-        delete userData.accessToken;
-        delete userData.refreshToken;
+        // const userData = user.toObject();
+        // delete userData.password;
+        // delete userData.accessToken;
+        // delete userData.refreshToken;
+
+        const userData = {
+            userId: user.userId,
+            name: user.name,
+            email: user.email,
+            contactNumber: user.contactNumber,
+            address: user.address,
+            emailVerified: user.emailVerified,
+        };
 
         const verificationLink = `${frontEndHostConfig.verificationLinkHost}/verify-email/${verificationToken}`;
 
@@ -111,7 +120,7 @@ const createUser = async (req, res) => {
         //     html: emailTemplates.signUpEmailHTML(name.firstName),
         // });
 
-        res.status(201).json({ accessToken, data: userData, message: 'User created successfully' });
+        res.status(201).json({ data: userData, message: 'User created successfully' });
 
     } catch (err) {
         console.error(err);
@@ -192,6 +201,10 @@ const loginUser = async (req, res) => {
             return res.status(400).json({ status: 400, message: 'Invalid email address, Please try again' });
         }
 
+        if (!user.emailVerified) {
+            return res.status(403).json({ status: 403, message: 'User account not verified. Please check your email to verify your account.' });
+        }
+
         if (!user.comparePassword(password)) {
             return res.status(400).json({ status: 400, message: 'Invalid password, Please try again' });
         }
@@ -199,13 +212,20 @@ const loginUser = async (req, res) => {
         const { accessToken, refreshToken } = user.signToken();
         await User.findByIdAndUpdate(user._id, { $set: { refreshToken: refreshToken } }, { new: true });
 
-        res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
+        // res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
         res.json({
             status: 200,
+            // accessToken,
+            // refreshToken,
             user: {
-                firstName: user.firstName,
+                userId: user.userId,
+                firstName: user.name.firstName,
+                lastName: user.name.lastName,
                 email: user.email,
-                contactNumber: user.contactNumber
+                contactNumber: user.contactNumber,
+                address: user.address,
+                accessToken,
+                refreshToken,
             },
             message: 'User logged in successfully'
         });
@@ -223,31 +243,31 @@ const googleSignIn = async (req, res) => {
         const { token } = req.body;
         const googleUser = await verifyGoogleToken(token);
 
-        let user = await User.findOne({ email: googleUser.email });
+        const user = await User.findOne({ email: googleUser.email });
         if (!user) {
-            // // If user does not exist, create a new user
-            // user = new User({
-            //     name: { firstName: googleUser.name, lastName: '' }, // Adjust according to your schema
-            //     email: googleUser.email,
-            //     password: '', // Consider a strategy for handling passwords for OAuth users
-            //     contactNumber: '', // You might not have this information from Google
-            //     // Add any other required fields as per your user schema
-            // });
-            // await user.save();
-
             return res.status(400).json({ status: 400, message: 'Invalid email address, Please try again' });
+        }
+
+        if (!user.emailVerified) {
+            return res.status(403).json({ status: 403, message: 'User account not verified. Please check your email to verify your account.' });
         }
 
         // Sign a JWT token or perform any other sign in logic you have
         const { accessToken, refreshToken } = user.signToken();
         await User.findByIdAndUpdate(user._id, { $set: { refreshToken: refreshToken } }, { new: true });
-        
-        res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
+
+        // res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
         res.status(200).json({
+            status: 200,
             user: {
-                firstName: user.firstName,
+                userId: user.userId,
+                firstName: user.name.firstName,
+                lastName: user.name.lastName,
                 email: user.email,
-                contactNumber: user.contactNumber
+                contactNumber: user.contactNumber,
+                address: user.address,
+                accessToken,
+                refreshToken,
             },
             message: 'User logged in successfully'
         });
@@ -277,12 +297,22 @@ const verifyEmail = async (req, res) => {
     try {
         const token = req.params.token;
         if (!token) {
-            return res.status(400).json({ message: 'Invalid or expired verification token' });
+            return res.status(400).json({ message: 'Invalid or expired verification token', isUserVerified: false });
         }
 
         const user = await User.findOne({ verificationToken: token });
         if (!user) {
-            return res.status(200).json({ message: 'Invalid verification token or Email is already verified.' });
+            return res.status(400).json({ message: 'Invalid verification token or Email is already verified.', isUserVerified: false });
+        }
+
+        if (user.emailVerified) {
+            return res.status(403).json({ status: 403, message: 'User account already verified.', isUserVerified: true });
+        }
+
+        const tokenAge = Date.now() - new Date(user.createdAt).getTime();
+        const twoDaysInMilliseconds = 48 * 60 * 60 * 1000;
+        if (tokenAge > twoDaysInMilliseconds) {
+            return res.status(400).json({ message: 'Verification token is expired. Please request a new verification link.', isUserVerified: false });
         }
 
         user.emailVerified = true;
@@ -295,9 +325,22 @@ const verifyEmail = async (req, res) => {
             html: emailTemplates.signUpEmailHTML(user.name.firstName),
         });
 
-        res.status(200).json({ message: 'Email verified successfully' });
+        const { accessToken } = user.signToken();
+
+        res.status(200).json({
+            message: 'Email verified successfully', isUserVerified: true, status: 200,
+            accessToken,
+            user: {
+                userId: user.userId,
+                firstName: user.name.firstName,
+                lastName: user.name.lastName,
+                email: user.email,
+                contactNumber: user.contactNumber,
+                address: user.address,
+            },
+        });
     } catch (err) {
-        res.status(500).json({ message: 'An error occurred', error: err.message });
+        res.status(500).json({ message: 'An error occurred', isUserVerified: false, error: err.message });
     }
 };
 
@@ -315,11 +358,15 @@ const refreshAccessToken = async (req, res) => {
             return res.status(401).json({ message: "Invalid or expired refresh token" });
         }
 
-        // Generate a new access cancelToken: new CancelToken(()=>{})
-        const newAccessToken = user.signToken().accessToken;
-        const newRefreshToken = user.signToken().refreshToken;
+        // // Generate a new access cancelToken: new CancelToken(()=>{})
+        // const newAccessToken = user.signToken().accessToken;
+        // const newRefreshToken = user.signToken().refreshToken;
 
-        await User.findByIdAndUpdate(user._id, { $set: { refreshToken: refreshToken } }, { new: true });
+        // Generate new tokens
+        const { accessToken: newAccessToken, refreshToken: newRefreshToken } = user.signToken();
+
+
+        await User.findByIdAndUpdate(user._id, { $set: { refreshToken: newRefreshToken } }, { new: true });
 
         res.json({
             newAccessToken: newAccessToken,

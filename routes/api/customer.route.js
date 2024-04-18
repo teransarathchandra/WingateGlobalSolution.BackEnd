@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const { customerController } = require('../../controllers');
+const { isAuthorized } = require('../../middlewares');isAuthorized, 
 
-router.get('/', customerController.getAllCustomers);
-router.get('/:id', customerController.getCustomerById);
-router.post('/', customerController.createCustomer);
-router.put('/:id', customerController.updateCustomer);
-router.delete('/:id', customerController.deleteCustomer);
+router.get('/', isAuthorized, customerController.getAllCustomers);
+router.get('/:id', isAuthorized, customerController.getCustomerById);
+router.post('/', isAuthorized, customerController.createCustomer);
+router.put('/:id', isAuthorized, customerController.updateCustomer);
+router.delete('/:id', isAuthorized, customerController.deleteCustomer);
 
 module.exports = router;

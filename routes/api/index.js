@@ -20,15 +20,20 @@ const portRoutes = require('./port.route');
 const quotationRoutes = require('./quotation.route');
 const receiverRoutes = require('./receiver.route');
 const reminderRoutes = require('./reminder.route');
-const requiredDocumentRoutes = require('./requiredDocument.route');
 const restrictedOrderRoutes = require('./restrictedOrder.route');
 const routeRoutes = require('./route.route');
 const salesRoutes = require('./sales.route');
+const senderRoutes = require('./sender.route');
 const stockRoutes = require('./stock.route');
+const submittedDocumentRoutes = require('./submittedDocument.route');
 const systemAccessRoutes = require('./systemAccess.route');
 const userRoutes = require('./user.route');
 const vehicleRoutes = require('./vehicle.route');
 const warehouseRoutes = require('./warehouse.route');
+const flightRoutes = require('./flight.route');
+const airlineRoutes = require('./airline.route');
+const uploadFileRoutes = require('./fileUpload.route');
+const pdfRoutes = require('./pdf.route');
 
 //bulk routes
 router.use('/bulk', bulkRoutes);
@@ -91,16 +96,19 @@ router.use('/receiver', receiverRoutes);
 router.use('/reminder', reminderRoutes);
 
 //required document routes
-router.use('/requiredDocument', requiredDocumentRoutes)
+router.use('/submittedDocument', submittedDocumentRoutes)
 
 //restrictedOrder routes
-router.use('/restrictedOrder', restrictedOrderRoutes);
+router.use('/restrictedOrderType', restrictedOrderRoutes);
 
 //route routes
 router.use('/route', routeRoutes);
 
 //sales routes
 router.use('/sales', salesRoutes);
+
+//sender routes
+router.use('/sender', senderRoutes);
 
 //stock routes
 router.use('/stock', stockRoutes);
@@ -116,6 +124,18 @@ router.use('/vehicle', vehicleRoutes);
 
 //warehouse routes
 router.use('/warehouse', warehouseRoutes);
+
+//flight routes
+router.use('/flight', flightRoutes);
+
+//airline routes
+router.use('/airline', airlineRoutes);
+
+//upload file routes
+router.use('/uploadFile', uploadFileRoutes);
+
+//pdf routes
+router.use('/generate-pdf', pdfRoutes);
 
 
 module.exports = router;

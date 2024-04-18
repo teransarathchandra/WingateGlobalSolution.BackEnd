@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const { routeController } = require('../../controllers');
+const { isAuthorized } = require('../../middlewares');
 
-router.get('/', routeController.getAllRoutes);
-router.get('/:id', routeController.getRouteById);
-router.post('/', routeController.createRoute);
-router.put('/:id', routeController.updateRoute);
-router.delete('/:id', routeController.deleteRoute);
+router.get('/', isAuthorized, routeController.getAllRoutes);
+router.get('/:id', isAuthorized, routeController.getRouteById);
+router.post('/', isAuthorized, routeController.createRoute);
+router.put('/:id', isAuthorized, routeController.updateRoute);
+router.delete('/:id', isAuthorized, routeController.deleteRoute);
 
 module.exports = router;

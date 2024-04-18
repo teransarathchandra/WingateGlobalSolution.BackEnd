@@ -6,14 +6,14 @@ const User = require('../models/user.model');
 const { ACCESS_TOKEN_SECRET } = process.env;
 
 const isAuthorized = async (req, res, next) => {
-    // const { authorization = "" } = req.headers;
-    // const [bearer, token] = authorization.split(" ");
-    // if (bearer !== "Bearer" || !token) {
-    //     return next(HttpError(401, "Access token is missing or invalid"));
-    // }
+    const { authorization = "" } = req.headers;
+    const [bearer, token] = authorization.split(" ");
+    if (bearer !== "Bearer" || !token) {
+        return next(HttpError(401, "Access token is missing or invalid"));
+    }
 
-    const token = req.cookies.authToken;
-    if (!token) return res.status(403).send("A token is required for authentication");
+    // const token = req.cookies.authToken;
+    // if (!token) return res.status(403).send("A token is required for authentication");
 
     try {
         const isValidToken = jwt.verify(token, ACCESS_TOKEN_SECRET);
@@ -25,8 +25,12 @@ const isAuthorized = async (req, res, next) => {
         if (!employee && !user)
             throw HttpError(401);
 
-        req.employee = employee;
-        req.user = user;
+        if (employee)
+            req.employee = employee;
+
+        if (user)
+            req.user = user;
+        
         next();
     } catch (error) {
         if (
