@@ -21,6 +21,7 @@ const reminderSchema = require('./reminder.schema');
 const restrictedOrderSchema = require('./restrictedOrder.schema');
 const routeSchema = require('./route.schema');
 const salesSchema = require('./sales.schema');
+const senderSchema = require('./sender.schema');
 const stockSchema = require('./stock.schema');
 const submittedDocumentSchema = require('./submittedDocument.schema');
 const systemAccessSchema = require('./systemAccess.schema');
@@ -34,6 +35,6 @@ const fileUploadSchema = require('./fileUpload.schema');
 module.exports = {
     bulkSchema, categorySchema, commercialInvoiceSchema, contactPersonSchema, countrySchema, customerSchema, designationSchema, driverSchema, emailSchema,
     employeeSchema, itemSchema, loanSchema, orderSchema, packageTypeSchema, paymentSchema, paymentMethodSchema, portSchema, quotationSchema, receiverSchema,
-    reminderSchema, restrictedOrderSchema, routeSchema, salesSchema, stockSchema, submittedDocumentSchema, systemAccessSchema, userSchema, vehicleSchema, wareHouseSchema, flightSchema,
+    reminderSchema, restrictedOrderSchema, routeSchema, salesSchema, senderSchema, stockSchema, submittedDocumentSchema, systemAccessSchema, userSchema, vehicleSchema, wareHouseSchema, flightSchema,
     airlineSchema, fileUploadSchema
 };

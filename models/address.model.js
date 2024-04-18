@@ -22,6 +22,12 @@ const addressSchema = new Schema(
             type: String,
             maxLength: 50,
             minLength: 2
+        },
+        countryId: {
+            type: String,
+            maxLength: 50,
+            minLength: 2,
+            ref: "country",
         }
     }, { _id: false }
 );

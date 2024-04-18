@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const { nameSchema } = require('./name.model')
 const { regExp } = require('../constants');
-const addressSchema = require("./address.model");
+const { nameSchema } = require('./name.model');
+const { addressSchema } = require("./address.model");
 const { getNextSequence } = require("../helpers");
 
 const receiverSchema = new Schema(
@@ -12,9 +12,7 @@ const receiverSchema = new Schema(
       type: String,
       unique: true,
     },
-    name: {
-      type: nameSchema
-    },
+    name: nameSchema,
     contactNumber: {
       type: Number,
       maxLength: 15,
@@ -26,26 +24,17 @@ const receiverSchema = new Schema(
       required: true,
       match: regExp.email,
     },
-    address: {
-      type: addressSchema,
-      required: true,
-    },
+    address: addressSchema,
     orderId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "order",
-      required: true,
       unique: true,
-    },
-    countryId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "country",
-      required: true,
     },
   },
   { timestamps: true }
 );
 
-receiverSchema.pre("save", async function(next) {
+receiverSchema.pre("save", async function (next) {
   if (this.isNew) {
     const nextId = await getNextSequence('receiver');
     this.receiverId = `RECV${nextId}`;
