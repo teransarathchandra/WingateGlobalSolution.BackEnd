@@ -25,11 +25,6 @@ const receiverSchema = new Schema(
       match: regExp.email,
     },
     address: addressSchema,
-    orderId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "order",
-      unique: true,
-    },
   },
   { timestamps: true }
 );

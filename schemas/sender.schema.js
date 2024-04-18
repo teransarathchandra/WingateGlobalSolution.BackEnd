@@ -18,7 +18,6 @@ const senderJoiSchema = Joi.object({
     address: addressSchema,
     contactNumber: Joi.number().integer().required(),
     email: Joi.string().email().required().pattern(regExp.email),
-    orderId: Joi.string(),
 });
 
 module.exports = { senderJoiSchema };
