@@ -28,11 +28,6 @@ const itemSchema = new Schema(
       type: Number,
       required: true
     },
-    // orderId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "order",
-    //   required: true
-    // },
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "category",

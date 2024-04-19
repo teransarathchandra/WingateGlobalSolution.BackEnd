@@ -21,6 +21,7 @@ const reminderController = require('./reminder.controller');
 const restrictedOrderController = require('./restrictedOrder.controller');
 const routeController = require('./route.controller');
 const salesController = require('./sales.controller');
+const senderController = require('./sender.controller');
 const stockController = require('./stock.controller');
 const submittedDocumentController = require('./submittedDocument.controller');
 const systemAccessController = require('./systemAccess.controller');
@@ -36,6 +37,6 @@ module.exports = {
     bulkController, categoryController, commercialInvoiceController,  contactPersonController, countryController, customerController, designationController,
     driverController, emailController, employeeController, itemController, loanController, orderController, packageTypeController, paymentController, 
     paymentMethodController, portController, quotationController, receiverController, reminderController, restrictedOrderController, 
-    routeController, salesController, stockController, submittedDocumentController, systemAccessController, userController, vehicleController, 
+    routeController, salesController, senderController, stockController, submittedDocumentController, systemAccessController, userController, vehicleController, 
     wareHouseController, flightController, airlineController, fileUploadController, pdfController
 };

@@ -23,6 +23,7 @@ const Reminder = require('./reminder.model');
 const RestrictedOrder = require('./restrictedOrder.model');
 const Route = require('./route.model');
 const Sales = require('./sales.model');
+const Sender = require('./sender.model');
 const Stock = require('./stock.model');
 const SubmittedDocument = require('./submittedDocument.model');
 const SystemAccess = require('./systemAccess.model');
@@ -59,6 +60,7 @@ module.exports = {
     RestrictedOrder,
     Route,
     Sales,
+    Sender,
     Stock,
     SubmittedDocument,
     SystemAccess,

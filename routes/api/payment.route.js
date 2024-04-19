@@ -9,5 +9,7 @@ router.get('/:id', isAuthorized, paymentController.getPaymentById);
 router.post('/', isAuthorized, paymentController.createPayment);
 router.put('/:id', isAuthorized, paymentController.updatePayment);
 router.delete('/:id', isAuthorized, paymentController.deletePayment);
+router.post('/notify', paymentController.paymentNotify);
+router.post('/generate_hash', paymentController.generateHash);
 
 module.exports = router;

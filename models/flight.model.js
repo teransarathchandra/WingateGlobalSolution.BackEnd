@@ -1,9 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const { getNextSequence } = require("../helpers");
-
-
 const flightSchema = new Schema(
   {
     flightId: {
@@ -15,7 +12,6 @@ const flightSchema = new Schema(
     },
     routeCostPerKilo: {
       type: Number,
-      
     },
     arrival: {
       type: String,
@@ -23,8 +19,6 @@ const flightSchema = new Schema(
     },
     arrivalTime: {
       type: String,
-      
-      
     },
     departure: {
         type: String,
@@ -38,7 +32,6 @@ const flightSchema = new Schema(
     AirlineId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "airline",
-     
     },
   },
   { timestamps: true }
