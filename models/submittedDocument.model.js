@@ -9,14 +9,23 @@ const submittedDocumentSchema = new Schema(
       type: String,
       unique: true
     },
+    documentName: {
+      type: String,
+      required: true
+    },
     documentType: {
       type: String,
       required: true,
       maxLength: 50,
       enum: ["Export License", "Import Permit", "Safety Data Sheets", "Phytosanitary Certificate", "Dangerous Goods Declaration"],
     },
+    folderName: {
+      type: String,
+      required: true
+    },
     documentPath: {
-      type: String
+      type: String,
+      required: true
     },
     itemId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -27,7 +36,7 @@ const submittedDocumentSchema = new Schema(
   { timestamps: true }
 );
 
-submittedDocumentSchema.pre("save", async function(next) {
+submittedDocumentSchema.pre("save", async function (next) {
   if (this.isNew) {
     const nextId = await getNextSequence('submittedDocuments');
     this.submittedDocumentId = `SUBDOC${nextId}`;
