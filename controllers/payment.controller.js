@@ -2,10 +2,18 @@ const mongoose = require('mongoose');
 
 const { Payment } = require('../models');
 const { paymentSchema } = require('../schemas')
+const { financeAgg } = require('../aggregates');
 
 const getAllPayments = async (req, res) => {
     try {
-        const payment = await Payment.find();
+        let payment
+        const { type } = req.query;
+
+        if( type == 'paymentIds'){
+            payment = await Payment.aggregate(financeAgg.aggType);
+        }else {
+            payment = await Payment.find();
+        }
 
         if (!payment) {
             return res.status(404).json({ status: 404, message: "Payments not found" });
