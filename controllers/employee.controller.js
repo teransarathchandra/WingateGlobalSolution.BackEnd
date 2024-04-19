@@ -280,19 +280,20 @@ const refreshAccessToken = async (req, res) => {
     const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
     const employee = await Employee.findById(decoded.id);
 
+    console.log(employee);
     if (!employee || employee.refreshToken !== refreshToken) {
       return res
         .status(401)
         .json({ message: "Invalid or expired refresh token" });
     }
 
-    // Generate a new access cancelToken: new CancelToken(()=>{})
-    const newAccessToken = employee.signToken().accessToken;
-    const newRefreshToken = employee.signToken().refreshToken;
+    // Generate new tokens
+    const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+      employee.signToken();
 
     await Employee.findByIdAndUpdate(
       employee._id,
-      { $set: { refreshToken: refreshToken } },
+      { $set: { refreshToken: newRefreshToken } },
       { new: true }
     );
 
