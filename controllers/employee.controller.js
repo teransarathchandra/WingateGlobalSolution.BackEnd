@@ -243,6 +243,7 @@ const loginEmployee = async (req, res) => {
         name: employee.name,
         email: employee.email,
         contactNumber: employee.contactNumber,
+        focus: employee.focus,
         accessToken,
         refreshToken,
       },
