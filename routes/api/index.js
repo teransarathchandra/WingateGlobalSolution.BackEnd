@@ -23,6 +23,7 @@ const reminderRoutes = require('./reminder.route');
 const restrictedOrderRoutes = require('./restrictedOrder.route');
 const routeRoutes = require('./route.route');
 const salesRoutes = require('./sales.route');
+const senderRoutes = require('./sender.route');
 const stockRoutes = require('./stock.route');
 const submittedDocumentRoutes = require('./submittedDocument.route');
 const systemAccessRoutes = require('./systemAccess.route');
@@ -105,6 +106,9 @@ router.use('/route', routeRoutes);
 
 //sales routes
 router.use('/sales', salesRoutes);
+
+//sender routes
+router.use('/sender', senderRoutes);
 
 //stock routes
 router.use('/stock', stockRoutes);
