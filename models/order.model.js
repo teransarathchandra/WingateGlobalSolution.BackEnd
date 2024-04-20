@@ -8,7 +8,6 @@ const orderSchema = new Schema(
     orderId: {
       type: String,
       unique: true,
-      required: true,
     },
     status: {
       type: String,
@@ -71,7 +70,7 @@ const orderSchema = new Schema(
     senderId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "sender",
-      required: true,
+      //required: true,
     },
     receiverId: {
       type: mongoose.Schema.Types.ObjectId,
