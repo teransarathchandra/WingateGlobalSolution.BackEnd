@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { Order } = require('../models');
 const { orderSchema } = require('../schemas');
 const { orderAgg, transportAgg } = require('../aggregates');
-const {  BadRequestError } = require('../helpers');
+const { BadRequestError } = require('../helpers');
 
 
 const getAllOrder = async (req, res) => {
@@ -12,9 +12,9 @@ const getAllOrder = async (req, res) => {
         let order
         const { type } = req.query;
 
-        if( type == 'orderIds'){
+        if (type == 'orderIds') {
             order = await Order.aggregate(orderAgg.aggType);
-        }else {
+        } else {
             order = await Order.find();
         }
 
@@ -38,9 +38,9 @@ const getAllOrderTransport = async (req, res) => {
         let order
         const { type } = req.query;
 
-        if( type == 'orderIds'){
+        if (type == 'orderIds') {
             order = await Order.aggregate(transportAgg.aggOrders);
-        }else {
+        } else {
             order = await Order.find();
         }
 
@@ -63,9 +63,9 @@ const getAllOrderInfo = async (req, res) => {
         let order
         const { type } = req.query;
 
-        if( type == 'orderInfoIds'){
+        if (type == 'orderInfoIds') {
             order = await Order.aggregate(transportAgg.aggOrderInfo);
-        }else {
+        } else {
             order = await Order.find();
         }
 
@@ -110,20 +110,19 @@ const getOrderById = async (req, res) => {
 };
 
 const getOrderByOrderId = async (req, res) => {
-
     try {
-        let order;
-        const { orderId } = req.params;
+        const { orderId } = req.query;
 
         const aggregationPipeline = transportAgg.getOrdersByOrderIds(orderId);
 
-        order = await Order.aggregate(aggregationPipeline);
+        const order = await Order.aggregate(aggregationPipeline);
 
-        if (!order) {
+        if (!order || order.length === 0) {
             return res.status(404).json({ status: 404, message: "Order not found" });
         }
 
-        res.status(200).json({ status: 200, data: order, message: "Order found successfully" });
+        // Send only the first element of the array as an object
+        res.status(200).json({ status: 200, data: order[0], message: "Order found successfully" });
 
     } catch (err) {
         res.status(400).json({
@@ -152,20 +151,20 @@ const createOrder = async (req, res) => {
         const { status, packageCount, stockId, packageId, bulkdId, paymentId, invoiceId, itemId, senderId, receiverId, quotationId, isPickupOrder, pickupDate, priority } = value;
 
         const order = await Order.create({
-            status, 
-            packageCount, 
+            status,
+            packageCount,
             userId: user._id,
-            stockId, 
-            packageId, 
-            bulkdId, 
-            paymentId, 
-            invoiceId, 
-            itemId, 
-            senderId, 
-            receiverId, 
-            quotationId, 
-            isPickupOrder, 
-            pickupDate, 
+            stockId,
+            packageId,
+            bulkdId,
+            paymentId,
+            invoiceId,
+            itemId,
+            senderId,
+            receiverId,
+            quotationId,
+            isPickupOrder,
+            pickupDate,
             priority
         });
 
@@ -196,7 +195,7 @@ const updateOrder = async (req, res) => {
             BadRequestError(error);
         }
 
-        const updatedOrder = await Order.findByIdAndUpdate({_id: id}, value, { new: true });
+        const updatedOrder = await Order.findByIdAndUpdate({ _id: id }, value, { new: true });
 
         if (!updatedOrder) {
             return res.status(404).json({ status: 404, message: "Order not found" });
