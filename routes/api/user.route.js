@@ -7,12 +7,13 @@ const { isAuthorized } = require('../../middlewares');isAuthorized,
 router.get('/', isAuthorized, userController.getAllUsers);
 router.get('/:id', isAuthorized, userController.getUserById);
 router.post('/', userController.createUser);
-router.put('/:id', isAuthorized, userController.updateUser);
+router.patch('/:id', isAuthorized, userController.updateUser);
 router.delete('/:id', isAuthorized, userController.deleteUser);
 router.post('/login', userController.loginUser);
 router.post('/logout', userController.logoutUser);
 router.get('/verify-email/:token', userController.verifyEmail);
 router.post('/auth/google', userController.googleSignIn);
+router.get('/orders/:userId', isAuthorized, userController.getUserOrders);
 router.post('/refresh-token', userController.refreshAccessToken);
 
 module.exports = router;
