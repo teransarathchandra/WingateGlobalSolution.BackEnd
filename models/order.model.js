@@ -32,11 +32,6 @@ const orderSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "commercialInvoice",
     },
-    itemId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "item",
-      required: true,
-    },
     senderId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "sender",
