@@ -20,7 +20,7 @@ const customerSchema = new Schema(
     },
     email: {
       type: String,
-      required: true,
+      //required: true,
       match: regExp.email,
     },
     password: {
@@ -30,22 +30,22 @@ const customerSchema = new Schema(
     },
     contactNumber: {
       type: Number,
-      required: true,
+      //required: true,
       maxLength: 15,
       minLength: 10,
     },
     verificationToken: {
       type: String,
-      required: false,
+      //required: false,
     },
     refreshToken: {
       type: String,
-      required: false,
+      //required: false,
     },
     priorityLevel: {
       type: String,
       enum: ["High Priority", "Medium Priority", "Low Priority"],
-      required: true,
+      //required: true,
     },
     birthday: {
       type: Date,
