@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { Bulk } = require('../models');
 const { bulkSchema } = require('../schemas');
 const { transportAgg } = require('../aggregates');
+const { BadRequestError } = require('../helpers');
 
 const getAllBulks = async (req, res) => {
 
@@ -10,9 +11,9 @@ const getAllBulks = async (req, res) => {
         let bulk
         const { type } = req.query;
 
-        if( type == 'bulkIds'){
+        if (type == 'bulkIds') {
             bulk = await Bulk.aggregate(transportAgg.aggType);
-        }else {
+        } else {
             bulk = await Bulk.find();
         }
 
@@ -35,12 +36,12 @@ const getLastAddedBulk = async (req, res) => {
         let lastBulk;
         const { type } = req.query;
 
-        if( type == 'lastBulkIds'){
-             lastBulk = await Bulk.aggregate(transportAgg.aggLastBulk).sort({ createdDate: 1 }).limit(1);
-        }else {
-             lastBulk = await Bulk.findOne().sort({ createdDate: 1 });
+        if (type == 'lastBulkIds') {
+            lastBulk = await Bulk.aggregate(transportAgg.aggLastBulk).sort({ createdDate: 1 }).limit(1);
+        } else {
+            lastBulk = await Bulk.findOne().sort({ createdDate: 1 });
         }
-        
+
 
         if (!lastBulk) {
             return res.status(404).json({ status: 404, message: 'No bulk found' });
@@ -88,7 +89,7 @@ const createBulk = async (req, res) => {
         const { value, error } = bulkSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { currentLocation, arrivedTime, status, destinationCountry, flightId, masterAirwayBillId, category, priority } = value;
@@ -131,7 +132,7 @@ const updateBulk = async (req, res) => {
         const { value, error } = bulkSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedBulk = await Bulk.findByIdAndUpdate(id, value, { new: true });

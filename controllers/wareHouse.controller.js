@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { WareHouse } = require('../models');
 const { wareHouseSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllWarehouse = async (req, res) => {
 
@@ -55,7 +56,7 @@ const createWarehouse = async (req, res) => {
         const { value, error } = wareHouseSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { location, storageCapacity, availability, warehouseManagerId, countryId } = value;
@@ -92,7 +93,7 @@ const updateWarehouse = async (req, res) => {
         const { value, error } = wareHouseSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedWarehouse = await WareHouse.findByIdAndUpdate(id, value, { new: true });

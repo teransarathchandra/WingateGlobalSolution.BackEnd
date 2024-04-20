@@ -13,15 +13,15 @@ const systemAccessSchema = new Schema(
       type: String,
       required: true,
       maxLength: 255,
-      minLength: 15,
+      minLength: 1,
     },
   },
   { timestamps: true }
 );
 
-systemAccessSchema.pre("save", async function(next) {
+systemAccessSchema.pre("save", async function (next) {
   if (this.isNew) {
-    const nextId = await getNextSequence('systemAccess');
+    const nextId = await getNextSequence("systemAccess");
     this.accessLevelId = `ACSLVL${nextId}`;
   }
   next();
