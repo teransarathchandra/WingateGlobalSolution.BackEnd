@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Order } = require('../models');
 const { orderSchema } = require('../schemas');
-const { orderAgg, transportAgg } = require('../aggregates');
+const { orderAgg, transportAgg , restrictedOrderAgg} = require('../aggregates');
 const {  BadRequestError } = require('../helpers');
 
 
@@ -14,7 +14,9 @@ const getAllOrder = async (req, res) => {
 
         if( type == 'orderIds'){
             order = await Order.aggregate(orderAgg.aggType);
-        }else {
+        }else if (type == 'restrictedOrders') {
+            order = await Order.aggregate(restrictedOrderAgg.restrictedOrders);
+        } else {
             order = await Order.find();
         }
 

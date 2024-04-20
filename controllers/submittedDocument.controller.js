@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { azureBlobService, getBlobSasUrl } = require("../config/azureBlobService.config");
+const {restrictedOrderAgg} = require('../aggregates');
 
 const { SubmittedDocument } = require('../models');
 const { submittedDocumentSchema } = require('../schemas');
@@ -9,7 +10,17 @@ const { BadRequestError } = require('../helpers');
 const getAllSubmittedDocuments = async (req, res) => {
 
     try {
-        const submittedDocuments = await SubmittedDocument.find();
+        let submittedDocuments
+        const { itemId } = req.params;
+        const { type } = req.query;
+
+        if( type == 'itemId'){
+            submittedDocuments = await SubmittedDocument.aggregate(restrictedOrderAgg.restrictedOrderDocumentsByID(itemId));
+        } else {
+            submittedDocuments = await SubmittedDocument.find();
+        }
+
+      submittedDocuments = await SubmittedDocument.find();
 
         if (!submittedDocuments) {
             return res.status(404).json({ status: 404, message: "Submitted Documents not found" });
@@ -155,7 +166,7 @@ const documentUpload = async (req, res) => {
     const modifiedFileName = `${file.name.split('.').slice(0, -1).join('.')}_${itemId}.${file.name.split('.').pop()}`;
  
     // Construct the folder path to include both folderPath and documentType
-    const fullPath = `${folderPath}/${documentType}`;
+    // const fullPath = `${folderPath}/${documentType}`;
 
     // file type and size
     const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
@@ -167,14 +178,14 @@ const documentUpload = async (req, res) => {
 
     try {
 
-        const uploadResponse = await azureBlobService(file.data, modifiedFileName, fullPath);
+        const uploadResponse = await azureBlobService(file.data, modifiedFileName, folderPath);
 
         const uploadData = {
             documentName: file.name,
             documentType: documentType,
             folderName: folderPath,
             documentPath: uploadResponse.url,
-            itemId: itemId,
+            referenceId: itemId,
         };
 
         const { value, error } = submittedDocumentSchema.validate(uploadData);

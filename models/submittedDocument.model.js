@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const { getNextSequence } = require("../helpers");
+//const { optional } = require("joi");
 
 const submittedDocumentSchema = new Schema(
   {
@@ -17,7 +18,6 @@ const submittedDocumentSchema = new Schema(
       type: String,
       required: true,
       maxLength: 50,
-      enum: ["Export License", "Import Permit", "Safety Data Sheets", "Phytosanitary Certificate", "Dangerous Goods Declaration"],
     },
     folderName: {
       type: String,
@@ -27,10 +27,12 @@ const submittedDocumentSchema = new Schema(
       type: String,
       required: true
     },
-    itemId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "item",
+    referenceId: {
+      type: String,
       required: true
+    },
+    remark: {
+      type: String,
     },
   },
   { timestamps: true }

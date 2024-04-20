@@ -6,7 +6,7 @@ const { hashedPassword, BadRequestError, sendEmail, verifyGoogleToken } = requir
 const { frontEndHostConfig } = require('../config')
 const { emailTemplates } = require('../constants');
 const { generateVerificationToken } = require('../utils');
-const userOrdersAgg = require('../aggregates/userOrders.aggregate');
+//const userOrdersAgg = require('../aggregates/userOrders.aggregate');
 
 const getAllUsers = async (req, res) => {
 
