@@ -7,6 +7,7 @@ const Country = require('../models/country.model');
 //const { sendEmail } = require('../helpers');
 //const { emailTemplates } = require('../constants');
 const { restrictedOrderAgg } = require('../aggregates');
+const { BadRequestError } = require('../helpers');
 
 const getAllRestrictedOrders = async (req, res) => {
 
@@ -66,7 +67,7 @@ const createRestrictedOrder = async (req, res) => {
         const { value, error } = restrictedOrderSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { sendingCountryId, receivingCountryId, categoryId, maxQuantity, exportLicense, importPermit, safetyDataSheets, phytosanitaryCertificate, dangerousGoodsDeclaration } = value;
@@ -118,7 +119,7 @@ const updateRestrictedOrder = async (req, res) => {
         const { value, error } = restrictedOrderSchema.validate(restrictedOrderData);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
         updatedRestrictedOrder = await RestrictedOrder.findByIdAndUpdate(id, value, { new: true });
 

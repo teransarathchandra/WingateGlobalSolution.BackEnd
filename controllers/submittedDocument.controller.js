@@ -4,6 +4,7 @@ const {restrictedOrderAgg} = require('../aggregates');
 
 const { SubmittedDocument } = require('../models');
 const { submittedDocumentSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const { BadRequestError } = require('../helpers');
 
@@ -68,7 +69,7 @@ const createSubmittedDocument = async (req, res) => {
         const { value, error } = submittedDocumentSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { documentType, documentPath, itemId } = value;
@@ -103,7 +104,7 @@ const updateSubmittedDocument = async (req, res) => {
         const { value, error } = submittedDocumentSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedSubmittedDocument = await SubmittedDocument.findByIdAndUpdate(id, value, { new: true });

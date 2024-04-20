@@ -48,24 +48,25 @@ const getCustomerById = async (req, res) => {
 };
 
 const createCustomer = async (req, res) => {
-
     try {
+        // Validate the incoming request body
         const { value, error } = customerSchema.registerSchema.validate(req.body);
-
         if (error) {
-            BadRequestError(error);
+            // Throw an error if validation fails
+            throw new BadRequestError(error.details[0].message);
         }
 
-        const { userId, priorityLevel, birthday } = value;
+        // Extract environment variable for the default password
+        const defaultPassword = process.env.CUSPASSWORD || 'fallbackDefaultPassword'; // Set a fallback password if CUSPASSWORD is not defined
 
+        // Create the customer with the default password
         const customer = await Customer.create({
-            userId,
-            priorityLevel,
-            birthday
+            ...value, // Spread the rest of the values
+            password: value.password || defaultPassword, // Use the default password
         });
 
         if (!customer) {
-            return res.status(400).json({ message: 'Customer cannot create' });
+            return res.status(400).json({ message: 'Customer cannot be created' });
         }
 
         res.status(201).json({ data: customer, message: 'Customer created successfully' });
@@ -77,6 +78,7 @@ const createCustomer = async (req, res) => {
         });
     }
 };
+
 
 const updateCustomer = async (req, res) => {
 
