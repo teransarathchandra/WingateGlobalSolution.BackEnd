@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { PackageType } = require('../models');
 const { packageTypeSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllPackageType = async (req, res) => {
 
@@ -55,7 +56,7 @@ const createPackageType = async (req, res) => {
         const { value, error } = packageTypeSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { packageName, packagingCost, width, length, height, maximumWeight, maximumHeight, type } = value;
@@ -95,7 +96,7 @@ const updatePackageType = async (req, res) => {
         const { value, error } = packageTypeSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedPackageType = await PackageType.findByIdAndUpdate(id, value, { new: true });

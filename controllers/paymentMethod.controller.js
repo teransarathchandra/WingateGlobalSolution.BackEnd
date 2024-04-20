@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const { PaymentMethod } = require('../models');
-const { paymentMethodSchema } = require('../schemas')
+const { paymentMethodSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllPaymentMethods = async (req, res) => {
     try {
@@ -51,7 +52,7 @@ const createPaymentMethod = async (req, res) => {
         const { value, error } = paymentMethodSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { userName, amount, method } = value;
@@ -87,7 +88,7 @@ const updatePaymentMethod = async (req, res) => {
 
         const { value, error } = paymentMethodSchema.validate(req.body);
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedPaymentMethod = await PaymentMethod.findByIdAndUpdate(id, value, { new: true });

@@ -219,8 +219,7 @@ const loginUser = async (req, res) => {
             // refreshToken,
             user: {
                 userId: user.userId,
-                firstName: user.name.firstName,
-                lastName: user.name.lastName,
+                name: user.name,
                 email: user.email,
                 contactNumber: user.contactNumber,
                 address: user.address,
@@ -261,8 +260,7 @@ const googleSignIn = async (req, res) => {
             status: 200,
             user: {
                 userId: user.userId,
-                firstName: user.name.firstName,
-                lastName: user.name.lastName,
+                name: user.name,
                 email: user.email,
                 contactNumber: user.contactNumber,
                 address: user.address,

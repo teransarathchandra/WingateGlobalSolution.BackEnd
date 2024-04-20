@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { SystemAccess } = require('../models');
 const { systemAccessSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllSystemAccess = async (req, res) => {
 
@@ -56,7 +57,7 @@ const createSystemAccess = async (req, res) => {
         const { value, error } = systemAccessSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { description } = value;
@@ -90,7 +91,7 @@ const updateSystemAccess = async (req, res) => {
         const { value, error } = systemAccessSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedSystemAccess = await SystemAccess.findByIdAndUpdate(id, value, { new: true });
