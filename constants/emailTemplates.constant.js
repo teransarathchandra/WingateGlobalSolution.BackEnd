@@ -73,8 +73,7 @@ const restrictedOrderApprovalEmailHTML = ({
                     <h2>Order Status Update</h2>
                     <hr style="width:100%;border:none;border-top:1px solid #000000" />
                     <p>Hello ${name},</p>
-                    <p>Your request for the restricted order with ID <strong>${orderID}</strong> has been <span
-                            class="${statusClass}">${status}</span>.</p>
+                    <p>Your request for the restricted order with ID <strong>${orderID}</strong> has been <span>${status}</span>.</p>
 
                     <!-- Conditionally rendered paragraphs based on whether the order is approved or rejected -->
                     ${status === "approved"
