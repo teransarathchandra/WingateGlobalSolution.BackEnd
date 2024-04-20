@@ -158,7 +158,6 @@ const paymentNotify = async (req, res) => {
             status_code +
             crypto.createHash('md5').update(merchant_secret).digest('hex').toUpperCase()
         ).digest('hex').toUpperCase();
-
         // Check if the local hash matches the hash from PayHere
         if (localMd5sig === md5sig) {
             // Hash match, valid notification
@@ -208,8 +207,7 @@ const generateHash = async (req, res) => {
 
         const merchant_secret = PAYHERE_MERCHANT_SECRET;
         const merchant_id = PAYHERE_MERCHANT_ID
-
-        const formattedAmount = parseFloat(amount).toFixed(2); // Ensure the amount is in the correct format
+        const formattedAmount = (amount).toFixed(2); // Ensure the amount is in the correct format
         const hashSecret = crypto.createHash('md5').update(merchant_secret).digest('hex').toUpperCase();
         const hashString = `${merchant_id}${order_id}${formattedAmount}${currency}${hashSecret}`;
         const hash = crypto.createHash('md5').update(hashString).digest('hex').toUpperCase();
