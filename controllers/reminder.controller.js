@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { Reminder } = require('../models');
 const { reminderSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllReminder = async (req, res) => {
 
@@ -55,7 +56,7 @@ const createReminder = async (req, res) => {
         const { value, error } = reminderSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { reminderType, reminderDescription, reminderDate, offer, userId } = value;
@@ -92,7 +93,7 @@ const updateReminder = async (req, res) => {
         const { value, error } = reminderSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedReminder = await Reminder.findByIdAndUpdate(id, value, { new: true });

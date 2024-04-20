@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { SubmittedDocument } = require('../models');
 const { submittedDocumentSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllSubmittedDocuments = async (req, res) => {
 
@@ -55,7 +56,7 @@ const createSubmittedDocument = async (req, res) => {
         const { value, error } = submittedDocumentSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { documentType, documentPath, itemId } = value;
@@ -90,7 +91,7 @@ const updateSubmittedDocument = async (req, res) => {
         const { value, error } = submittedDocumentSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedSubmittedDocument = await SubmittedDocument.findByIdAndUpdate(id, value, { new: true });

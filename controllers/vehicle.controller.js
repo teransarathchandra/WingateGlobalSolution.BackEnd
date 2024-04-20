@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const { Vehicle } = require("../models");
 const { vehicleSchema } = require("../schemas");
+const { BadRequestError } = require('../helpers');
 
 const getAllVehicles = async (req, res) => {
   try {
@@ -60,7 +61,7 @@ const createVehicle = async (req, res) => {
     const { value, error } = vehicleSchema.validate(req.body);
 
     if (error) {
-      return res.status(400).json({ status: 400, message: error });
+      BadRequestError(error);
     }
 
     const { vehicleType, availability, vehicleAssignedDate, routeId } = value;
@@ -98,7 +99,7 @@ const updateVehicle = async (req, res) => {
     const { value, error } = vehicleSchema.validate(req.body);
 
     if (error) {
-      return res.status(400).json({ status: 400, message: error });
+      BadRequestError(error);
     }
 
     const updateVehicle = await Vehicle.findByIdAndUpdate(id, value, {

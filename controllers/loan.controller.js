@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { Loan } = require('../models');
 const { loanSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllLoans = async (req, res) => {
 
@@ -55,7 +56,7 @@ const createLoan = async (req, res) => {
         const { value, error } = loanSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { amount, interestRate, recurrence, startDate, endDate, employeeId } = value;
@@ -93,7 +94,7 @@ const updateLoan = async (req, res) => {
         const { value, error } = loanSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedLoan = await Loan.findByIdAndUpdate(id, value, { new: true });
