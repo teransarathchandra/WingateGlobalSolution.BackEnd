@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { Sales } = require('../models');
 const { salesSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllSales = async (req, res) => {
 
@@ -55,7 +56,7 @@ const createSales = async (req, res) => {
         const { value, error } = salesSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { description, amount, status, salesDate, salesPersonId, customerId } = value;
@@ -93,7 +94,7 @@ const updateSales = async (req, res) => {
         const { value, error } = salesSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedSales = await Sales.findByIdAndUpdate(id, value, { new: true });

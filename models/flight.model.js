@@ -15,16 +15,20 @@ const flightSchema = new Schema(
     },
     arrival: {
       type: String,
+      
     },
     arrivalTime: {
       type: String,
     },
     departure: {
-      type: String,
-    },
-    departureTime: {
-      type: String,
-    },
+        type: String,
+        
+      },
+      departureTime: {
+        type: String,
+        
+        
+      },
     AirlineId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "airline",

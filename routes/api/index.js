@@ -1,38 +1,39 @@
 const router = require("express").Router();
 
-const bulkRoutes = require("./bulk.route");
-const categoryRoutes = require("./category.route");
-const commercialInvoiceRoutes = require("./commercialInvoice.route");
-const contactPersonRoutes = require("./contactPerson.route");
-const countryRoutes = require("./country.route");
-const customerRoutes = require("./customer.route");
-const designationRoutes = require("./designation.route");
-const driverRoutes = require("./driver.route");
-const emailRoutes = require("./email.route");
-const employeeRoutes = require("./employee.route");
-const itemRoutes = require("./item.route");
-const loanRoutes = require("./loan.route");
-const orderRoutes = require("./order.route");
-const packageTypeRoutes = require("./packageType.route");
-const paymentMethodRoutes = require("./paymentMethod.route");
-const paymentRoutes = require("./payment.route");
-const portRoutes = require("./port.route");
-const quotationRoutes = require("./quotation.route");
-const receiverRoutes = require("./receiver.route");
-const reminderRoutes = require("./reminder.route");
-const restrictedOrderRoutes = require("./restrictedOrder.route");
-const routeRoutes = require("./route.route");
-const salesRoutes = require("./sales.route");
-const stockRoutes = require("./stock.route");
-const submittedDocumentRoutes = require("./submittedDocument.route");
-const systemAccessRoutes = require("./systemAccess.route");
-const userRoutes = require("./user.route");
-const vehicleRoutes = require("./vehicle.route");
-const warehouseRoutes = require("./warehouse.route");
-const flightRoutes = require("./flight.route");
-const airlineRoutes = require("./airline.route");
-const uploadFileRoutes = require("./fileUpload.route");
-const pdfRoutes = require("./pdf.route");
+const bulkRoutes = require('./bulk.route');
+const categoryRoutes = require('./category.route');
+const commercialInvoiceRoutes = require('./commercialInvoice.route');
+const contactPersonRoutes = require('./contactPerson.route');
+const countryRoutes = require('./country.route');
+const customerRoutes = require('./customer.route');
+const designationRoutes = require('./designation.route');
+const driverRoutes = require('./driver.route');
+const emailRoutes = require('./email.route');
+const employeeRoutes = require('./employee.route');
+const itemRoutes = require('./item.route');
+const loanRoutes = require('./loan.route');
+const orderRoutes = require('./order.route');
+const packageTypeRoutes = require('./packageType.route');
+const paymentMethodRoutes = require('./paymentMethod.route');
+const paymentRoutes = require('./payment.route');
+const portRoutes = require('./port.route');
+const quotationRoutes = require('./quotation.route');
+const receiverRoutes = require('./receiver.route');
+const reminderRoutes = require('./reminder.route');
+const restrictedOrderRoutes = require('./restrictedOrder.route');
+const routeRoutes = require('./route.route');
+const salesRoutes = require('./sales.route');
+const senderRoutes = require('./sender.route');
+const stockRoutes = require('./stock.route');
+const submittedDocumentRoutes = require('./submittedDocument.route');
+const systemAccessRoutes = require('./systemAccess.route');
+const userRoutes = require('./user.route');
+const vehicleRoutes = require('./vehicle.route');
+const warehouseRoutes = require('./warehouse.route');
+const flightRoutes = require('./flight.route');
+const airlineRoutes = require('./airline.route');
+const uploadFileRoutes = require('./fileUpload.route');
+const pdfRoutes = require('./pdf.route');
 
 //bulk routes
 router.use("/bulk", bulkRoutes);
@@ -104,7 +105,10 @@ router.use("/restrictedOrderType", restrictedOrderRoutes);
 router.use("/route", routeRoutes);
 
 //sales routes
-router.use("/sales", salesRoutes);
+router.use('/sales', salesRoutes);
+
+//sender routes
+router.use('/sender', senderRoutes);
 
 //stock routes
 router.use("/stock", stockRoutes);
