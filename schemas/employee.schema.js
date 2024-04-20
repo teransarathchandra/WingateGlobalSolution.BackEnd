@@ -26,7 +26,8 @@ const registerSchema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().required().min(8).max(100).regex(regExp.password),
     contactNumber: Joi.number().required().integer(),
-    designationId: Joi.string().required()
+    designationId: Joi.string().required(),
+    focus: Joi.string().default("order"),
 });
 
 const updateSchema = Joi.object({

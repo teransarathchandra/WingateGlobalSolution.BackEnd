@@ -91,6 +91,7 @@ const createEmployee = async (req, res) => {
       password,
       contactNumber,
       designationId,
+      focus
     } = value;
 
     // Check if the employee already exists
@@ -120,6 +121,7 @@ const createEmployee = async (req, res) => {
       password,
       contactNumber,
       designationId,
+      focus
     });
 
     // Generate access and refresh tokens
