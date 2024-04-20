@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const { RestrictedOrder } = require('../models');
 const { restrictedOrderSchema } = require('../schemas');
 const Country = require('../models/country.model');
-const Category = require('../models/category.model');
 //const { sendEmail } = require('../helpers');
 //const { emailTemplates } = require('../constants');
 const { restrictedOrderAgg } = require('../aggregates');
@@ -176,11 +175,11 @@ const filterRestrictedOrders = async (req, res) => {
 
         const receivingCountry = await Country.findOne({ countryCode: receivingCountryCode });
         if (!receivingCountry) {
-            return res.status(400).json({status: 400 , message: 'Invalid receiving country'});
+            return res.status(400).json({ status: 400, message: 'Invalid receiving country' });
         }
         const sendingCountry = await Country.findOne({ countryCode: sendingCountryCode });
-        if (!sendingCountry) { 
-            return res.status(400).json({status: 400 , message: 'Invalid sending country'});
+        if (!sendingCountry) {
+            return res.status(400).json({ status: 400, message: 'Invalid sending country' });
         }
 
         const existingRestrictedOrder = await RestrictedOrder.findOne({

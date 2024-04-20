@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const { User ,Order } = require('../models');
+const { User, Order } = require('../models');
 const { userSchema } = require('../schemas');
 const { hashedPassword, BadRequestError, sendEmail, verifyGoogleToken } = require('../helpers');
 const { frontEndHostConfig } = require('../config')
 const { emailTemplates } = require('../constants');
 const { generateVerificationToken } = require('../utils');
-const userOrdersAgg = require('../aggregates/userOrders.aggregate');
 
 const getAllUsers = async (req, res) => {
   try {
@@ -229,29 +228,29 @@ const loginUser = async (req, res) => {
       { new: true }
     );
 
-        // res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
-        res.json({
-            status: 200,
-            // accessToken,
-            // refreshToken,
-            user: {
-                userId: user.userId,
-                name: user.name,
-                email: user.email,
-                contactNumber: user.contactNumber,
-                address: user.address,
-                accessToken,
-                refreshToken,
-            },
-            message: 'User logged in successfully'
-        });
+    // res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
+    res.json({
+      status: 200,
+      // accessToken,
+      // refreshToken,
+      user: {
+        userId: user.userId,
+        name: user.name,
+        email: user.email,
+        contactNumber: user.contactNumber,
+        address: user.address,
+        accessToken,
+        refreshToken,
+      },
+      message: 'User logged in successfully'
+    });
 
-    } catch (err) {
-        res.status(400).json({
-            error: err.message,
-            message: 'Your request cannot be processed. Please try again'
-        });
-    }
+  } catch (err) {
+    res.status(400).json({
+      error: err.message,
+      message: 'Your request cannot be processed. Please try again'
+    });
+  }
 };
 
 const googleSignIn = async (req, res) => {
@@ -283,27 +282,27 @@ const googleSignIn = async (req, res) => {
       { new: true }
     );
 
-        // res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
-        res.status(200).json({
-            status: 200,
-            user: {
-                userId: user.userId,
-                name: user.name,
-                email: user.email,
-                contactNumber: user.contactNumber,
-                address: user.address,
-                accessToken,
-                refreshToken,
-            },
-            message: 'User logged in successfully'
-        });
+    // res.cookie('authToken', accessToken, { httpOnly: true }); // Send token as cookie
+    res.status(200).json({
+      status: 200,
+      user: {
+        userId: user.userId,
+        name: user.name,
+        email: user.email,
+        contactNumber: user.contactNumber,
+        address: user.address,
+        accessToken,
+        refreshToken,
+      },
+      message: 'User logged in successfully'
+    });
 
-    } catch (err) {
-        res.status(400).json({
-            error: err.message,
-            message: 'Your request cannot be processed. Please try again'
-        });
-    }
+  } catch (err) {
+    res.status(400).json({
+      error: err.message,
+      message: 'Your request cannot be processed. Please try again'
+    });
+  }
 };
 
 const logoutUser = async (req, res) => {
@@ -433,55 +432,55 @@ const refreshAccessToken = async (req, res) => {
 // In user.controller.js
 
 const getUserOrders = async (req, res) => {
-    try {
-        const { userId } = req.params;
+  try {
+    const { userId } = req.params;
 
-        if (!mongoose.Types.ObjectId.isValid(userId)) {
-            return res.status(404).json({ message: "Invalid user ID" });
-        }
-
-        const orders = await Order.aggregate([
-            {
-                '$lookup': {
-                    'from': 'users', // Ensure this matches the name of your user collection in MongoDB
-                    'localField': 'userId', // Field in the orders collection
-                    'foreignField': '_id', // Assuming this is the correct field to join on in the users collection
-                    'as': 'userDetails' // The result of the join will be stored here
-                }
-            },
-            {
-                '$match': {
-                    'userId': new mongoose.Types.ObjectId(userId)
-                }
-            },
-            {
-                '$unwind': {
-                    'path': '$userDetails', // Unwind the userDetails to flatten
-                    'preserveNullAndEmptyArrays': true // Optional: Keeps orders even if there's no matching user
-                }
-            }, {
-                '$project': {
-                  '_id': 1, 
-                  'orderId': 1, 
-                  'createdAt': 1, 
-                  'status' : 1,
-                  'userId': '$userDetails.userId'
-                }
-            }
-        ]);
-        // const user = await User.findById(userId);
-
-
-
-        if (!orders) {
-            return res.status(404).json({ message: "No orders found for this user" });
-        }
-
-        res.json({ data: orders });
-    } catch (error) {
-        console.error('Error fetching user orders:', error);
-        res.status(500).json({ message: 'Internal server error' });
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(404).json({ message: "Invalid user ID" });
     }
+
+    const orders = await Order.aggregate([
+      {
+        '$lookup': {
+          'from': 'users', // Ensure this matches the name of your user collection in MongoDB
+          'localField': 'userId', // Field in the orders collection
+          'foreignField': '_id', // Assuming this is the correct field to join on in the users collection
+          'as': 'userDetails' // The result of the join will be stored here
+        }
+      },
+      {
+        '$match': {
+          'userId': new mongoose.Types.ObjectId(userId)
+        }
+      },
+      {
+        '$unwind': {
+          'path': '$userDetails', // Unwind the userDetails to flatten
+          'preserveNullAndEmptyArrays': true // Optional: Keeps orders even if there's no matching user
+        }
+      }, {
+        '$project': {
+          '_id': 1,
+          'orderId': 1,
+          'createdAt': 1,
+          'status': 1,
+          'userId': '$userDetails.userId'
+        }
+      }
+    ]);
+    // const user = await User.findById(userId);
+
+
+
+    if (!orders) {
+      return res.status(404).json({ message: "No orders found for this user" });
+    }
+
+    res.json({ data: orders });
+  } catch (error) {
+    console.error('Error fetching user orders:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
 module.exports = { getAllUsers, getUserById, createUser, updateUser, deleteUser, loginUser, googleSignIn, logoutUser, verifyEmail, refreshAccessToken, getUserOrders };
