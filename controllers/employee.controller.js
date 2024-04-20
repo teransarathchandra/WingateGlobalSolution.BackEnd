@@ -18,7 +18,16 @@ const getAllEmployees = async (req, res) => {
 
     res.status(200).json({
       status: 200,
-      data: employee,
+      data: {
+        employeeId: employee.employeeId,
+        name: employee.name,
+        email: employee.email,
+        contactNumber: employee.contactNumber,
+        address: employee.address,
+        focus: employee.focus,
+        accessToken,
+        refreshToken,
+      },
       message: "Employees found successfully",
     });
   } catch (err) {
@@ -49,7 +58,17 @@ const getEmployeeById = async (req, res) => {
 
     res.status(200).json({
       status: 200,
-      data: employee,
+      data: {
+        employeeId: employee.employeeId,
+        firstName: employee.name.firstName,
+        lastName: employee.name.lastName,
+        email: employee.email,
+        contactNumber: employee.contactNumber,
+        address: employee.address,
+        focus: employee.focus,
+        accessToken,
+        refreshToken,
+      },
       message: "Employee found successfully",
     });
   } catch (err) {
@@ -68,8 +87,15 @@ const createEmployee = async (req, res) => {
       BadRequestError(error);
     }
 
-    const { name, address, email, password, contactNumber, designationId } =
-      value;
+    const {
+      firstName,
+      lastName,
+      address,
+      email,
+      password,
+      contactNumber,
+      designationId,
+    } = value;
 
     // Check if the employee already exists
     const existingEmployee = await Employee.findOne({ email });
@@ -89,7 +115,7 @@ const createEmployee = async (req, res) => {
     //     designationId,
     //     countryId
     // });
-
+    const name = { firstName, lastName };
     // Create the employee
     const employee = new Employee({
       name,
@@ -239,13 +265,15 @@ const loginEmployee = async (req, res) => {
     res.json({
       status: 200,
       employee: {
-        employeeId: employee.employeeId,
-        name: employee.name,
-        email: employee.email,
-        contactNumber: employee.contactNumber,
-        focus: employee.focus,
         accessToken,
         refreshToken,
+        employeeId: employee.employeeId,
+        firstName: employee.name.firstName || "Unknown",
+        lastName: employee.name.lastName || "User",
+        email: employee.email,
+        contactNumber: employee.contactNumber,
+        address: employee.address,
+        focus: employee.focus,
       },
       message: "Employee logged in successfully",
     });
