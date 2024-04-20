@@ -2,11 +2,20 @@ const mongoose = require('mongoose');
 
 const { WareHouse } = require('../models');
 const { wareHouseSchema } = require('../schemas');
+const { warehouseAgg } = require('../aggregates');
 
 const getAllWarehouse = async (req, res) => {
 
     try {
-        const warehouse = await WareHouse.find();
+        let warehouse
+        const { type } = req.query;
+
+        if( type == 'warehouseId'){
+            warehouse = await WareHouse.aggregate(warehouseAgg.aggTypeTwo);
+        }else {
+            warehouse = await WareHouse.find();
+        }
+        //const warehouse = await WareHouse.find();
 
         if (!warehouse) {
             return res.status(404).json({ status: 404, message: "Warehouse not found" });

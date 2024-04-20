@@ -1,11 +1,11 @@
 const Joi = require('joi');
 
 const warehouseJoiSchema = Joi.object({
-    location: Joi.string().required(),
-    storageCapacity: Joi.number().required(),
-    availability: Joi.boolean().required(),
-    warehouseManagerId: Joi.string().required(),
-    countryId: Joi.string().required() 
+    location: Joi.string(),
+    storageCapacity: Joi.number(),
+    availability: Joi.boolean(),
+    warehouseManagerId: Joi.string(),
+    countryId: Joi.string() 
 });
 
 module.exports = warehouseJoiSchema;
