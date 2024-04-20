@@ -1,18 +1,20 @@
 const Joi = require("joi");
 
 const createOrderJoiSchema = Joi.object({
-  status: Joi.string().min(10).max(255).required(),
-  packageCount: Joi.number().integer().min(1).default(1),
-  priority: Joi.string().required(),
-  userId: Joi.string().required(),
+  status: Joi.string().min(3).max(255).required(),
   itemId: Joi.string().required(),
+  senderId: Joi.string().required(),
   receiverId: Joi.string().required(),
   isPickupOrder: Joi.boolean().required(),
-  //routeId: Joi.string().required(),
-  orderId: Joi.string().required(),
+  pickupDate: Joi.date(),
+  priority: Joi.string().required(),
+  userId: Joi.string(),
+  orderId: Joi.string(),
   stockId: Joi.string(),
   bulkId: Joi.string(),
-  packageId: Joi.string().required(),
+  paymentId: Joi.string(),
+  invoiceId: Joi.string(),
+  quotationId: Joi.string(),
 });
 
 const updateOrderJoiSchema = Joi.object({

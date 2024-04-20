@@ -29,7 +29,7 @@ const registerSchema = Joi.object({
 });
 
 const updateSchema = Joi.object({
-    name: nameSchema,
+    name: nameSchema.optional(),
     email: Joi.string().email(),
     contactNumber: Joi.number().integer(),
     address: addressSchema,

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { Flight } = require('../models');
 const { flightSchema } = require('../schemas');
 const { transportAgg } = require('../aggregates');
+const { BadRequestError } = require('../helpers');
 
 const getAllFlights = async (req, res) => {
 
@@ -65,7 +66,7 @@ const createFlight = async (req, res) => {
         const { value, error } = flightSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { flightId, type, routeCostPerKilo, arrival, arrivalTime, departure, departureTime, AirlineId } = value;
@@ -108,7 +109,7 @@ const updateFlight = async (req, res) => {
         const { value, error } = flightSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedFlight = await Flight.findByIdAndUpdate(id, value, { new: true });

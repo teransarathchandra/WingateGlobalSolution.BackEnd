@@ -137,18 +137,24 @@ const getOrderByOrderId = async (req, res) => {
 const createOrder = async (req, res) => {
 
     try {
-        // const { value, error } = orderSchema.createOrderJoiSchema.validate(req.body);
 
-        // if (error) {
-        //     return res.status(400).json({ status: 400, message: error });
-        // }
-        const value = req.body
-        const { status, packageCount, userId, stockId, packageId, bulkdId, paymentId, invoiceId, itemId, senderId, receiverId, quotationId, isPickupOrder, pickupDate, priority } = value;
+        const user = req.user || req.employee;
+        if (!user) {
+            return res.status(403).json({ message: "User information is missing" });
+        }
+
+        const { value, error } = orderSchema.createOrderJoiSchema.validate(req.body);
+
+        if (error) {
+            BadRequestError(error);
+        }
+
+        const { status, packageCount, stockId, packageId, bulkdId, paymentId, invoiceId, itemId, senderId, receiverId, quotationId, isPickupOrder, pickupDate, priority } = value;
 
         const order = await Order.create({
             status, 
             packageCount, 
-            userId, 
+            userId: user._id,
             stockId, 
             packageId, 
             bulkdId, 

@@ -1,9 +1,14 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const { regExp } = require('../constants');
-const { signToken, comparePassword, hashPassword, getNextSequence } = require("../helpers");
-const nameSchema = require('./name.model')
+const { regExp } = require("../constants");
+const {
+  signToken,
+  comparePassword,
+  hashPassword,
+  getNextSequence,
+} = require("../helpers");
+const nameSchema = require("./name.model");
 const addressSchema = require("./address.model");
 
 const employeeSchema = new Schema(
@@ -13,10 +18,10 @@ const employeeSchema = new Schema(
       unique: true,
     },
     name: {
-      type: nameSchema
+      type: nameSchema,
     },
     address: {
-      type: addressSchema
+      type: addressSchema,
     },
     email: {
       type: String,
@@ -36,6 +41,12 @@ const employeeSchema = new Schema(
       maxLength: 15,
       minLength: 10,
     },
+    focus: {
+      type: String,
+      required: false,
+      maxLength: 15,
+      minLength: 0,
+    },
     designationId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "designation",
@@ -44,7 +55,7 @@ const employeeSchema = new Schema(
     refreshToken: {
       type: String,
       required: false,
-    }
+    },
   },
   { timestamps: true }
 );
@@ -53,9 +64,9 @@ employeeSchema.methods.comparePassword = comparePassword;
 
 employeeSchema.methods.signToken = signToken;
 
-employeeSchema.pre("save", async function(next) {
+employeeSchema.pre("save", async function (next) {
   if (this.isNew) {
-    const nextId = await getNextSequence('employee');
+    const nextId = await getNextSequence("employee");
     this.employeeId = `EMP${nextId}`;
   }
   next();

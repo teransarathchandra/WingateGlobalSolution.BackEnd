@@ -1,4 +1,4 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
 const bulkRoutes = require('./bulk.route');
 const categoryRoutes = require('./category.route');
@@ -23,6 +23,7 @@ const reminderRoutes = require('./reminder.route');
 const restrictedOrderRoutes = require('./restrictedOrder.route');
 const routeRoutes = require('./route.route');
 const salesRoutes = require('./sales.route');
+const senderRoutes = require('./sender.route');
 const stockRoutes = require('./stock.route');
 const submittedDocumentRoutes = require('./submittedDocument.route');
 const systemAccessRoutes = require('./systemAccess.route');
@@ -35,103 +36,105 @@ const uploadFileRoutes = require('./fileUpload.route');
 const pdfRoutes = require('./pdf.route');
 
 //bulk routes
-router.use('/bulk', bulkRoutes);
+router.use("/bulk", bulkRoutes);
 
 //category routes
-router.use('/category', categoryRoutes);
+router.use("/category", categoryRoutes);
 
 //commercialInvoice routes
-router.use('/commercialInvoice', commercialInvoiceRoutes);
+router.use("/commercialInvoice", commercialInvoiceRoutes);
 
 //contactPerson routes
-router.use('/contactPerson', contactPersonRoutes);
+router.use("/contactPerson", contactPersonRoutes);
 
 //country routes
-router.use('/country', countryRoutes);
+router.use("/country", countryRoutes);
 
 //customer routes
-router.use('/customer', customerRoutes);
+router.use("/customer", customerRoutes);
 
 //designation routes
-router.use('/designation', designationRoutes);
+router.use("/designation", designationRoutes);
 
 //driver routes
-router.use('/driver', driverRoutes);
+router.use("/driver", driverRoutes);
 
 //email routes
-router.use('/email', emailRoutes);
+router.use("/email", emailRoutes);
 
 //employee routes
-router.use('/employee', employeeRoutes);
+router.use("/employee", employeeRoutes);
 
 //item routes
-router.use('/item', itemRoutes);
+router.use("/item", itemRoutes);
 
 //loan routes
-router.use('/loan', loanRoutes);
+router.use("/loan", loanRoutes);
 
 //order routes
-router.use('/order', orderRoutes);
+router.use("/order", orderRoutes);
 
 //packageType routes
-router.use('/packageType', packageTypeRoutes);
+router.use("/packageType", packageTypeRoutes);
 
 //payment routes
-router.use('/payment', paymentRoutes);
+router.use("/payment", paymentRoutes);
 
 //paymentMethod routes
-router.use('/paymentMethod', paymentMethodRoutes);
+router.use("/paymentMethod", paymentMethodRoutes);
 
 //port routes
-router.use('/port', portRoutes);
+router.use("/port", portRoutes);
 
 //quotation routes
-router.use('/quotation', quotationRoutes);
+router.use("/quotation", quotationRoutes);
 
 //receiver routes
-router.use('/receiver', receiverRoutes);
+router.use("/receiver", receiverRoutes);
 
 //reminder routes
-router.use('/reminder', reminderRoutes);
+router.use("/reminder", reminderRoutes);
 
 //required document routes
-router.use('/submittedDocument', submittedDocumentRoutes)
+router.use("/submittedDocument", submittedDocumentRoutes);
 
 //restrictedOrder routes
-router.use('/restrictedOrderType', restrictedOrderRoutes);
+router.use("/restrictedOrderType", restrictedOrderRoutes);
 
 //route routes
-router.use('/route', routeRoutes);
+router.use("/route", routeRoutes);
 
 //sales routes
 router.use('/sales', salesRoutes);
 
+//sender routes
+router.use('/sender', senderRoutes);
+
 //stock routes
-router.use('/stock', stockRoutes);
+router.use("/stock", stockRoutes);
 
 //systemAccess routes
-router.use('/systemAccess', systemAccessRoutes);
+router.use("/systemAccess", systemAccessRoutes);
 
 //user routes
-router.use('/user', userRoutes);
+router.use("/user", userRoutes);
 
 //vehicle routes
-router.use('/vehicle', vehicleRoutes);
+router.use("/vehicle", vehicleRoutes);
 
 //warehouse routes
-router.use('/warehouse', warehouseRoutes);
+router.use("/warehouse", warehouseRoutes);
 
 //flight routes
-router.use('/flight', flightRoutes);
+router.use("/flight", flightRoutes);
 
 //airline routes
-router.use('/airline', airlineRoutes);
+router.use("/airline", airlineRoutes);
 
 //upload file routes
-router.use('/uploadFile', uploadFileRoutes);
+router.use("/uploadFile", uploadFileRoutes);
 
 //pdf routes
-router.use('/generate-pdf', pdfRoutes);
-
+router.use("/generate-pdf", pdfRoutes);
 
 module.exports = router;

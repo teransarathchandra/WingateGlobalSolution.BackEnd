@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { Port } = require('../models');
 const { portSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllPorts = async (req, res) => {
 
@@ -56,7 +57,7 @@ const createPort = async (req, res) => {
         const { value, error } = portSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { portCode, name, type, countryId } = value;

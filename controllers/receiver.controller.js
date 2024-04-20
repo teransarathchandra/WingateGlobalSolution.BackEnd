@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const { Receiver } = require('../models');
 const { receiverSchema } = require('../schemas');
 
+const { BadRequestError } = require('../helpers');
+
 const getAllReceiver = async (req, res) => {
 
     try {
@@ -55,18 +57,13 @@ const createReceiver = async (req, res) => {
         const { value, error } = receiverSchema.receiverJoiSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
-        const {  name, contactNumber, email, address, orderId, countryId } = value;
+        const { name, address, contactNumber, email } = value;
 
         const receiver = await Receiver.create({
-            name, 
-            contactNumber, 
-            email, 
-            address, 
-            orderId, 
-            countryId
+            name, address, contactNumber, email
         });
 
         if (!receiver) {
@@ -93,7 +90,7 @@ const updateReceiver = async (req, res) => {
         const { value, error } = receiverSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedReceiver = await Receiver.findByIdAndUpdate(id, value, { new: true });

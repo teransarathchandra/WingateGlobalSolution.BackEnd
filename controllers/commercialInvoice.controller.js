@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { CommercialInvoice } = require('../models');
 const { commercialInvoiceSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllCommercialInvoice = async (req, res) => {
 
@@ -55,7 +56,7 @@ const createCommercialInvoice = async (req, res) => {
         const { value, error } = commercialInvoiceSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { orderId, documentPath } = value;
@@ -89,7 +90,7 @@ const updateCommercialInvoice = async (req, res) => {
         const { value, error } = commercialInvoiceSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedCommercialInvoice = await CommercialInvoice.findByIdAndUpdate(id, value, { new: true });
