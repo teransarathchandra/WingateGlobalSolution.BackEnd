@@ -25,8 +25,6 @@ const getAllEmployees = async (req, res) => {
         contactNumber: employee.contactNumber,
         address: employee.address,
         focus: employee.focus,
-        accessToken,
-        refreshToken,
       },
       message: "Employees found successfully",
     });
@@ -66,8 +64,6 @@ const getEmployeeById = async (req, res) => {
         contactNumber: employee.contactNumber,
         address: employee.address,
         focus: employee.focus,
-        accessToken,
-        refreshToken,
       },
       message: "Employee found successfully",
     });
