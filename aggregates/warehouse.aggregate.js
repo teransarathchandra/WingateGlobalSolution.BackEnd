@@ -42,13 +42,8 @@ const aggTypeTwo = [
     '$match': {
       'availability': true
     }
-  },
-//   {
-//     '$project' : {
-//         '_id': 1
-//     }
-//   }
-];
+  }
+]
 
 const restrictedOrderTypes = [[
         {
