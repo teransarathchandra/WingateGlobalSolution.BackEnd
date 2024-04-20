@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 
-const { PAYHERE_MERCHANT_ID, PAYHERE_MERCHANT_SECRET } = process.env;
-
 const { Payment } = require('../models');
-const { paymentSchema } = require('../schemas')
+const { paymentSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
+
+const { PAYHERE_MERCHANT_ID, PAYHERE_MERCHANT_SECRET } = process.env;
 
 const getAllPayments = async (req, res) => {
     try {
@@ -54,7 +55,7 @@ const createPayment = async (req, res) => {
         const { value, error } = paymentSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { paymentDescription, amount, paymentMethod, paymentStatus, orderId } = value;
@@ -92,7 +93,7 @@ const updatePayment = async (req, res) => {
 
         const { value, error } = paymentSchema.validate(req.body);
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedPayment = await Payment.findByIdAndUpdate(id, value, { new: true });

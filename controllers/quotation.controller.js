@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const { Quotation } = require('../models');
-const { quotationSchema } = require('../schemas')
+const { quotationSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllQuotations = async (req, res) => {
 
@@ -52,7 +53,7 @@ const createQuotation = async (req, res) => {
         const { value, error } = quotationSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { packagingCost, routeCost, unitWeightCost, surcharge, orderId } = value;
@@ -90,7 +91,7 @@ const updateQuotation = async (req, res) => {
 
         const { value, error } = quotationSchema.validate(req.body);
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedQuotation = await Quotation.findByIdAndUpdate(id, value, { new: true });

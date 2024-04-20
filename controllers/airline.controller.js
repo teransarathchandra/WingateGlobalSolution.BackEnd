@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { Airline } = require('../models');
 const { airlineSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllAirlines = async (req, res) => {
 
@@ -56,7 +57,7 @@ const createAirline = async (req, res) => {
         const { value, error } = airlineSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { airlineId, code, name } = value;
@@ -94,7 +95,7 @@ const updateAirline = async (req, res) => {
         const { value, error } = airlineSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedAirline = await Airline.findByIdAndUpdate(id, value, { new: true });
