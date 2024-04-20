@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { Country } = require('../models');
 const { countrySchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllCountries = async (req, res) => {
 
@@ -55,7 +56,7 @@ const createCountry = async (req, res) => {
         const { value, error } = countrySchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { countryCode, name, currency } = value;
@@ -91,7 +92,7 @@ const updateCountry = async (req, res) => {
         const { value, error } = countrySchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedCountry = await Country.findByIdAndUpdate(id, value, { new: true });

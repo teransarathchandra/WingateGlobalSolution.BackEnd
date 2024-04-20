@@ -96,7 +96,7 @@ const updateItem = async (req, res) => {
 
         const { value, error } = itemSchema.validate(req.body);
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedItem = await Item.findByIdAndUpdate(id, value, { new: true });

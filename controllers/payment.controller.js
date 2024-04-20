@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 
-const { PAYHERE_MERCHANT_ID, PAYHERE_MERCHANT_SECRET } = process.env;
-
 const { Payment } = require('../models');
-const { paymentSchema } = require('../schemas')
+const { paymentSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
+
+const { PAYHERE_MERCHANT_ID, PAYHERE_MERCHANT_SECRET } = process.env;
 
 const getAllPayments = async (req, res) => {
     try {
@@ -54,7 +55,7 @@ const createPayment = async (req, res) => {
         const { value, error } = paymentSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { paymentDescription, amount, paymentMethod, paymentStatus, orderId } = value;
@@ -92,7 +93,7 @@ const updatePayment = async (req, res) => {
 
         const { value, error } = paymentSchema.validate(req.body);
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedPayment = await Payment.findByIdAndUpdate(id, value, { new: true });
@@ -157,7 +158,6 @@ const paymentNotify = async (req, res) => {
             status_code +
             crypto.createHash('md5').update(merchant_secret).digest('hex').toUpperCase()
         ).digest('hex').toUpperCase();
-
         // Check if the local hash matches the hash from PayHere
         if (localMd5sig === md5sig) {
             // Hash match, valid notification
@@ -207,8 +207,7 @@ const generateHash = async (req, res) => {
 
         const merchant_secret = PAYHERE_MERCHANT_SECRET;
         const merchant_id = PAYHERE_MERCHANT_ID
-
-        const formattedAmount = parseFloat(amount).toFixed(2); // Ensure the amount is in the correct format
+        const formattedAmount = (amount).toFixed(2); // Ensure the amount is in the correct format
         const hashSecret = crypto.createHash('md5').update(merchant_secret).digest('hex').toUpperCase();
         const hashString = `${merchant_id}${order_id}${formattedAmount}${currency}${hashSecret}`;
         const hash = crypto.createHash('md5').update(hashString).digest('hex').toUpperCase();
