@@ -6,8 +6,6 @@ const { SubmittedDocument } = require('../models');
 const { submittedDocumentSchema } = require('../schemas');
 const { BadRequestError } = require('../helpers');
 
-const { BadRequestError } = require('../helpers');
-
 const getAllSubmittedDocuments = async (req, res) => {
 
     try {
