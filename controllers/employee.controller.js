@@ -266,7 +266,7 @@ const loginEmployee = async (req, res) => {
         accessToken,
         refreshToken,
         employeeId: employee.employeeId,
-        name: employee.name || { firstName: 'Unknown', lastName: 'User' },
+        name: employee.name,
         email: employee.email,
         contactNumber: employee.contactNumber,
         address: employee.address,
