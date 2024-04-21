@@ -37,9 +37,9 @@ const getLastAddedBulk = async (req, res) => {
         const { type } = req.query;
 
         if (type == 'lastBulkIds') {
-            lastBulk = await Bulk.aggregate(transportAgg.aggLastBulk).sort({ createdDate: 1 }).limit(1);
+            lastBulk = await Bulk.aggregate(transportAgg.aggLastBulk).sort({ createdDate: -1 }).limit(1);
         } else {
-            lastBulk = await Bulk.findOne().sort({ createdDate: 1 });
+            lastBulk = await Bulk.findOne().sort({ createdDate: -1 });
         }
 
 

@@ -9,5 +9,6 @@ router.get('/:id', isAuthorized, countryController.getCountryById);
 router.post('/', isAuthorized, countryController.createCountry);
 router.put('/:id', isAuthorized, countryController.updateCountry);
 router.delete('/:id', isAuthorized, countryController.deleteCountry);
+router.get('/countrycode/:countryCode', isAuthorized, countryController.getCountryByCountyCode);
 
 module.exports = router;
