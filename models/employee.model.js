@@ -8,7 +8,7 @@ const {
   hashPassword,
   getNextSequence,
 } = require("../helpers");
-const nameSchema = require("./name.model");
+const nameSchema = require("./employee-name.model");
 const addressSchema = require("./address.model");
 
 const employeeSchema = new Schema(
