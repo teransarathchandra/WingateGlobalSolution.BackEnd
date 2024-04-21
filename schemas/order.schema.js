@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const createOrderJoiSchema = Joi.object({
+const createOrderSchema = Joi.object({
   status: Joi.string().min(3).max(255).required(),
   senderId: Joi.string().required(),
   receiverId: Joi.string().required(),
@@ -8,6 +8,7 @@ const createOrderJoiSchema = Joi.object({
   pickupDate: Joi.date(),
   priority: Joi.string().required(),
   userId: Joi.string(),
+  itemId: Joi.string(),
   orderId: Joi.string(),
   stockId: Joi.string(),
   bulkId: Joi.string(),
@@ -16,7 +17,7 @@ const createOrderJoiSchema = Joi.object({
   quotationId: Joi.string(),
 });
 
-const updateOrderJoiSchema = Joi.object({
+const updateOrderSchema = Joi.object({
   _id: Joi.string(),
   status: Joi.string().min(3).max(255),
   senderId: Joi.string(),
@@ -25,6 +26,7 @@ const updateOrderJoiSchema = Joi.object({
   pickupDate: Joi.date(),
   priority: Joi.string(),
   userId: Joi.string(),
+  itemId: Joi.string(),
   orderId: Joi.string(),
   stockId: Joi.string(),
   bulkId: Joi.string(),
@@ -33,4 +35,4 @@ const updateOrderJoiSchema = Joi.object({
   quotationId: Joi.string(),
 });
 
-module.exports = { createOrderJoiSchema, updateOrderJoiSchema };
+module.exports = { createOrderSchema, updateOrderSchema };
