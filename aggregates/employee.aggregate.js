@@ -20,7 +20,6 @@ const aggType = [
       createdAt: 1,
       password: 1,
       __v: 1,
-      "name._id": 1,
       "name.firstName": 1,
       "name.lastName": 1,
       contactNumber: 1,

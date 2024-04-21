@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
-const { Employee } = require("../models");
+const { Employee, Country } = require("../models");
 const { employeeSchema } = require("../schemas");
 const { hashedPassword, BadRequestError, sendEmail } = require("../helpers");
 const { employeeAccessAgg } = require('../aggregates');
@@ -118,94 +118,19 @@ const createEmployee = async (req, res) => {
     employee.refreshToken = refreshToken;
     await employee.save();
 
+
+    const userData = {
+      userId: employee.employeeId,
+      name: employee.name,
+      email: employee.email,
+      contactNumber: employee.contactNumber,
+      address: employee.address,
+      emailVerified: employee.emailVerified,
+    };
+
     res
       .status(201)
-      .json({ data: null, message: "Employee created successfully" });
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({
-      error: err.message,
-      message: "Your request cannot be processed. Please try again",
-    });
-  }
-};
-
-const createEmployeeX = async (req, res) => {
-  try {
-    const { value, error } = employeeSchema.registerSchema.validate(req.body);
-
-    if (error) {
-      BadRequestError(error);
-    }
-
-    const {
-      firstName,
-      lastName,
-      address,
-      email,
-      password,
-      contactNumber,
-      designationId,
-      focus
-    } = value;
-
-    // Check if the employee already exists
-    const existingEmployee = await Employee.findOne({ email });
-    if (existingEmployee) {
-      return res.status(409).json({ message: "Employee already exists" });
-    }
-
-    // Insert the employee
-    // const employee = await Employee.create({
-    //     employeeId,
-    //     name,
-    //     address,
-    //     username,
-    //     email,
-    //     password,
-    //     contactNumber,
-    //     designationId,
-    //     countryId
-    // });
-    const name = { firstName, lastName };
-    // Create the employee
-    const employee = new Employee({
-      name,
-      address,
-      email,
-      password,
-      contactNumber,
-      designationId,
-      focus
-    });
-
-    // Generate access and refresh tokens
-    const { accessToken, refreshToken } = employee.signToken();
-
-    // Save the refreshToken with the employee
-    employee.refreshToken = refreshToken;
-    await employee.save();
-
-    if (!employee) {
-      return res.status(400).json({ message: "Employee cannot create" });
-    }
-
-    // sending response exclude the password and refresh token
-    const employeeData = employee.toObject();
-    delete employeeData.password;
-    // delete employeeData.refreshToken;
-
-    await sendEmail({
-      to: email,
-      subject: "Welcome to Wingate Global Solution!",
-      html: emailTemplates.signUpEmailHTML(name.firstName),
-    });
-
-    res.status(201).json({
-      accessToken,
-      data: employeeData,
-      message: "Employee created successfully",
-    });
+      .json({ data: userData, message: "Employee created successfully" });
   } catch (err) {
     console.error(err);
     res.status(400).json({
@@ -237,6 +162,7 @@ const updateEmployee = async (req, res) => {
     const updatedEmployee = await Employee.findByIdAndUpdate(id, value, {
       new: true,
     });
+    
     if (!updatedEmployee) {
       return res
         .status(404)
@@ -294,6 +220,7 @@ const loginEmployee = async (req, res) => {
 
     const { email, password } = value;
     const employee = await Employee.findOne({ email });
+
     if (!employee) {
       return res.status(400).json({
         status: 400,
@@ -321,10 +248,18 @@ const loginEmployee = async (req, res) => {
         accessToken,
         refreshToken,
         employeeId: employee.employeeId,
-        name: employee.name || { firstName: 'Unknown', lastName: 'User' },
+        name: {
+          firstName: employee.name.firstName,
+          lastName: employee.name.lastName
+        },
+        address: {
+          street: employee.address.street,
+          city: employee.address.city,
+          state: employee.address.state,
+          country: employee.address.country
+        },
         email: employee.email,
         contactNumber: employee.contactNumber,
-        address: employee.address,
         focus: employee.focus,
       },
       message: "Employee logged in successfully",

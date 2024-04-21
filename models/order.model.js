@@ -16,6 +16,11 @@ const orderSchema = new Schema(
       required: true,
       enum: ['InProgress', 'Processing', 'Completed', 'Pending' , 'Approved' , 'Rejected']
     },
+    itemId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "item",
+      required: true
+    },
     stockId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "stock",
