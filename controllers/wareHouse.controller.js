@@ -68,14 +68,12 @@ const createWarehouse = async (req, res) => {
             BadRequestError(error);
         }
 
-        const { location, storageCapacity, availability, warehouseManagerId, countryId } = value;
+        const { storageCapacity, availability,location } = value;
 
         const warehouse = await WareHouse.create({
-            location,
             storageCapacity,
             availability,
-            warehouseManagerId,
-            countryId
+            location
         });
 
         if (!warehouse) {
