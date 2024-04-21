@@ -2,7 +2,6 @@ const Joi = require("joi");
 
 const createOrderJoiSchema = Joi.object({
   status: Joi.string().min(3).max(255).required(),
-  itemId: Joi.string().required(),
   senderId: Joi.string().required(),
   receiverId: Joi.string().required(),
   isPickupOrder: Joi.boolean().required(),
@@ -20,7 +19,6 @@ const createOrderJoiSchema = Joi.object({
 const updateOrderJoiSchema = Joi.object({
   _id: Joi.string(),
   status: Joi.string().min(3).max(255),
-  itemId: Joi.string(),
   senderId: Joi.string(),
   receiverId: Joi.string(),
   isPickupOrder: Joi.boolean(),
