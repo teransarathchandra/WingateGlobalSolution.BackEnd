@@ -109,14 +109,16 @@ const aggLastBulk = [
       'foreignField': '_id',
       'as': 'country'
     }
-  }, {
-    '$lookup': {
-      'from': 'flights',
-      'localField': 'flightId',
-      'foreignField': '_id',
-      'as': 'flight'
-    }
-  }, {
+   }, 
+   //{
+  //   '$lookup': {
+  //     'from': 'flights',
+  //     'localField': 'flightId',
+  //     'foreignField': '_id',
+  //     'as': 'flight'
+  //   }
+  // }, 
+  {
     '$sort': {
       'createdAt': -1
     }
@@ -127,11 +129,11 @@ const aggLastBulk = [
       'path': '$country'
     }
   },
-  // {
-  //   '$unwind': {
-  //     'path': '$flight'
-  //   }
-  // }, 
+  {
+    '$unwind': {
+      'path': '$flight'
+    }
+  }, 
   {
     '$project': {
       '_id': 1,
@@ -268,6 +270,8 @@ const getOrdersByOrderIds = (orderId) => [
     '$project': {
       '_id': 1,
       'orderId': 1,
+      'priority': 1,
+      'status': '$bulk.status',
       'currentLocation': '$bulk.currentLocation',
       'arrivedTime': '$bulk.arrivedTime'
     }

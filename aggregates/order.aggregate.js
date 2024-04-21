@@ -25,7 +25,8 @@ const aggType = [
       '$project': {
         '_id': 1, 
         'orderId': 1, 
-        'userId': '$user.email', 
+        'email': '$user.email', 
+        'userId': '$user.userId', 
         'description': '$item.description', 
         'amount': '$item.itemValue', 
         'status': 1, 
