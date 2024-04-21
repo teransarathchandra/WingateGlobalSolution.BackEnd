@@ -13,7 +13,7 @@ const calculateQuotation = async (req, res) => {
         console.log("Quotation");
 
         //return res.status(400).json({ message: 'Amount cannot calculate' });
-        return res.status(400).json({ status: 400, data: amount, message: "Amount calculated successfully" });
+        return res.status(200).json({ status: 200, data: amount, message: "Amount calculated successfully" });
 
     } catch (err) {
         res.status(400).json({
