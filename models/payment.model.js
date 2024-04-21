@@ -9,10 +9,6 @@ const paymentSchema = new Schema(
       type: String,
       unique: true,
     },
-    paymentDescription: {
-      type: String,
-      maxLength: 255,
-    },
     amount: {
       type: Number,
       required: true,
@@ -25,6 +21,10 @@ const paymentSchema = new Schema(
     paymentStatus: {
       type: String,
       enum: ["Completed", "Pending", "Cancelled"],
+      required: true,
+    },
+    paymentDate: {
+      type: Date,
       required: true,
     },
     orderId: {

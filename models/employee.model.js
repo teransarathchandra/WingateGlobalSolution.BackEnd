@@ -52,6 +52,11 @@ const employeeSchema = new Schema(
       ref: "designation",
       required: true,
     },
+    accessLevel: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "systemAccess",
+      default: "66247ee2e3a24c3c7e0fe787",
+    },
     refreshToken: {
       type: String,
       required: false,

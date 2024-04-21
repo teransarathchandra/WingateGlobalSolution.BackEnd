@@ -24,6 +24,11 @@ const quotationSchema = new Schema(
       min: 0,
       required: true,
     },
+    pickUpCost: {
+      type: Number,
+      min: 0,
+      required: true,
+    },
     surcharge: {
       type: Number,
       required: true,

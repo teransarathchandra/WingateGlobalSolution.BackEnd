@@ -4,30 +4,31 @@ const jwt = require("jsonwebtoken");
 const { Employee } = require("../models");
 const { employeeSchema } = require("../schemas");
 const { hashedPassword, BadRequestError, sendEmail } = require("../helpers");
+const { employeeAccessAgg } = require('../aggregates');
 const { emailTemplates } = require("../constants");
 
 const getAllEmployees = async (req, res) => {
   try {
-    const employee = await Employee.find();
+    let employee
+    const { type } = req.query;
 
-    if (!employee) {
-      return res
-        .status(404)
-        .json({ status: 404, message: "Employee not found" });
+    if (type == 'withAccess') {
+      employee = await Employee.aggregate(employeeAccessAgg.aggType);
+      employee.forEach((emp) => {
+        emp.accessDescription = emp.accessDescription || "No Access";
+      });
+    } else {
+      employee = await Employee.find();
     }
 
-    res.status(200).json({
-      status: 200,
-      data: {
-        employeeId: employee.employeeId,
-        name: employee.name,
-        email: employee.email,
-        contactNumber: employee.contactNumber,
-        address: employee.address,
-        focus: employee.focus,
-      },
-      message: "Employees found successfully",
-    });
+
+
+    if (!employee) {
+      return res.status(404).json({ status: 404, message: "Employees not found" });
+    }
+
+    res.status(200).json({ status: 200, data: employee, message: "Employees found successfully" });
+
   } catch (err) {
     res.status(400).json({
       error: err.message,

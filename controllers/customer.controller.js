@@ -3,11 +3,19 @@ const mongoose = require('mongoose');
 const { Customer } = require('../models');
 const { customerSchema } = require('../schemas')
 const { BadRequestError } = require('../helpers');
+const { crmAgg } = require('../aggregates');
 
 const getAllCustomers = async (req, res) => {
 
     try {
-        const customer = await Customer.find();
+        let customer
+        const { type } = req.query;
+
+        if( type == 'customerIds'){
+            customer = await Customer.aggregate(crmAgg.aggType);
+        }else {
+            customer = await Customer.find();
+        }
 
         if (!customer) {
             return res.status(404).json({ status: 404, message: "Customer not found" });

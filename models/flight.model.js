@@ -5,7 +5,7 @@ const flightSchema = new Schema(
   {
     flightId: {
       type: String,
-      unique: true,
+      //unique: true,
     },
     type: {
       type: String,
