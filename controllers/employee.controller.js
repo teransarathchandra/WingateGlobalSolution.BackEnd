@@ -6,6 +6,7 @@ const { employeeSchema } = require("../schemas");
 const { hashedPassword, BadRequestError, sendEmail } = require("../helpers");
 const { employeeAccessAgg } = require('../aggregates');
 const { emailTemplates } = require("../constants");
+const { generateVerificationToken } = require("../utils");
 
 const getAllEmployees = async (req, res) => {
   try {
@@ -77,6 +78,59 @@ const getEmployeeById = async (req, res) => {
 };
 
 const createEmployee = async (req, res) => {
+  try {
+    const { value, error } = employeeSchema.registerSchema.validate(req.body);
+
+    if (error) {
+      BadRequestError(error);
+    }
+
+    const { name, email, contactNumber, address, password, focus, designationId } = value;
+
+    // Check if the user already exists
+    const existingEmp = await Employee.findOne({ email });
+    if (existingEmp) {
+      return res.status(409).json({ message: "Employee already exists" });
+    }
+
+    const employee = new Employee({
+      name,
+      email,
+      contactNumber,
+      address,
+      password,
+      designationId,
+      focus,
+    });
+
+    if (!employee) {
+      return res.status(400).json({ message: "Employee cannot create" });
+    }
+
+    // Generate verification token
+    const verificationToken = generateVerificationToken();
+    employee.verificationToken = verificationToken;
+
+    // Generate access and refresh tokens
+    const { refreshToken } = employee.signToken();
+
+    // Save the refreshToken with the user
+    employee.refreshToken = refreshToken;
+    await employee.save();
+
+    res
+      .status(201)
+      .json({ data: null, message: "Employee created successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({
+      error: err.message,
+      message: "Your request cannot be processed. Please try again",
+    });
+  }
+};
+
+const createEmployeeX = async (req, res) => {
   try {
     const { value, error } = employeeSchema.registerSchema.validate(req.body);
 
