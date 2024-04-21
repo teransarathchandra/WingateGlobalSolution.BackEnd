@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
-const { Employee } = require("../models");
+const { Employee, Country } = require("../models");
 const { employeeSchema } = require("../schemas");
 const { hashedPassword, BadRequestError, sendEmail } = require("../helpers");
 const { employeeAccessAgg } = require('../aggregates');
@@ -162,6 +162,7 @@ const updateEmployee = async (req, res) => {
     const updatedEmployee = await Employee.findByIdAndUpdate(id, value, {
       new: true,
     });
+    
     if (!updatedEmployee) {
       return res
         .status(404)
@@ -219,6 +220,7 @@ const loginEmployee = async (req, res) => {
 
     const { email, password } = value;
     const employee = await Employee.findOne({ email });
+
     if (!employee) {
       return res.status(400).json({
         status: 400,
@@ -246,10 +248,18 @@ const loginEmployee = async (req, res) => {
         accessToken,
         refreshToken,
         employeeId: employee.employeeId,
-        name: employee.name || { firstName: 'Unknown', lastName: 'User' },
+        name: {
+          firstName: employee.name.firstName,
+          lastName: employee.name.lastName
+        },
+        address: {
+          street: employee.address.street,
+          city: employee.address.city,
+          state: employee.address.state,
+          country: employee.address.country
+        },
         email: employee.email,
         contactNumber: employee.contactNumber,
-        address: employee.address,
         focus: employee.focus,
       },
       message: "Employee logged in successfully",
