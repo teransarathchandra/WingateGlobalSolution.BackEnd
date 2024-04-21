@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { RestrictedOrder } = require('../models');
 const { restrictedOrderSchema } = require('../schemas');
 const Country = require('../models/country.model');
-const Category = require('../models/category.model');
+//const Category = require('../models/category.model');
 //const { sendEmail } = require('../helpers');
 //const { emailTemplates } = require('../constants');
 const { restrictedOrderAgg } = require('../aggregates');
@@ -108,20 +108,30 @@ const createRestrictedOrder = async (req, res) => {
 
 const updateRestrictedOrder = async (req, res) => {
     try {
+        let updatedRestrictedOrder;
         const { id } = req.params;
+        const { type, ...restrictedOrderData } = req.body;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ status: 404, message: "Invalid restricted order id" });
         }
 
-        const { value, error } = restrictedOrderSchema.validate(req.body);
+        const { value, error } = restrictedOrderSchema.validate(restrictedOrderData);
 
         if (error) {
             BadRequestError(error);
         }
+        updatedRestrictedOrder = await RestrictedOrder.findByIdAndUpdate(id, value, { new: true });
 
-        const updatedRestrictedOrder = await RestrictedOrder.findByIdAndUpdate(id, value, { new: true });
+        if (type === 'restrictedOrderTypes') {
+            updatedRestrictedOrder = await RestrictedOrder.aggregate(restrictedOrderAgg.restrictedOrderTypesByID(id));  
 
+        //updatedRestrictedOrder = await RestrictedOrder.aggregate(restrictedOrderAgg.restrictedOrderTypes);
+            console.log("updated prepared  value ", updatedRestrictedOrder);
+        }
+
+        console.log("updated value ", updatedRestrictedOrder);
+        
         if (!updatedRestrictedOrder) {
             return res.status(404).json({ status: 404, message: "Restricted order not found" });
         }
@@ -176,11 +186,11 @@ const filterRestrictedOrders = async (req, res) => {
 
         const receivingCountry = await Country.findOne({ countryCode: receivingCountryCode });
         if (!receivingCountry) {
-            return res.status(400).json({status: 400 , message: 'Invalid receiving country'});
+            return res.status(400).json({ status: 400, message: 'Invalid receiving country' });
         }
         const sendingCountry = await Country.findOne({ countryCode: sendingCountryCode });
-        if (!sendingCountry) { 
-            return res.status(400).json({status: 400 , message: 'Invalid sending country'});
+        if (!sendingCountry) {
+            return res.status(400).json({ status: 400, message: 'Invalid sending country' });
         }
 
         const existingRestrictedOrder = await RestrictedOrder.findOne({

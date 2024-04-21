@@ -263,7 +263,8 @@ const getOrdersByOrderIds = (orderId) => [
     }
   }, {
     '$unwind': {
-      'path': '$bulk'
+      'path': '$bulk',
+      'preserveNullAndEmptyArrays': true
     }
   }, {
     '$project': {
@@ -274,6 +275,9 @@ const getOrdersByOrderIds = (orderId) => [
       'currentLocation': '$bulk.currentLocation',
       'arrivedTime': '$bulk.arrivedTime'
     }
+  },
+  {
+    '$limit': 1
   }
 ];
 

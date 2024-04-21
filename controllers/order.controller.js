@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
-const { Order } = require('../models');
-const { orderSchema } = require('../schemas');
-const { orderAgg, transportAgg } = require('../aggregates');
-const {  BadRequestError } = require('../helpers');
+const { Order, Item } = require('../models');
+const { orderSchema, itemSchema } = require('../schemas');
+const { orderAgg, transportAgg , restrictedOrderAgg} = require('../aggregates');
+const { BadRequestError } = require('../helpers');
 
 
 const getAllOrder = async (req, res) => {
@@ -12,9 +12,11 @@ const getAllOrder = async (req, res) => {
         let order
         const { type } = req.query;
 
-        if( type == 'orderIds'){
+        if (type == 'orderIds') {
             order = await Order.aggregate(orderAgg.aggType);
-        }else {
+        } else if (type == 'restrictedOrders') {
+            order = await Order.aggregate(restrictedOrderAgg.restrictedOrders);
+        } else {
             order = await Order.find();
         }
 
@@ -38,9 +40,9 @@ const getAllOrderTransport = async (req, res) => {
         let order
         const { type } = req.query;
 
-        if( type == 'orderIds'){
+        if (type == 'orderIds') {
             order = await Order.aggregate(transportAgg.aggOrders);
-        }else {
+        } else {
             order = await Order.find();
         }
 
@@ -63,9 +65,9 @@ const getAllOrderInfo = async (req, res) => {
         let order
         const { type } = req.query;
 
-        if( type == 'orderInfoIds'){
+        if (type == 'orderInfoIds') {
             order = await Order.aggregate(transportAgg.aggOrderInfo);
-        }else {
+        } else {
             order = await Order.find();
         }
 
@@ -110,20 +112,19 @@ const getOrderById = async (req, res) => {
 };
 
 const getOrderByOrderId = async (req, res) => {
-
     try {
-        let order;
-        const { orderId } = req.params;
+        const { orderId } = req.query;
 
         const aggregationPipeline = transportAgg.getOrdersByOrderIds(orderId);
 
-        order = await Order.aggregate(aggregationPipeline);
+        const order = await Order.aggregate(aggregationPipeline);
 
-        if (!order) {
+        if (!order || order.length === 0) {
             return res.status(404).json({ status: 404, message: "Order not found" });
         }
 
-        res.status(200).json({ status: 200, data: order, message: "Order found successfully" });
+        // Send only the first element of the array as an object
+        res.status(200).json({ status: 200, data: order[0], message: "Order found successfully" });
 
     } catch (err) {
         res.status(400).json({
@@ -143,7 +144,7 @@ const createOrder = async (req, res) => {
             return res.status(403).json({ message: "User information is missing" });
         }
 
-        const { value, error } = orderSchema.createOrderJoiSchema.validate(req.body);
+        const { value, error } = orderSchema.createOrderSchema.validate(req.body);
 
         if (error) {
             BadRequestError(error);
@@ -152,20 +153,20 @@ const createOrder = async (req, res) => {
         const { status, packageCount, stockId, packageId, bulkdId, paymentId, invoiceId, itemId, senderId, receiverId, quotationId, isPickupOrder, pickupDate, priority } = value;
 
         const order = await Order.create({
-            status, 
-            packageCount, 
+            status,
+            packageCount,
             userId: user._id,
-            stockId, 
-            packageId, 
-            bulkdId, 
-            paymentId, 
-            invoiceId, 
-            itemId, 
-            senderId, 
-            receiverId, 
-            quotationId, 
-            isPickupOrder, 
-            pickupDate, 
+            stockId,
+            packageId,
+            bulkdId,
+            paymentId,
+            invoiceId,
+            itemId,
+            senderId,
+            receiverId,
+            quotationId,
+            isPickupOrder,
+            pickupDate,
             priority
         });
 
@@ -190,13 +191,13 @@ const updateOrder = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Invalid order id" });
         }
 
-        const { value, error } = orderSchema.updateOrderJoiSchema.validate(req.body);
+        const { value, error } = orderSchema.updateOrderSchema.validate(req.body);
 
         if (error) {
             BadRequestError(error);
         }
 
-        const updatedOrder = await Order.findByIdAndUpdate({_id: id}, value, { new: true });
+        const updatedOrder = await Order.findByIdAndUpdate({ _id: id }, value, { new: true });
 
         if (!updatedOrder) {
             return res.status(404).json({ status: 404, message: "Order not found" });
@@ -210,6 +211,57 @@ const updateOrder = async (req, res) => {
             error: err.message,
             message: 'Your request cannot be processed. Please try again'
         });
+    }
+
+}
+
+const updateOrderAndItem = async (req, res) => {
+
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ status: 404, message: "Invalid order id" });
+    }
+
+    const order = await Order.findById(id);
+    if (!order) {
+        return res.status(404).json({ status: 404, message: "Order not found" });
+    }
+
+    const item = await Item.findById(order.itemId);
+    if (!item) {
+        return res.status(404).json({ status: 404, message: "Item not found" });
+    }
+
+    const { orderUpdates, itemUpdates } = req.body;
+
+    const orderValidation = orderSchema.updateOrderSchema.validate(orderUpdates);
+    const itemValidation = itemSchema.updateItemSchema.validate(itemUpdates);
+
+    if (orderValidation.error || itemValidation.error) {
+        return res.status(400).json({ message: "Validation failed", details: orderValidation.error || itemValidation.error });
+    }
+
+    const session = await mongoose.startSession();
+    try {
+        session.startTransaction();
+
+        const updatedOrder = await Order.findByIdAndUpdate(id, { $set: orderUpdates }, { new: true, session });
+        const updatedItem = await Item.findByIdAndUpdate(item._id, { $set: itemUpdates }, { new: true, session });
+
+        await session.commitTransaction();
+        session.endSession();
+
+        res.status(200).json({
+            message: 'Order and item updated successfully',
+            order: updatedOrder,
+            item: updatedItem
+        });
+
+    } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        res.status(500).json({ message: 'Failed to update order and item', error: error.message });
     }
 
 }
@@ -240,4 +292,4 @@ const deleteOrder = async (req, res) => {
 
 };
 
-module.exports = { getAllOrder, getOrderById, createOrder, updateOrder, deleteOrder, getAllOrderTransport, getAllOrderInfo, getOrderByOrderId };
+module.exports = { getAllOrder, getOrderById, createOrder, updateOrder, updateOrderAndItem, deleteOrder, getAllOrderTransport, getAllOrderInfo, getOrderByOrderId };
