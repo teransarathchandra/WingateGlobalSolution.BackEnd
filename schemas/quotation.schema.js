@@ -9,4 +9,12 @@ const quotationJoiSchema = Joi.object({
     orderId: Joi.string().required(), 
 });
 
-module.exports = quotationJoiSchema;
+const calculatingAmountJoiSchema = Joi.object({
+    packageCount: Joi.number().min(0).required(),
+    weight: Joi.number().min(0).required(),
+    packageTypeId: Joi.string().min(0),
+    categoryId: Joi.string().min(0), 
+});
+
+
+module.exports = {quotationJoiSchema , calculatingAmountJoiSchema};
