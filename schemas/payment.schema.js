@@ -1,10 +1,10 @@
 const Joi = require('joi');
 
 const paymentJoiSchema = Joi.object({
-    paymentDescription: Joi.string().max(255),
     amount: Joi.number().required(),
-    paymentMethod: Joi.string().required(), 
-    paymentStatus: Joi.string().valid("Completed", "Pending", "Cancelled").required(),
+    paymentMethod: Joi.string().required(),
+    paymentStatus: Joi.string().valid("Completed", "Pending", "Cancelled").required(), 
+    paymentDate: Joi.date().required(),
     orderId: Joi.string().required(), // Assuming this is a string representation of ObjectId
 });
 

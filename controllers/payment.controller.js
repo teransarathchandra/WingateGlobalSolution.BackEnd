@@ -6,10 +6,18 @@ const { paymentSchema } = require('../schemas');
 const { BadRequestError } = require('../helpers');
 
 const { PAYHERE_MERCHANT_ID, PAYHERE_MERCHANT_SECRET } = process.env;
+const { financeAgg } = require('../aggregates');
 
 const getAllPayments = async (req, res) => {
     try {
-        const payment = await Payment.find();
+        let payment
+        const { type } = req.query;
+
+        if( type == 'paymentIds'){
+            payment = await Payment.aggregate(financeAgg.aggType);
+        }else {
+            payment = await Payment.find();
+        }
 
         if (!payment) {
             return res.status(404).json({ status: 404, message: "Payments not found" });
@@ -58,13 +66,13 @@ const createPayment = async (req, res) => {
             BadRequestError(error);
         }
 
-        const { paymentDescription, amount, paymentMethod, paymentStatus, orderId } = value;
+        const { amount, paymentMethod, paymentStatus, paymentDate, orderId } = value;
 
         const payment = await Payment.create({
-            paymentDescription,
             amount,
             paymentMethod,
             paymentStatus,
+            paymentDate,
             orderId
         });
 
