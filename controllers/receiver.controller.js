@@ -54,7 +54,7 @@ const getReceiverById = async (req, res) => {
 const createReceiver = async (req, res) => {
 
     try {
-        const { value, error } = receiverSchema.receiverJoiSchema.validate(req.body);
+        const { value, error } = receiverSchema.createSchema.validate(req.body);
 
         if (error) {
             BadRequestError(error);
@@ -87,7 +87,7 @@ const updateReceiver = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Invalid receiver id" });
         }
 
-        const { value, error } = receiverSchema.validate(req.body);
+        const { value, error } = receiverSchema.updateSchema.validate(req.body);
 
         if (error) {
             BadRequestError(error);

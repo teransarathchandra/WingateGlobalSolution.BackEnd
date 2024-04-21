@@ -19,8 +19,20 @@ const createOrderJoiSchema = Joi.object({
 
 const updateOrderJoiSchema = Joi.object({
   _id: Joi.string(),
-  bulkId: Joi.string(),
   status: Joi.string().min(3).max(255),
+  itemId: Joi.string(),
+  senderId: Joi.string(),
+  receiverId: Joi.string(),
+  isPickupOrder: Joi.boolean(),
+  pickupDate: Joi.date(),
+  priority: Joi.string(),
+  userId: Joi.string(),
+  orderId: Joi.string(),
+  stockId: Joi.string(),
+  bulkId: Joi.string(),
+  paymentId: Joi.string(),
+  invoiceId: Joi.string(),
+  quotationId: Joi.string(),
 });
 
 module.exports = { createOrderJoiSchema, updateOrderJoiSchema };

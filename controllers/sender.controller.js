@@ -54,7 +54,7 @@ const getSenderById = async (req, res) => {
 const createSender = async (req, res) => {
 
     try {
-        const { value, error } = senderSchema.senderJoiSchema.validate(req.body);
+        const { value, error } = senderSchema.createSchema.validate(req.body);
 
         if (error) {
             BadRequestError(error);
@@ -87,7 +87,7 @@ const updateSender = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Invalid sender id" });
         }
 
-        const { value, error } = senderSchema.validate(req.body);
+        const { value, error } = senderSchema.updateSchema.validate(req.body);
 
         if (error) {
             BadRequestError(error);
