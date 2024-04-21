@@ -11,7 +11,6 @@ const nameSchema = new Schema(
             maxLength: 255,
             minLength: 2,
             match: regExp.name,
-            default: 'Unknown'
         },
         lastName: {
             type: String,
@@ -19,7 +18,6 @@ const nameSchema = new Schema(
             maxLength: 255,
             minLength: 2,
             match: regExp.name,
-            default: 'Unknown'
         }
     }, { _id: false }
 );
