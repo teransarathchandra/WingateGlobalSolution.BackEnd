@@ -37,7 +37,8 @@ const aggType = [
       'status': 1,
       'arrivedTime': 1,
       'currentLocation': 1,
-      'flightId': '$flightInfo.flightId'
+      'flightId': '$flightInfo.flightId',
+      'createdAt': 1
     }
   }
 ];
@@ -228,11 +229,13 @@ const aggOrderInfo = [
     }
   }, {
     '$unwind': {
-      'path': '$package'
+      'path': '$package',
+      preserveNullAndEmptyArrays: true
     }
   }, {
     '$unwind': {
-      'path': '$bulk'
+      'path': '$bulk',
+      //preserveNullAndEmptyArrays: true
     }
   }, {
     '$project': {
