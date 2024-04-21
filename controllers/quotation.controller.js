@@ -133,5 +133,39 @@ const deleteQuotation = async (req, res) => {
         });
     }
 };
+const calculateQuotation = async (req, res) => {
 
-module.exports = { getAllQuotations, getQuotationById, createQuotation, updateQuotation, deleteQuotation };
+    try {
+        const { value, error } = req.body;
+
+        if (error) {
+            BadRequestError(error);
+        }
+
+       // const { packagingCost, routeCost, unitWeightCost, surcharge, orderId } = value;
+
+        // const amount = await Quotation.create({
+        //     packagingCost,
+        //     routeCost,
+        //     unitWeightCost,
+        //     pickUpCost,
+        //     surcharge,
+        //     orderId
+        // });
+        const amount = 500;
+
+        if (!amount) {
+            return res.status(400).json({ message: 'Amount cannot calculate' });
+        }
+
+        res.status(201).json({ data: amount, message: 'Quotation created successfully' });
+
+    } catch (err) {
+        res.status(400).json({
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
+        });
+    }
+};
+
+module.exports = { getAllQuotations, getQuotationById, createQuotation, updateQuotation, deleteQuotation , calculateQuotation};
