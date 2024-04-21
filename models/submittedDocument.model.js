@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const { getNextSequence } = require("../helpers");
+//const { optional } = require("joi");
 
 const submittedDocumentSchema = new Schema(
   {
@@ -9,25 +10,35 @@ const submittedDocumentSchema = new Schema(
       type: String,
       unique: true
     },
+    documentName: {
+      type: String,
+      required: true
+    },
     documentType: {
       type: String,
       required: true,
       maxLength: 50,
-      enum: ["Export License", "Import Permit", "Safety Data Sheets", "Phytosanitary Certificate", "Dangerous Goods Declaration"],
+    },
+    folderName: {
+      type: String,
+      required: true
     },
     documentPath: {
-      type: String
-    },
-    itemId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "item",
+      type: String,
       required: true
+    },
+    referenceId: {
+      type: String,
+      required: true
+    },
+    remark: {
+      type: String,
     },
   },
   { timestamps: true }
 );
 
-submittedDocumentSchema.pre("save", async function(next) {
+submittedDocumentSchema.pre("save", async function (next) {
   if (this.isNew) {
     const nextId = await getNextSequence('submittedDocuments');
     this.submittedDocumentId = `SUBDOC${nextId}`;

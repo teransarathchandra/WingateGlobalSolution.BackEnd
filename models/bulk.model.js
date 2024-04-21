@@ -18,7 +18,7 @@ const bulkSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ["In Progress", "Completed"],
+      enum: ["In Progress", "Completed", "Manifested", "Delivered", "Departed", "In Transit"],
     },
     priority: {
       type: String,

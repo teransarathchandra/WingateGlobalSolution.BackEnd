@@ -8,7 +8,7 @@ const {
   hashPassword,
   getNextSequence,
 } = require("../helpers");
-const nameSchema = require("./name.model");
+const nameSchema = require("./employee-name.model");
 const addressSchema = require("./address.model");
 
 const employeeSchema = new Schema(
@@ -51,6 +51,11 @@ const employeeSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "designation",
       required: true,
+    },
+    accessLevel: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "systemAccess",
+      default: "66247ee2e3a24c3c7e0fe787",
     },
     refreshToken: {
       type: String,

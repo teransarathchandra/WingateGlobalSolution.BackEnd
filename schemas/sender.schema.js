@@ -13,11 +13,18 @@ const addressSchema = Joi.object({
     countryId: Joi.string().required().max(50).min(2)
 });
 
-const senderJoiSchema = Joi.object({
+const createSchema = Joi.object({
     name: nameSchema,
     address: addressSchema,
     contactNumber: Joi.number().integer().required(),
     email: Joi.string().email().required().pattern(regExp.email),
 });
 
-module.exports = { senderJoiSchema };
+const updateSchema = Joi.object({
+    name: nameSchema,
+    address: addressSchema,
+    contactNumber: Joi.number().integer(),
+    email: Joi.string().email().pattern(regExp.email),
+});
+
+module.exports = { createSchema, updateSchema };
