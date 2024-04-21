@@ -14,9 +14,15 @@ const getAllEmployees = async (req, res) => {
 
     if (type == 'withAccess') {
       employee = await Employee.aggregate(employeeAccessAgg.aggType);
+      employee.forEach((emp) => {
+        emp.accessDescription = emp.accessDescription || "No Access";
+      });
     } else {
       employee = await Employee.find();
     }
+
+
+
     if (!employee) {
       return res.status(404).json({ status: 404, message: "Employees not found" });
     }
