@@ -4,6 +4,25 @@ const { Quotation } = require('../models');
 const { quotationSchema } = require('../schemas');
 const { BadRequestError } = require('../helpers');
 
+const calculateQuotation = async (req, res) => {
+
+    try {
+        const { value, error } = req.body;
+
+        const amount = 500;
+        console.log("Quotation");
+
+        //return res.status(400).json({ message: 'Amount cannot calculate' });
+        return res.status(200).json({ status: 200, data: amount, message: "Amount calculated successfully" });
+
+    } catch (err) {
+        res.status(400).json({
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
+        });
+    }
+};
+
 const getAllQuotations = async (req, res) => {
 
     try {
@@ -27,7 +46,7 @@ const getQuotationById = async (req, res) => {
 
     try {
         const { id } = req.params;
-
+        console.log("Test");
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ status: 404, message: "Invalid quotation id" })
         }
@@ -62,6 +81,7 @@ const createQuotation = async (req, res) => {
             packagingCost,
             routeCost,
             unitWeightCost,
+            pickUpCost,
             surcharge,
             orderId
         });
@@ -133,4 +153,5 @@ const deleteQuotation = async (req, res) => {
     }
 };
 
-module.exports = { getAllQuotations, getQuotationById, createQuotation, updateQuotation, deleteQuotation };
+
+module.exports = { getAllQuotations, getQuotationById, createQuotation, updateQuotation, deleteQuotation, calculateQuotation };

@@ -14,7 +14,7 @@ const orderSchema = new Schema(
       maxLength: 255,
       minLength: 3,
       required: true,
-      enum: ['InProgress', 'Processing', 'Completed', 'Pending']
+      enum: ['InProgress', 'Processing', 'Completed', 'Pending' , 'Approved' , 'Rejected']
     },
     itemId: {
       type: mongoose.Schema.Types.ObjectId,
