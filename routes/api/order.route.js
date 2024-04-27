@@ -11,6 +11,7 @@ router.get('/byOrderId', orderController.getOrderByOrderId);
 router.get('/:id', isAuthorized, orderController.getOrderById);
 router.post('/', isAuthorized, orderController.createOrder);
 router.put('/:id', isAuthorized, orderController.updateOrder);
+router.put('/updateOrderAndItem/:id', isAuthorized, orderController.updateOrderAndItem);
 router.delete('/:id', isAuthorized, orderController.deleteOrder);
 
 module.exports = router;
