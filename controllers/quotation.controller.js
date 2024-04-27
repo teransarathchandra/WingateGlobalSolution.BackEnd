@@ -84,13 +84,13 @@ const getQuotationById = async (req, res) => {
 const createQuotation = async (req, res) => {
 
     try {
-        const { value, error } = quotationSchema.validate(req.body);
+        const { value, error } = quotationSchema.quotationJoiSchema.validate(req.body);
 
         if (error) {
             BadRequestError(error);
         }
 
-        const { packagingCost, routeCost, unitWeightCost, surcharge, orderId } = value;
+        const { packagingCost, routeCost, unitWeightCost, pickUpCost, surcharge, orderId } = value;
 
         const quotation = await Quotation.create({
             packagingCost,
@@ -124,7 +124,8 @@ const updateQuotation = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Invalid quotation id" });
         }
 
-        const { value, error } = quotationSchema.validate(req.body);
+        const { value, error } = quotationSchema.quotationJoiSchema.validate(req.body);
+
         if (error) {
             BadRequestError(error);
         }

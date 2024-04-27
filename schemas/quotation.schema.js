@@ -1,12 +1,12 @@
 const Joi = require('joi');
 
 const quotationJoiSchema = Joi.object({
-    packagingCost: Joi.number().min(0).required(),
-    routeCost: Joi.number().min(0).required(),
-    unitWeightCost: Joi.number().min(0).required(),
-    pickUpCost: Joi.number().min(0).required(), 
-    surcharge: Joi.number().min(0).required(),
-    orderId: Joi.string().required(), 
+    packagingCost: Joi.number().min(0),
+    routeCost: Joi.number().min(0),
+    unitWeightCost: Joi.number().min(0),
+    pickUpCost: Joi.number().min(0), 
+    surcharge: Joi.number().min(0),
+    orderId: Joi.string(), 
 });
 
 const calculatingAmountJoiSchema = Joi.object({
@@ -17,4 +17,4 @@ const calculatingAmountJoiSchema = Joi.object({
 });
 
 
-module.exports = {quotationJoiSchema , calculatingAmountJoiSchema};
+module.exports = {quotationJoiSchema, calculatingAmountJoiSchema};
