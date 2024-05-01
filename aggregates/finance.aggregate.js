@@ -18,6 +18,7 @@ const aggType = [
       'amount': 1,
       'paymentMethod': 1,
       'paymentStatus': 1,
+      'amountDetail': 1,
       'paymentDate': 1,
       'orderId': '$order.orderId',
       'createdAt': 1
