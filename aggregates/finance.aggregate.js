@@ -3,7 +3,7 @@ const aggType = [
       '$lookup': {
         'from': 'orders', 
         'localField': 'orderId', 
-        'foreignField': '_id', 
+        'foreignField': 'orderId', 
         'as': 'order'
       }
     }, {
