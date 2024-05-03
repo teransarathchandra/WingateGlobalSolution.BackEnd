@@ -9,30 +9,20 @@ const warehouseSchema = new Schema(
       type: String,
       unique: true,
     },
-    location: {
-      type: String,
-      required: true,
-      maxLength: 255,
-      minLength: 10,
-      unique: true,
-    },
     storageCapacity: {
       type: Number,
-      required: true,
+      //required: true,
     },
     availability: {
       type: Boolean,
-      required: true,
+      //required: true,
     },
-    warehouseManagerId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "employee",
-      required: true,
-    },
-    countryId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "country",
-      required: true,
+    location: {
+      type: String,
+      //required: true,
+      maxLength: 255,
+      minLength: 10,
+      unique: true,
     },
   },
   { timestamps: true }
