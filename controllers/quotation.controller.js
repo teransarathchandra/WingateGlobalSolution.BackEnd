@@ -1,19 +1,34 @@
 const mongoose = require('mongoose');
 
 const { Quotation } = require('../models');
-const { quotationSchema } = require('../schemas');
+const { quotationSchema} = require('../schemas');
 const { BadRequestError } = require('../helpers');
+//const getCostPerKilo =  require('../services/calculateAmount/');
 
 const calculateQuotation = async (req, res) => {
 
     try {
-        const { value, error } = req.body;
+        
+        let amount = 500;
+      
+        const { value , error}  = quotationSchema.calculatingAmountJoiSchema.validate(req.body);
 
-        const amount = 500;
-        console.log("Quotation");
+        if (error) {
+            return res.status(404).json({ status: 404, message: "Error" });
+        }
+        const { packageCount, packageTypeId, categoryId, weight } = value;
+      
+        const packagingCost =  100 
+        const routeCost  =  15000 
+        const unitWeightCost  =  500 
+        //const unitWeightCost  =  getCategoryById(categoryId).costPerKilo;
+        //const unitWeightCost = getCostPerKilo(categoryId);
+        amount = (packagingCost * packageCount) + (unitWeightCost * weight ) + (routeCost);
+        const surcharge = amount * 10 / 100 ;
 
-        //return res.status(400).json({ message: 'Amount cannot calculate' });
-        return res.status(200).json({ status: 200, data: amount, message: "Amount calculated successfully" });
+        const fullAmount = amount + surcharge ;
+
+        return res.status(200).json({ status: 200, data: fullAmount, message: "Amount calculated successfully" });
 
     } catch (err) {
         res.status(400).json({
@@ -69,13 +84,13 @@ const getQuotationById = async (req, res) => {
 const createQuotation = async (req, res) => {
 
     try {
-        const { value, error } = quotationSchema.validate(req.body);
+        const { value, error } = quotationSchema.quotationJoiSchema.validate(req.body);
 
         if (error) {
             BadRequestError(error);
         }
 
-        const { packagingCost, routeCost, unitWeightCost, surcharge, orderId } = value;
+        const { packagingCost, routeCost, unitWeightCost, pickUpCost, surcharge, orderId } = value;
 
         const quotation = await Quotation.create({
             packagingCost,
@@ -109,7 +124,8 @@ const updateQuotation = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Invalid quotation id" });
         }
 
-        const { value, error } = quotationSchema.validate(req.body);
+        const { value, error } = quotationSchema.quotationJoiSchema.validate(req.body);
+
         if (error) {
             BadRequestError(error);
         }
