@@ -9,6 +9,7 @@
     "lint:fix": "eslint --fix ."
   },
   "dependencies": {
+    "@azure/communication-email": "^1.0.0",
     "@azure/storage-blob": "^12.17.0",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
