@@ -41,11 +41,11 @@ const emailVerification = ({
 };
 
 const restrictedOrderApprovalEmailHTML = ({
-    title = "Order Status Notification",
+    title = "Order Approval Request decision",
     name,
     orderID,
     status,
-    reason,
+    reason
 }) => {
     return `   
         <div>
@@ -76,12 +76,14 @@ const restrictedOrderApprovalEmailHTML = ({
                     <p>Your request for the restricted order with ID <strong>${orderID}</strong> has been <span>${status}</span>.</p>
 
                     <!-- Conditionally rendered paragraphs based on whether the order is approved or rejected -->
-                    ${status === "approved"
-            ? `<p>Congratulations! Your order has been approved. You can now complete your payment and continue the order
+
+                    ${status === "approved"? 
+                        `<p>Congratulations! Your order has been approved. You can now complete your payment and continue the order
                         process. Please go to your profile and check under "Approved Orders" to proceed.</p>`
-            : `<p>Unfortunately, your order could not be approved due to the following reason: ${reason}. Please address this
+                    : 
+                        `<p>Unfortunately, your order could not be approved due to the following reason: ${reason}. Please address this
                         issue and submit your request again if possible.</p>`
-        }
+                    }
 
                     <hr style="width:100%;border:none;border-top:1px solid #eaeaea" />
                     <p>If you have any questions, please don't hesitate to contact our support team.</p>

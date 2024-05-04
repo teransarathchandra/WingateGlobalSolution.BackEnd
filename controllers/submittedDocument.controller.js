@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const { azureBlobService, getBlobSasUrl } = require("../config/azureBlobService.config");
 const {restrictedOrderAgg} = require('../aggregates');
-
 const { SubmittedDocument } = require('../models');
 const { submittedDocumentSchema } = require('../schemas');
 const { BadRequestError } = require('../helpers');
@@ -9,19 +8,18 @@ const { BadRequestError } = require('../helpers');
 const getAllSubmittedDocuments = async (req, res) => {
 
     try {
-        let submittedDocuments
+        let submittedDocuments;
         const { itemId } = req.params;
-        const { type } = req.query;
+       // const { type } = req.query;
 
-        if( type == 'itemId'){
+        if( itemId ){
             submittedDocuments = await SubmittedDocument.aggregate(restrictedOrderAgg.restrictedOrderDocumentsByID(itemId));
         } else {
             submittedDocuments = await SubmittedDocument.find();
         }
 
-      submittedDocuments = await SubmittedDocument.find();
 
-        if (!submittedDocuments) {
+        if (!submittedDocuments ||  submittedDocuments.length === 0) {
             return res.status(404).json({ status: 404, message: "Submitted Documents not found" });
         }
 
@@ -205,7 +203,10 @@ const documentUpload = async (req, res) => {
 
 };
 const getDocumentBlobSasUrl = async (req, res) => {
-    const { containerName, blobName } = req.query;
+
+    const {blobName} = req.params;
+    const { containerName } = req.query;
+
     if (!containerName || !blobName) {
         return res.status(400).json({ message: 'Container name and blob name are required.' });
     }
@@ -213,6 +214,7 @@ const getDocumentBlobSasUrl = async (req, res) => {
     try {
         const url = await getBlobSasUrl(containerName, blobName);
         res.status(200).json({ url });
+        
     } catch (error) {
         console.error('Error generating SAS URL:', error);
         res.status(500).json({ message: 'Failed to generate SAS URL', error: error.message });
