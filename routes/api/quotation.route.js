@@ -5,7 +5,7 @@ const { quotationController } = require('../../controllers');
 const { isAuthorized } = require('../../middlewares');
 
 router.get('/', isAuthorized, quotationController.getAllQuotations);
-router.post('/amount', isAuthorized, quotationController.calculateQuotation);
+router.post('/calcamount/:id', isAuthorized, quotationController.calculateQuotation);
 router.get('/:id', isAuthorized, quotationController.getQuotationById);
 router.post('/', isAuthorized, quotationController.createQuotation);
 router.patch('/:id', isAuthorized, quotationController.updateQuotation);

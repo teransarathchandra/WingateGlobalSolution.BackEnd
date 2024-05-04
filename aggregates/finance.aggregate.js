@@ -25,4 +25,41 @@ const aggType = [
     }
   }
 ];
-module.exports = { aggType };
+
+const quotationAgg = (id) =>[
+  {
+    $match: { _id: id }
+  },
+  {
+    '$lookup': {
+      'from': 'packagetypes', 
+      'localField': 'packageTypeId', 
+      'foreignField': '_id', 
+      'as': 'package'
+    }
+  }, {
+    '$lookup': {
+      'from': 'categories', 
+      'localField': 'categoryId', 
+      'foreignField': '_id', 
+      'as': 'category'
+    }
+  }, {
+    '$unwind': {
+      'path': '$package'
+    }
+  }, {
+    '$unwind': {
+      'path': '$category'
+    }
+  }, {
+    '$project': {
+      '_id': 1, 
+      'packageCount': 1, 
+      'weight': 1, 
+      'packagingCost': '$package.packagingCost', 
+      'unitWeightCost': '$category.costPerKilo'
+    }
+  }
+];
+module.exports = { aggType, quotationAgg };
