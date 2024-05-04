@@ -17,12 +17,11 @@ const getAllEmployees = async (req, res) => {
       employee = await Employee.aggregate(employeeAccessAgg.aggType);
       employee.forEach((emp) => {
         emp.accessDescription = emp.accessDescription || "No Access";
+        delete emp.password;
       });
     } else {
       employee = await Employee.find();
     }
-
-
 
     if (!employee) {
       return res.status(404).json({ status: 404, message: "Employees not found" });
@@ -162,7 +161,7 @@ const updateEmployee = async (req, res) => {
     const updatedEmployee = await Employee.findByIdAndUpdate(id, value, {
       new: true,
     });
-    
+
     if (!updatedEmployee) {
       return res
         .status(404)
