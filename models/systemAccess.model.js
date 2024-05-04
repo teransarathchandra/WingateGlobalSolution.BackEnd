@@ -15,6 +15,12 @@ const systemAccessSchema = new Schema(
       maxLength: 255,
       minLength: 1,
     },
+    accessAreas: {
+      type: String,
+      required: true,
+      maxLength: 255,
+      minLength: 1,
+    },
   },
   { timestamps: true }
 );
