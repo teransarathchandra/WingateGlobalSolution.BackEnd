@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
+const axios = require('axios');
 
-const { Payment } = require('../models');
+const { Payment, Order } = require('../models');
 const { paymentSchema } = require('../schemas');
 const { BadRequestError } = require('../helpers');
 
-const { PAYHERE_MERCHANT_ID, PAYHERE_MERCHANT_SECRET } = process.env;
+const { PAYHERE_MERCHANT_ID, PAYHERE_MERCHANT_SECRET, PAYHERE_TOKENURL, PAYHERE_CREDENTIALS } = process.env;
 const { financeAgg } = require('../aggregates');
 
 const getAllPayments = async (req, res) => {
@@ -13,9 +14,9 @@ const getAllPayments = async (req, res) => {
         let payment
         const { type } = req.query;
 
-        if( type == 'paymentIds'){
+        if (type == 'paymentIds') {
             payment = await Payment.aggregate(financeAgg.aggType);
-        }else {
+        } else {
             payment = await Payment.find();
         }
 
@@ -58,7 +59,6 @@ const getPaymentById = async (req, res) => {
 };
 
 const createPayment = async (req, res) => {
-
     try {
         const { value, error } = paymentSchema.validate(req.body);
 
@@ -66,29 +66,82 @@ const createPayment = async (req, res) => {
             BadRequestError(error);
         }
 
-        const { amount, paymentMethod, paymentStatus, paymentDate, orderId } = value;
+        const { paymentId, amount, currency, paymentMethod, paymentStatus, paymentDate, orderId, customer, amountDetail, items, customFields, description } = value;
 
         const payment = await Payment.create({
+            paymentId,
             amount,
+            currency,
             paymentMethod,
             paymentStatus,
             paymentDate,
-            orderId
+            orderId,
+            customer,
+            amountDetail,
+            items,
+            customFields,
+            description
         });
 
         if (!payment) {
-            return res.status(400).json({ message: 'Payment cannot create' });
+            return res.status(400).json({ message: 'Payment could not be created' });
         }
 
-        res.status(201).json({ data: payment, message: 'Payment created successfully' });
+        const updatedOrder = await Order.findOneAndUpdate(
+            { orderId }, 
+            { 
+                paymentId: payment._id, // Using the payment's MongoDB ObjectID
+                status: 'Processing' 
+            }, 
+            { new: true }
+        );
+
+        if (!updatedOrder) {
+            return res.status(400).json({ message: 'Order could not be updated with payment details' });
+        }
+
+        res.status(201).json({ data: payment, order: updatedOrder, message: 'Payment created and order updated successfully' });
 
     } catch (err) {
-        res.status(400).json({
-            error: err.message,
-            message: 'Your request cannot be processed. Please try again'
+        res.status(500).json({
+            message: 'Your request cannot be processed. Please try again',
+            error: err.message
         });
     }
 };
+
+// const createPayment = async (req, res) => {
+
+//     try {
+//         const { value, error } = paymentSchema.validate(req.body);
+
+//         if (error) {
+//             BadRequestError(error);
+//         }
+
+//         const { amount, paymentMethod, paymentStatus, paymentDate, orderId } = value;
+
+//         const payment = await Payment.create({
+//             amount,
+//             paymentMethod,
+//             paymentStatus,
+//             paymentDate,
+//             orderId
+//         });
+
+//         if (!payment) {
+//             return res.status(400).json({ message: 'Payment cannot create' });
+//         }
+
+//         res.status(201).json({ data: payment, message: 'Payment created successfully' });
+
+//     } catch (err) {
+//         res.status(400).json({
+//             error: err.message,
+//             message: 'Your request cannot be processed. Please try again'
+//         });
+//     }
+// };
 
 const updatePayment = async (req, res) => {
 
@@ -166,12 +219,9 @@ const paymentNotify = async (req, res) => {
             status_code +
             crypto.createHash('md5').update(merchant_secret).digest('hex').toUpperCase()
         ).digest('hex').toUpperCase();
-        // Check if the local hash matches the hash from PayHere
+
         if (localMd5sig === md5sig) {
-            // Hash match, valid notification
-            if (status_code === '2') { // Check the PayHere documentation for correct status codes
-                // Payment was successful
-                // Process the successful payment, e.g., update the database
+            if (status_code === '2') {
                 const payment = new Payment({
                     orderId: order_id,
                     amount: payhere_amount,
@@ -182,8 +232,6 @@ const paymentNotify = async (req, res) => {
 
                 res.status(200).send('Payment received successfully');
             } else {
-                // Payment failed or was cancelled
-                // Handle payment failure, e.g., update the database
                 const payment = new Payment({
                     orderId: order_id,
                     amount: payhere_amount,
@@ -195,7 +243,6 @@ const paymentNotify = async (req, res) => {
                 res.status(200).send('Payment failed or cancelled');
             }
         } else {
-            // Hash does not match, invalid notification
             res.status(400).send('MD5 signature does not match');
         }
 
@@ -214,8 +261,8 @@ const generateHash = async (req, res) => {
         const { order_id, amount, currency } = req.body;
 
         const merchant_secret = PAYHERE_MERCHANT_SECRET;
-        const merchant_id = PAYHERE_MERCHANT_ID
-        const formattedAmount = (amount).toFixed(2); // Ensure the amount is in the correct format
+        const merchant_id = PAYHERE_MERCHANT_ID;
+        const formattedAmount = (amount).toFixed(2);
         const hashSecret = crypto.createHash('md5').update(merchant_secret).digest('hex').toUpperCase();
         const hashString = `${merchant_id}${order_id}${formattedAmount}${currency}${hashSecret}`;
         const hash = crypto.createHash('md5').update(hashString).digest('hex').toUpperCase();
@@ -230,4 +277,46 @@ const generateHash = async (req, res) => {
     }
 };
 
-module.exports = { getAllPayments, getPaymentById, createPayment, updatePayment, deletePayment, paymentNotify, generateHash };
+const getAccessToken = async (req, res) => {
+
+    const tokenUrl = PAYHERE_TOKENURL;
+    const credentials = PAYHERE_CREDENTIALS;
+
+    const headers = {
+        'Authorization': `Basic ${credentials}`,
+        'Content-Type': 'application/x-www-form-urlencoded'
+    };
+    const data = 'grant_type=client_credentials';
+
+    try {
+        const response = await axios.post(tokenUrl, data, { headers });
+        res.json({ accessToken: response.data.access_token });
+    } catch (error) {
+        console.error('Failed to retrieve access token:', error);
+        res.status(500).json({ message: 'Failed to retrieve access token' });
+    }
+};
+
+const getPaymentDetails = async (req, res) => {
+
+    const { order_id, access_token } = req.query;
+    const apiUrl = `https://sandbox.payhere.lk/merchant/v1/payment/search?order_id=${order_id}`;
+    const headers = {
+        'Authorization': `Bearer ${access_token}`
+    };
+
+    try {
+        const response = await axios.get(apiUrl, { headers });
+        if (response.status === 200) {
+            console.log("Retrieved payment details successfully:", response.data);
+            res.json(response.data);
+        } else {
+            res.status(response.status).json({ message: 'Failed to retrieve payment details' });
+        }
+    } catch (error) {
+        console.error('Error retrieving payment details:', error);
+        res.status(500).json({ message: 'Error retrieving payment details', details: error.message });
+    }
+};
+
+module.exports = { getAllPayments, getPaymentById, createPayment, updatePayment, deletePayment, paymentNotify, generateHash, getAccessToken, getPaymentDetails };

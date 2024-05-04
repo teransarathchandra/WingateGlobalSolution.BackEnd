@@ -37,32 +37,32 @@ const employeeSchema = new Schema(
         address: {
             type: addressSchema,
         },
-        street: {
-            type: String,
-            maxLength: 50,
-            minLength: 5
-        },
-        city: {
-            type: String,
-            maxLength: 50,
-            minLength: 5
-        },
-        state: {
-            type: String,
-            maxLength: 50,
-            minLength: 5
-        },
-        country: {
-            type: String,
-            maxLength: 50,
-            minLength: 2
-        },
-        countryId: {
-            type: String,
-            maxLength: 50,
-            minLength: 2,
-            ref: "country",
-        },
+        // street: {
+        //     type: String,
+        //     maxLength: 50,
+        //     minLength: 5
+        // },
+        // city: {
+        //     type: String,
+        //     maxLength: 50,
+        //     minLength: 5
+        // },
+        // state: {
+        //     type: String,
+        //     maxLength: 50,
+        //     minLength: 5
+        // },
+        // country: {
+        //     type: String,
+        //     maxLength: 50,
+        //     minLength: 2
+        // },
+        // countryId: {
+        //     type: String,
+        //     maxLength: 50,
+        //     minLength: 2,
+        //     ref: "country",
+        // },
         email: {
             type: String,
             required: true,
