@@ -326,7 +326,7 @@ const canAccess = async (req, res) => {
   try {
     const employee = await Employee.findById(isValidToken.id);
     let respData = {
-      destination: "portal-welcome"
+      destination: "app/portal-welcome"
     }
     if (employee) {
 
