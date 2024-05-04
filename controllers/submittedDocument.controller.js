@@ -11,9 +11,9 @@ const getAllSubmittedDocuments = async (req, res) => {
     try {
         let submittedDocuments
         const { itemId } = req.params;
-        const { type } = req.query;
+       // const { type } = req.query;
 
-        if( type == 'itemId'){
+        if( itemId ){
             submittedDocuments = await SubmittedDocument.aggregate(restrictedOrderAgg.restrictedOrderDocumentsByID(itemId));
         } else {
             submittedDocuments = await SubmittedDocument.find();

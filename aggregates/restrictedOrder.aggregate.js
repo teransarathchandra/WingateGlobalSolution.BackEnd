@@ -191,37 +191,37 @@ function restrictedOrderTypesByID(id) {
 
   ];
 }
+
 const restrictedOrderDocumentsByID = (id) => [
-  {
-    $match: {
-      itemId: id
+  [
+    {
+      '$match': {
+        'referenceId': id
+      }
+    }, {
+      '$lookup': {
+        'from': 'items', 
+        'localField': 'referenceId', 
+        'foreignField': 'itemId', 
+        'as': 'itemId'
+      }
+    }, {
+      '$unwind': {
+        'path': '$itemId'
+      }
+    }, {
+      '$project': {
+        '_id': 1, 
+        'documentName': 1, 
+        'documentType': 1, 
+        'folderName': 1, 
+        'documentPath': 1, 
+        'referenceId': '$itemId.itemId', 
+        'submittedDocumentId': 1
+      }
     }
-  },
-  {
-    $lookup: {
-      from: "item",  // The collection name in the database that corresponds to the model
-      localField: "itemId",
-      foreignField: "_id",
-      as: "itemDetails"
-    }
-  },
-  {
-    $unwind: {
-      path: "$itemDetails",
-      // preserveNullAndEmptyArrays: true  // Optional: set to false if you always expect a match and want to filter out unmatched results
-    }
-  },
-  {
-    $project: {
-      documentName: 1,
-      documentType: 1,
-      folderName: 1,
-      documentPath: 1,
-      itemName: "$itemDetails.itemName",  // Include item name from the joined `itemDetails`
-      itemDescription: "$itemDetails.description",
-      itemId: 1
-    }
-  }
+  ]
+  
 ];
 
 // function restrictedOrderDocumentsByID(id) {

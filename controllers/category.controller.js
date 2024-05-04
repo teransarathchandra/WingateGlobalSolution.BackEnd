@@ -64,7 +64,7 @@ const createCategory = async (req, res) => {
         const category = await Category.create({
             name,
             description,
-                    costPerKilo
+            costPerKilo
         });
 
         if (!category) {
