@@ -10,14 +10,6 @@ const calculateQuotation = async (req, res) => {
 
     try {
 
-        // const { value, error } = quotationSchema.calculatingAmountJoiSchema.validate(req.body);
-
-        // if (error) {
-        //     return res.status(404).json({ status: 404, message: "Error" });
-        // }
-
-        // let { packageCount, weight, packagingCost, routeCost, unitWeightCost, surcharge, fullAmount} = value;
-
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -26,7 +18,6 @@ const calculateQuotation = async (req, res) => {
 
         const itemId = new mongoose.Types.ObjectId(id);
 
-        //const item = await Item.findById(id);
         const aggregationPipeline = financeAgg.quotationAgg(itemId);
 
         const item = await Item.aggregate(aggregationPipeline)
@@ -47,7 +38,6 @@ const calculateQuotation = async (req, res) => {
 
         const fullAmount = amount + surcharge;
 
-        // Quotation Insert
         const newQuotation = await Quotation.create({
             packagingCost,
             unitWeightCost,
