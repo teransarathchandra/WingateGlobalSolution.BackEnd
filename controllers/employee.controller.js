@@ -325,7 +325,9 @@ const canAccess = async (req, res) => {
   const isValidToken = jwt.verify(token, ACCESS_TOKEN_SECRET);
   try {
     const employee = await Employee.findById(isValidToken.id);
-
+    let respData = {
+      navigationPage: "portal-welcome"
+    }
     if (employee) {
 
       const accessId = employee.accessLevel;
@@ -345,7 +347,7 @@ const canAccess = async (req, res) => {
         return;
       }
     }
-    res.status(403).json({ message: "Access Denied!" });
+    res.status(403).json({ message: "Access Denied!", data: respData });
   } catch (error) {
     res.status(500).json({ message: "Access Denied!\\nContact your favourite system admin" });
   }
