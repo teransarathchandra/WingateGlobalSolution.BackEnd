@@ -321,11 +321,12 @@ const refreshAccessToken = async (req, res) => {
 };
 
 const canAccess = async (req, res) => {
-  const { token, destination } = req.body; // Assuming you're sending the employeeId to identify the user
-  const isValidToken = jwt.verify(token, ACCESS_TOKEN_SECRET);
+  const { token, destination } = req.body;
   try {
+    const isValidToken = jwt.verify(token, ACCESS_TOKEN_SECRET);
     const employee = await Employee.findById(isValidToken.id);
     let respData = {
+      continue: false,
       destination: "app/portal-welcome"
     }
     if (employee) {
@@ -335,22 +336,37 @@ const canAccess = async (req, res) => {
       const areas = userAccess.accessAreas.split(";")
       const dest = String(destination).split("/");
 
-      //ANY Access
-      if (areas.includes("ANY")) {
-        respData.destination = destination;
+      //Portal Welcome
+      if (dest.includes("portal-welcome")) {
+        respData.continue = true;
+        respData.destination = "/" + destination;
         res.status(200).json({ message: "Access Granted!", data: respData });
         return;
       }
 
+      //ANY Access
+      if (areas.includes("ANY")) {
+        respData.continue = true;
+        respData.destination = "/" + destination;
+        res.status(200).json({ message: "Access Granted!", data: respData });
+        return;
+      }
+
+
       // Grant access if any destination is in the areas list
       if (dest.some(d => areas.includes(d))) {
-        respData.destination = destination;
+        respData.continue = true;
+        respData.destination = "/" + destination;
         res.status(200).json({ message: "Access Granted!", data: respData });
         return;
       }
     }
     res.status(403).json({ message: "Access Denied !\nContact your System Administrator", data: respData });
   } catch (error) {
+    console.log("canAccess:", error);
+    if (error.name == "TokenExpiredError") {
+      //res.status(401).json({ message: "Session Expired" });
+    }
     res.status(500).json({ message: "Access Denied !\nContact your System Administrator" });
   }
 };
