@@ -203,10 +203,8 @@ const documentUpload = async (req, res) => {
 
 };
 const getDocumentBlobSasUrl = async (req, res) => {
-
-    const {blobName} = req.params;
-    const { containerName } = req.query;
-
+    
+    const { containerName, blobName } = req.query;
     if (!containerName || !blobName) {
         return res.status(400).json({ message: 'Container name and blob name are required.' });
     }
@@ -214,7 +212,6 @@ const getDocumentBlobSasUrl = async (req, res) => {
     try {
         const url = await getBlobSasUrl(containerName, blobName);
         res.status(200).json({ url });
-        
     } catch (error) {
         console.error('Error generating SAS URL:', error);
         res.status(500).json({ message: 'Failed to generate SAS URL', error: error.message });

@@ -215,23 +215,28 @@ const updateOrder = async (req, res) => {
 }
 const restrictedOrderApprovalEmail = async (req, res) => {
 
-    const value = req.body;
-    const { email, name, orderID, status, reason } = value;
+    try {
+        const value = req.body;
+        const { email, name, orderID, status, reason } = value;
 
-    console.log("email", email)
-    
-    if (req.query.email) {
-        await sendEmail({
-            to: email,
-            subject: "Restricted Order Approval Request",
-            html: emailTemplates.restrictedOrderApprovalEmailHTML({
-                name,
-                orderID,
-                status,
-                reason,
-            }),
+        if (email) {
+            await sendEmail({
+                to: email,
+                subject: "Restricted Order Approval Request",
+                html: await emailTemplates.restrictedOrderApprovalEmailHTML({
+                    name,
+                    orderID,
+                    status,
+                    reason,
+                }),
+            });
+            res.status(200).json({ status: 200, data: value, message: "Email sent." });
+        }
+    } catch (err) {
+        res.status(400).json({
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
         });
-        res.status(200).json({ status: 200, data: value, message: "Email sent." });
     }
 
 };

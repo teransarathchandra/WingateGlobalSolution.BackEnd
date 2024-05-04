@@ -39,6 +39,9 @@ const quotationSchema = new Schema(
       ref: "order",
       //required: true,
     },
+    fullAmount: {
+      type: Number
+    }
   },
   { timestamps: true }
 );

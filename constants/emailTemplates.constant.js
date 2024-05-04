@@ -40,13 +40,16 @@ const emailVerification = ({
       `;
 };
 
-const restrictedOrderApprovalEmailHTML = ({
+const restrictedOrderApprovalEmailHTML = async ({
     title = "Order Approval Request decision",
     name,
     orderID,
     status,
     reason
 }) => {
+   
+    const normalizedStatus = status.trim().toLowerCase();
+
     return `   
         <div>
         
@@ -73,16 +76,19 @@ const restrictedOrderApprovalEmailHTML = ({
                     <h2>Order Status Update</h2>
                     <hr style="width:100%;border:none;border-top:1px solid #000000" />
                     <p>Hello ${name},</p>
-                    <p>Your request for the restricted order with ID <strong>${orderID}</strong> has been <span>${status}</span>.</p>
+                    <p>Your request for the restricted order with ID <strong>${orderID}</strong> has been <span class="${normalizedStatus}">${status}</span>.</p>
 
                     <!-- Conditionally rendered paragraphs based on whether the order is approved or rejected -->
 
-                    ${status === "approved"? 
-                        `<p>Congratulations! Your order has been approved. You can now complete your payment and continue the order
+                    ${normalizedStatus === "approved"? 
+                        `<p class="approved">Congratulations! Your order has been approved. You can now complete your payment and continue the order
                         process. Please go to your profile and check under "Approved Orders" to proceed.</p>`
                     : 
-                        `<p>Unfortunately, your order could not be approved due to the following reason: ${reason}. Please address this
+                        normalizedStatus === "rejected" ?
+                        `<p class="rejected">Unfortunately, your order could not be approved due to the following reason: ${reason}. Please address this
                         issue and submit your request again if possible.</p>`
+                        :
+                        `<p>Please check your order status for more details.</p>`
                     }
 
                     <hr style="width:100%;border:none;border-top:1px solid #eaeaea" />
@@ -95,6 +101,7 @@ const restrictedOrderApprovalEmailHTML = ({
         </div>
     `;
 };
+
 
 
 module.exports = {
