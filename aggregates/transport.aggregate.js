@@ -25,7 +25,8 @@ const aggType = [
     //   }
   }, {
     '$unwind': {
-      'path': '$country'
+      'path': '$country',
+      //preserveNullAndEmptyArrays: true
 
     }
   }, {
