@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
-const { Employee, Country } = require("../models");
+const { Employee } = require("../models");
 const { employeeSchema } = require("../schemas");
-const { hashedPassword, BadRequestError, sendEmail } = require("../helpers");
+const { hashedPassword, BadRequestError } = require("../helpers");
 const { employeeAccessAgg } = require('../aggregates');
-const { emailTemplates } = require("../constants");
 const { generateVerificationToken } = require("../utils");
 
 const getAllEmployees = async (req, res) => {
