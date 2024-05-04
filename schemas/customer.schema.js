@@ -22,7 +22,7 @@ const registerSchema = Joi.object({
   customerId: Joi.string(),
   priorityLevel: Joi.string().valid('High Priority', 'Medium Priority', 'Low Priority'),
   birthday: Joi.date(),
-  password: Joi.string().min(8).max(100), // Adding password validation without the required flag
+  password: Joi.string().min(8).max(100), 
 });
 
 const updateSchema = Joi.object({
