@@ -326,7 +326,7 @@ const canAccess = async (req, res) => {
   try {
     const employee = await Employee.findById(isValidToken.id);
     let respData = {
-      navigationPage: "portal-welcome"
+      destination: "portal-welcome"
     }
     if (employee) {
 
@@ -337,21 +337,21 @@ const canAccess = async (req, res) => {
 
       //ANY Access
       if (areas.includes("ANY")) {
-        respData.navigationPage = destination;
+        respData.destination = destination;
         res.status(200).json({ message: "Access Granted!", data: respData });
         return;
       }
 
       // Grant access if any destination is in the areas list
       if (dest.some(d => areas.includes(d))) {
-        respData.navigationPage = destination;
+        respData.destination = destination;
         res.status(200).json({ message: "Access Granted!", data: respData });
         return;
       }
     }
-    res.status(403).json({ message: "Access Denied!", data: respData });
+    res.status(403).json({ message: "Access Denied !\nContact your System Administrator", data: respData });
   } catch (error) {
-    res.status(500).json({ message: "Access Denied!\\nContact your favourite system admin" });
+    res.status(500).json({ message: "Access Denied !\nContact your System Administrator" });
   }
 };
 
