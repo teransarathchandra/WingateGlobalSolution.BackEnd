@@ -25,7 +25,8 @@ const aggType = [
     //   }
   }, {
     '$unwind': {
-      'path': '$country'
+      'path': '$country',
+      //preserveNullAndEmptyArrays: true
 
     }
   }, {
@@ -110,39 +111,43 @@ const aggLastBulk = [
       'foreignField': '_id', 
       'as': 'country'
     }
-  }, {
+  }, 
+  {
     '$lookup': {
       'from': 'flights', 
       'localField': 'flightId', 
       'foreignField': '_id', 
       'as': 'flight'
     }
-  }, {
+  }, 
+  {
     '$unwind': {
-      'path': '$country'
+      'path': '$country',
+      'preserveNullAndEmptyArrays': true  
     }
-  },  {
+  }, 
+  {
     '$unwind': {
       'path': '$flight',
-      preserveNullAndEmptyArrays: true
+      'preserveNullAndEmptyArrays': true  
     }
-  }, {
+  }, 
+  {
     '$sort': {
-      'createdAt': -1
+      'createdAt': -1 
     }
-  }, {
-    '$limit': 1
+  }, 
+  {
+    '$limit': 1  
   },
   {
     '$project': {
-      '_id':1,
+      '_id': 1,
       'bulkId': 1,
       'destinationCountry': "$country.name",
       'masterAirwayBillId': 1,
       'createdAt': 1,
       'flightId': "$flight.flightId"
-
-
     }
   }
 ];
@@ -215,35 +220,36 @@ const aggOrders = [
 const aggOrderInfo = [
   {
     '$lookup': {
-      'from': 'packagetypes',
-      'localField': 'packageId',
-      'foreignField': '_id',
-      'as': 'package'
+      'from': 'items', 
+      'localField': 'itemId', 
+      'foreignField': '_id', 
+      'as': 'item'
     }
   }, {
     '$lookup': {
-      'from': 'bulks',
-      'localField': 'bulkId',
-      'foreignField': '_id',
+      'from': 'bulks', 
+      'localField': 'bulkId', 
+      'foreignField': '_id', 
       'as': 'bulk'
     }
   }, {
     '$unwind': {
-      'path': '$package',
+      'path': '$item',
       preserveNullAndEmptyArrays: true
     }
   }, {
     '$unwind': {
       'path': '$bulk',
       //preserveNullAndEmptyArrays: true
+
     }
   }, {
     '$project': {
-      '_id': 1,
-      'orderId': 1,
-      'packageCount': 1,
-      'packageId': '$package.packageName',
-      'bulkId': '$bulk.bulkId'
+      '_id': 1, 
+      'orderId': 1, 
+      'bulkId': '$bulk.bulkId', 
+      'packageCount': '$item.packageCount', 
+      'packageType': '$item.packageTypeId.packageName'
     }
   }
 ];

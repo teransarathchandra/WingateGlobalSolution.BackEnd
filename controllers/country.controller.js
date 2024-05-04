@@ -59,13 +59,14 @@ const createCountry = async (req, res) => {
             BadRequestError(error);
         }
 
-        const { countryCode, name, currency } = value;
+        const { countryCode, name, currency, cost } = value;
 
         const country = await Country.create({
 
             countryCode,
             name,
             currency,
+            cost
         });
 
         if (!country) {
