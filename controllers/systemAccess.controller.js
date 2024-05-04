@@ -64,10 +64,11 @@ const createSystemAccess = async (req, res) => {
       BadRequestError(error);
     }
 
-    const { description } = value;
+    const { description, accessAreas } = value;
 
     const systemAccess = await SystemAccess.create({
       description,
+      accessAreas
     });
 
     if (!systemAccess) {

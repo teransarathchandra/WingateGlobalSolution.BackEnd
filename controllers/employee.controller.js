@@ -339,20 +339,11 @@ const canAccess = async (req, res) => {
         return;
       }
 
-      if (dest.length > 0) {
-        if (areas.includes(dest[0])) {
-          res.status(200).json({ message: "Access Granted!" });
-          return;
-        }
+      // Grant access if any destination is in the areas list
+      if (dest.some(d => areas.includes(d))) {
+        res.status(200).json({ message: "Access Granted!" });
+        return;
       }
-
-      if (dest.length > 1) {
-        if (areas.includes(dest[1])) {
-          res.status(200).json({ message: "Access Granted!" });
-          return;
-        }
-      }
-
     }
     res.status(403).json({ message: "Access Denied!" });
   } catch (error) {
