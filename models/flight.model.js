@@ -5,7 +5,7 @@ const flightSchema = new Schema(
   {
     flightId: {
       type: String,
-      unique: true,
+      //unique: true,
     },
     type: {
       type: String,
@@ -14,13 +14,13 @@ const flightSchema = new Schema(
       type: Number,
     },
     arrival: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
     },
     arrivalTime: {
       type: String,
     },
     departure: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
     },
     departureTime: {
       type: String,
@@ -32,6 +32,5 @@ const flightSchema = new Schema(
   },
   { timestamps: true }
 );
-
 
 module.exports = model("flight", flightSchema);

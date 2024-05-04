@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { Category } = require('../models');
 const { categorySchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllCategory = async (req, res) => {
 
@@ -55,7 +56,7 @@ const createCategory = async (req, res) => {
         const { value, error } = categorySchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { name, description, costPerKilo } = value;
@@ -63,7 +64,7 @@ const createCategory = async (req, res) => {
         const category = await Category.create({
             name,
             description,
-                    costPerKilo
+            costPerKilo
         });
 
         if (!category) {
@@ -90,7 +91,7 @@ const updateCategory = async (req, res) => {
         const { value, error } = categorySchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedCategory = await Category.findByIdAndUpdate(id, value, { new: true });

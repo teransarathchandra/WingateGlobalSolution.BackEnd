@@ -12,7 +12,7 @@ const countrySchema = new Schema(
     },
     countryCode: {
       type: String,
-      required: true,
+      //required: true,
       maxLength: 5,
       minLength: 2,
       unique: true,
@@ -26,11 +26,16 @@ const countrySchema = new Schema(
   
     currency: {
       type: String,
-      required: true,
+     // required: true,
       maxLength: 5,
       minLength: 1,
   
     },
+    cost : {
+      type: Number,
+      //required: true,
+      
+    }
     
   },
   { timestamps: true }

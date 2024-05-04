@@ -7,7 +7,7 @@ const { isAuthorized } = require('../../middlewares');isAuthorized,
 router.get('/', isAuthorized, customerController.getAllCustomers);
 router.get('/:id', isAuthorized, customerController.getCustomerById);
 router.post('/', isAuthorized, customerController.createCustomer);
-router.put('/:id', isAuthorized, customerController.updateCustomer);
+router.patch('/:id', isAuthorized, customerController.updateCustomer);
 router.delete('/:id', isAuthorized, customerController.deleteCustomer);
 
 module.exports = router;

@@ -51,7 +51,7 @@ const getItemById = async (req, res) => {
 const createItem = async (req, res) => {
 
     try {
-        const { value, error } = itemSchema.validate(req.body);
+        const { value, error } = itemSchema.createItemSchema.validate(req.body);
 
         if (error) {
             BadRequestError(error);
@@ -94,9 +94,9 @@ const updateItem = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Invalid item id" });
         }
 
-        const { value, error } = itemSchema.validate(req.body);
+        const { value, error } = itemSchema.updateItemSchema.validate(req.body);
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedItem = await Item.findByIdAndUpdate(id, value, { new: true });

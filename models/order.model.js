@@ -8,34 +8,19 @@ const orderSchema = new Schema(
     orderId: {
       type: String,
       unique: true,
-      required: true,
     },
     status: {
       type: String,
       maxLength: 255,
       minLength: 3,
       required: true,
-    }, //Default: InProgress, Processing, Completed. Pending(Until Released from Restricted Order Criteria)
-    packageCount: {
-      type: Number,
-      min:1,
-      default: 1,
-      required: true,
-    }, //Boxes Count
-    // orderType: {
-    //   type: String,
-    //   required: true,
-    // }, //Express, Standard Shipping
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
-      required: true,
+      enum: ['InProgress', 'Processing', 'Completed', 'Pending' , 'Approved' , 'Rejected']
     },
-    // routeId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "route",
-    //   required: true,
-    // },
+    itemId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "item",
+      required: true
+    },
     stockId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "stock",
@@ -43,18 +28,7 @@ const orderSchema = new Schema(
     bulkId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "bulk",
-      //required: true,?????
     },
-    packageId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "packageType",
-      required: true,
-    },
-    // categoryId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "category",
-    //   required: true,
-    // },
     paymentId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "payment",
@@ -62,11 +36,6 @@ const orderSchema = new Schema(
     invoiceId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "commercialInvoice",
-    },
-    itemId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "item",
-      required: true,
     },
     senderId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -85,20 +54,25 @@ const orderSchema = new Schema(
     isPickupOrder: {
       type: Boolean,
       required: true,
-    }, //boolean
+    },
     pickupDate: {
       type: Date,
-    }, //If it is a pick up order, this field is required
+    },
     priority: {
       type: String,
-      enum: ["Express", "Standard", "Delivered"],
+      enum: ["Express", "Standard"],
       required: true,
-    } //Express, Standard Shipping
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    }
   },
   { timestamps: true }
 );
 
-orderSchema.pre("save", async function(next) {
+orderSchema.pre("save", async function (next) {
   if (this.isNew) {
     const nextId = await getNextSequence('order');
     this.orderId = `ORD${nextId}`;

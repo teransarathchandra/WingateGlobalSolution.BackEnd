@@ -12,8 +12,9 @@ const emailSchema = Joi.object({
         .required(),
     emailBody: Joi.string()
         .min(10)
-        .max(256)
+        .max(10000)
         .required()
+        .description('HTML content is accepted and should be well-formatted.')
 });
 
 module.exports = emailSchema;

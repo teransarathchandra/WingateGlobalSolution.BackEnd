@@ -2,11 +2,21 @@ const mongoose = require('mongoose');
 
 const { WareHouse } = require('../models');
 const { wareHouseSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
+const { warehouseAgg } = require('../aggregates');
 
 const getAllWarehouse = async (req, res) => {
 
     try {
-        const warehouse = await WareHouse.find();
+        let warehouse
+        const { type } = req.query;
+
+        if( type == 'warehouseId'){
+            warehouse = await WareHouse.aggregate(warehouseAgg.aggTypeTwo);
+        }else {
+            warehouse = await WareHouse.find();
+        }
+        //const warehouse = await WareHouse.find();
 
         if (!warehouse) {
             return res.status(404).json({ status: 404, message: "Warehouse not found" });
@@ -55,17 +65,15 @@ const createWarehouse = async (req, res) => {
         const { value, error } = wareHouseSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
-        const { location, storageCapacity, availability, warehouseManagerId, countryId } = value;
+        const { storageCapacity, availability,location } = value;
 
         const warehouse = await WareHouse.create({
-            location,
             storageCapacity,
             availability,
-            warehouseManagerId,
-            countryId
+            location
         });
 
         if (!warehouse) {
@@ -92,7 +100,7 @@ const updateWarehouse = async (req, res) => {
         const { value, error } = wareHouseSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedWarehouse = await WareHouse.findByIdAndUpdate(id, value, { new: true });

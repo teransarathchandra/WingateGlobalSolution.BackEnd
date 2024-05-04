@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { Stock } = require('../models');
 const { stockSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllStocks = async (req, res) => {
 
@@ -55,7 +56,7 @@ const createStock = async (req, res) => {
         const { value, error } = stockSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { city, country, warehouseId, bulkId } = value;
@@ -91,7 +92,7 @@ const updateStock = async (req, res) => {
         const { value, error } = stockSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedStock = await Stock.findByIdAndUpdate(id, value, { new: true });

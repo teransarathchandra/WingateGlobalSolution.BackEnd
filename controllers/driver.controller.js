@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const { Driver } = require('../models');
-const { driverSchema } = require('../schemas')
+const { driverSchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllDrivers = async (req, res) => {
 
@@ -52,7 +53,7 @@ const createDriver = async (req, res) => {
         const { value, error } = driverSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const { employeeId, warehouseId } = value;

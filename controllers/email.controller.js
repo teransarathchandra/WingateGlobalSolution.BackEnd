@@ -1,12 +1,12 @@
 const { emailSchema } = require("../schemas");
 const { BadRequestError, sendEmail } = require("../helpers");
 
-const sendEmails = async (req, res, next) => {
+const sendEmails = async (req, res) => {
 
     try {
         const { value, error } = emailSchema.validate(req.body, { abortEarly: false });
         if (error) {
-            return BadRequestError(error, req, res, next);
+            return BadRequestError(error);
         }
 
         const { toEmail, emailSubject, emailBody } = value;
@@ -20,11 +20,11 @@ const sendEmails = async (req, res, next) => {
         await sendEmail(helpEmail);
 
         res.json({
-            message: "Your email has been sent",
+            message: "Your email with HTML content has been sent successfully.",
         });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({status: 500, message: "An error occurred while sending the email. Please try again later." });
+        console.error(err.message);
+        res.status(500).json({ status: 500, message: "An error occurred while sending the email. Please try again later." });
     }
 };
 

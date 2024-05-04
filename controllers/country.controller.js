@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { Country } = require('../models');
 const { countrySchema } = require('../schemas');
+const { BadRequestError } = require('../helpers');
 
 const getAllCountries = async (req, res) => {
 
@@ -55,16 +56,17 @@ const createCountry = async (req, res) => {
         const { value, error } = countrySchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
-        const { countryCode, name, currency } = value;
+        const { countryCode, name, currency, cost } = value;
 
         const country = await Country.create({
 
             countryCode,
             name,
             currency,
+            cost
         });
 
         if (!country) {
@@ -91,7 +93,7 @@ const updateCountry = async (req, res) => {
         const { value, error } = countrySchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedCountry = await Country.findByIdAndUpdate(id, value, { new: true });
@@ -138,4 +140,35 @@ const deleteCountry = async (req, res) => {
 
 };
 
-module.exports = { getAllCountries, getCountryById, createCountry, updateCountry, deleteCountry };
+
+const getCountryByCountyCode = async (req, res) => {
+
+    try {
+
+        const { countryCode } = req.params;
+
+        const country = await Country.findOne({ countryCode });
+
+        // if (!mongoose.Types.ObjectId.isValid(id)) {
+        //     return res.status(404).json({ status: 404, message: "Invalid country id" })
+        // }
+
+        // const country = await Country.findById(id);
+
+        if (!country) {
+            return res.status(404).json({ status: 404, message: "Country not found" });
+        }
+
+        res.status(200).json({ status: 200, data: country, message: "Country found successfully" });
+
+    } catch (err) {
+        res.status(400).json({
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
+        });
+    }
+};
+
+
+
+module.exports = { getAllCountries, getCountryById, createCountry, updateCountry, deleteCountry, getCountryByCountyCode };

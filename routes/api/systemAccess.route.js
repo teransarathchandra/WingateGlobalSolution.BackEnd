@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const { systemAccessController } = require('../../controllers');
-const { isAuthorized } = require('../../middlewares');isAuthorized, 
+const { isAuthorized } = require('../../middlewares'); isAuthorized,
 
 router.get('/', isAuthorized, systemAccessController.getAllSystemAccess)
 router.get('/:id', isAuthorized, systemAccessController.getSystemAccessById)
 router.post('/', isAuthorized, systemAccessController.createSystemAccess);
-router.put('/:id', isAuthorized, systemAccessController.updateSystemAccess);
+router.patch('/:id', isAuthorized, systemAccessController.updateSystemAccess);
 router.delete('/:id', isAuthorized, systemAccessController.deleteSystemAccess);
 
 module.exports = router;

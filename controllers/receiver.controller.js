@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const { Receiver } = require('../models');
 const { receiverSchema } = require('../schemas');
 
+const { BadRequestError } = require('../helpers');
+
 const getAllReceiver = async (req, res) => {
 
     try {
@@ -52,21 +54,16 @@ const getReceiverById = async (req, res) => {
 const createReceiver = async (req, res) => {
 
     try {
-        const { value, error } = receiverSchema.receiverJoiSchema.validate(req.body);
+        const { value, error } = receiverSchema.createSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
-        const {  name, contactNumber, email, address, orderId, countryId } = value;
+        const { name, address, contactNumber, email } = value;
 
         const receiver = await Receiver.create({
-            name, 
-            contactNumber, 
-            email, 
-            address, 
-            orderId, 
-            countryId
+            name, address, contactNumber, email
         });
 
         if (!receiver) {
@@ -90,10 +87,10 @@ const updateReceiver = async (req, res) => {
             return res.status(404).json({ status: 404, message: "Invalid receiver id" });
         }
 
-        const { value, error } = receiverSchema.validate(req.body);
+        const { value, error } = receiverSchema.updateSchema.validate(req.body);
 
         if (error) {
-            return res.status(400).json({ status: 400, message: error });
+            BadRequestError(error);
         }
 
         const updatedReceiver = await Receiver.findByIdAndUpdate(id, value, { new: true });

@@ -10,9 +10,9 @@ const signUpEmailHTML = (userName) =>
 `;
 
 const emailVerification = ({
-    title = 'Verify your email',
-    name = '',
-    link = '',
+    title = "Verify your email",
+    name = "",
+    link = "",
 }) => {
     return `
       <div>
@@ -40,13 +40,72 @@ const emailVerification = ({
       `;
 };
 
-const restrictedOrderEmailHTML = (restrictedOrder) =>
-    `
-<div style="font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; color: #333;">
-    <h2>Restricted Order ID : ${restrictedOrder.restrictedOrderId} . This Order is Restricted !</h2>
-    <p>Best Regards,</p>
-    <p>Your Team at Wingate Global Solution</p>
-</div>
-`;
+const restrictedOrderApprovalEmailHTML = async ({
+    title = "Order Approval Request decision",
+    name,
+    orderID,
+    status,
+    reason
+}) => {
+   
+    const normalizedStatus = status.trim().toLowerCase();
 
-module.exports = { signUpEmailHTML, emailVerification, restrictedOrderEmailHTML };
+    return `   
+        <div>
+        
+            <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                <title>${title}</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                    }
+
+                    .approved {
+                        color: green;
+                    }
+
+                    .rejected {
+                        color: red;
+                    }
+                </style>
+            </head>
+
+            <body>
+                <div id="email-content">
+                    <h2>Order Status Update</h2>
+                    <hr style="width:100%;border:none;border-top:1px solid #000000" />
+                    <p>Hello ${name},</p>
+                    <p>Your request for the restricted order with ID <strong>${orderID}</strong> has been <span class="${normalizedStatus}">${status}</span>.</p>
+
+                    <!-- Conditionally rendered paragraphs based on whether the order is approved or rejected -->
+
+                    ${normalizedStatus === "approved"? 
+                        `<p class="approved">Congratulations! Your order has been approved. You can now complete your payment and continue the order
+                        process. Please go to your profile and check under "Approved Orders" to proceed.</p>`
+                    : 
+                        normalizedStatus === "rejected" ?
+                        `<p class="rejected">Unfortunately, your order could not be approved due to the following reason: ${reason}. Please address this
+                        issue and submit your request again if possible.</p>`
+                        :
+                        `<p>Please check your order status for more details.</p>`
+                    }
+
+                    <hr style="width:100%;border:none;border-top:1px solid #eaeaea" />
+                    <p>If you have any questions, please don't hesitate to contact our support team.</p>
+                    <p>Best regards,</p>
+                    <p>Team Wingate Global Solution</p>
+                    <p>Mt. Lavinia</p>
+                </div>
+            </body>
+        </div>
+    `;
+};
+
+
+
+module.exports = {
+    signUpEmailHTML,
+    emailVerification,
+    restrictedOrderApprovalEmailHTML,
+};
