@@ -129,7 +129,7 @@ const restrictedOrders = [
       'categoryName': '$categoryId.name'
     }
   }
-]
+];
 
 function restrictedOrderTypesByID(id) {
   const objectId = new mongoose.Types.ObjectId(id);

@@ -45,7 +45,7 @@ const restrictedOrderApprovalEmailHTML = ({
     name,
     orderID,
     status,
-    reason,
+    reason
 }) => {
     return `   
         <div>
