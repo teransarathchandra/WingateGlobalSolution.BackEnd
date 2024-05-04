@@ -110,39 +110,43 @@ const aggLastBulk = [
       'foreignField': '_id', 
       'as': 'country'
     }
-  }, {
+  }, 
+  {
     '$lookup': {
       'from': 'flights', 
       'localField': 'flightId', 
       'foreignField': '_id', 
       'as': 'flight'
     }
-  }, {
+  }, 
+  {
     '$unwind': {
-      'path': '$country'
+      'path': '$country',
+      'preserveNullAndEmptyArrays': true  
     }
-  },  {
+  }, 
+  {
     '$unwind': {
       'path': '$flight',
-      preserveNullAndEmptyArrays: true
+      'preserveNullAndEmptyArrays': true  
     }
-  }, {
+  }, 
+  {
     '$sort': {
-      'createdAt': -1
+      'createdAt': -1 
     }
-  }, {
-    '$limit': 1
+  }, 
+  {
+    '$limit': 1  
   },
   {
     '$project': {
-      '_id':1,
+      '_id': 1,
       'bulkId': 1,
       'destinationCountry': "$country.name",
       'masterAirwayBillId': 1,
       'createdAt': 1,
       'flightId': "$flight.flightId"
-
-
     }
   }
 ];
@@ -230,7 +234,7 @@ const aggOrderInfo = [
   }, {
     '$unwind': {
       'path': '$item',
-      //preserveNullAndEmptyArrays: true
+      preserveNullAndEmptyArrays: true
     }
   }, {
     '$unwind': {
