@@ -337,13 +337,15 @@ const canAccess = async (req, res) => {
 
       //ANY Access
       if (areas.includes("ANY")) {
-        res.status(200).json({ message: "Access Granted!" });
+        respData.navigationPage = destination;
+        res.status(200).json({ message: "Access Granted!", data: respData });
         return;
       }
 
       // Grant access if any destination is in the areas list
       if (dest.some(d => areas.includes(d))) {
-        res.status(200).json({ message: "Access Granted!" });
+        respData.navigationPage = destination;
+        res.status(200).json({ message: "Access Granted!", data: respData });
         return;
       }
     }
