@@ -40,7 +40,7 @@ const emailVerification = ({
       `;
 };
 
-const restrictedOrderApprovalEmailHTML = ({
+const restrictedOrderApprovalEmailHTML = async ({
     title = "Order Approval Request decision",
     name,
     orderID,

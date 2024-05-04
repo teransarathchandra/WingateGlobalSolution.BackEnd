@@ -224,7 +224,7 @@ const restrictedOrderApprovalEmail = async (req, res) => {
         await sendEmail({
             to: email,
             subject: "Restricted Order Approval Request",
-            html: emailTemplates.restrictedOrderApprovalEmailHTML({
+            html: await emailTemplates.restrictedOrderApprovalEmailHTML({
                 name,
                 orderID,
                 status,
