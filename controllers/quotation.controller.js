@@ -57,7 +57,7 @@ const calculateQuotation = async (req, res) => {
             fullAmount
         });
 
-        return res.status(200).json({ status: 200, data: fullAmount, message: "Amount calculated and quotation created successfully" });
+        return res.status(200).json({ status: 200, data: newQuotation, message: "Amount calculated and quotation created successfully" });
 
     } catch (err) {
         res.status(400).json({
