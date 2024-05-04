@@ -60,9 +60,9 @@ const createSystemAccess = async (req, res) => {
   try {
     const { value, error } = systemAccessSchema.validate(req.body);
 
-        if (error) {
-            BadRequestError(error);
-        }
+    if (error) {
+      BadRequestError(error);
+    }
 
     const { description } = value;
 
@@ -99,9 +99,9 @@ const updateSystemAccess = async (req, res) => {
 
     const { value, error } = systemAccessSchema.validate(req.body);
 
-        if (error) {
-            BadRequestError(error);
-        }
+    if (error) {
+      BadRequestError(error);
+    }
 
     const updatedSystemAccess = await SystemAccess.findByIdAndUpdate(
       id,

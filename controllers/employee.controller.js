@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
-const { Employee } = require("../models");
+const { Employee, SystemAccess } = require("../models");
 const { employeeSchema } = require("../schemas");
 const { hashedPassword, BadRequestError } = require("../helpers");
 const { employeeAccessAgg } = require('../aggregates');
 const { generateVerificationToken } = require("../utils");
-
+const { ACCESS_TOKEN_SECRET } = process.env;
 const getAllEmployees = async (req, res) => {
   try {
     let employee
@@ -320,6 +320,46 @@ const refreshAccessToken = async (req, res) => {
   }
 };
 
+const canAccess = async (req, res) => {
+  const { token, destination } = req.body; // Assuming you're sending the employeeId to identify the user
+  const isValidToken = jwt.verify(token, ACCESS_TOKEN_SECRET);
+  try {
+    const employee = await Employee.findById(isValidToken.id);
+
+    if (employee) {
+
+      const accessId = employee.accessLevel;
+      const userAccess = await SystemAccess.findById(accessId);
+      const areas = userAccess.accessAreas.split(";")
+      const dest = String(destination).split("/");
+
+      //ANY Access
+      if (areas.includes("ANY")) {
+        res.status(200).json({ message: "Access Granted!" });
+        return;
+      }
+
+      if (dest.length > 0) {
+        if (areas.includes(dest[0])) {
+          res.status(200).json({ message: "Access Granted!" });
+          return;
+        }
+      }
+
+      if (dest.length > 1) {
+        if (areas.includes(dest[1])) {
+          res.status(200).json({ message: "Access Granted!" });
+          return;
+        }
+      }
+
+    }
+    res.status(403).json({ message: "Access Denied!" });
+  } catch (error) {
+    res.status(500).json({ message: "Access Denied!\\nContact your favourite system admin" });
+  }
+};
+
 module.exports = {
   getAllEmployees,
   getEmployeeById,
@@ -329,4 +369,5 @@ module.exports = {
   loginEmployee,
   logoutEmployee,
   refreshAccessToken,
+  canAccess,
 };
