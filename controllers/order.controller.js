@@ -2,10 +2,9 @@ const mongoose = require('mongoose');
 
 const { Order, Item } = require('../models');
 const { orderSchema, itemSchema } = require('../schemas');
-const { orderAgg, transportAgg , restrictedOrderAgg} = require('../aggregates');
-const { BadRequestError } = require('../helpers');
-
-
+const { orderAgg, transportAgg, restrictedOrderAgg } = require('../aggregates');
+const { BadRequestError, sendEmail } = require('../helpers');
+const { emailTemplates } = require('../constants');
 const getAllOrder = async (req, res) => {
 
     try {
@@ -214,6 +213,34 @@ const updateOrder = async (req, res) => {
     }
 
 }
+const restrictedOrderApprovalEmail = async (req, res) => {
+
+    try {
+        const value = req.body;
+        const { email, name, orderID, status, reason } = value;
+
+        if (email) {
+            await sendEmail({
+                to: email,
+                subject: "Restricted Order Approval Request",
+                html: await emailTemplates.restrictedOrderApprovalEmailHTML({
+                    name,
+                    orderID,
+                    status,
+                    reason,
+                }),
+            });
+            res.status(200).json({ status: 200, data: value, message: "Email sent." });
+        }
+    } catch (err) {
+        res.status(400).json({
+            error: err.message,
+            message: 'Your request cannot be processed. Please try again'
+        });
+    }
+
+};
+
 
 const updateOrderAndItem = async (req, res) => {
 
@@ -292,4 +319,4 @@ const deleteOrder = async (req, res) => {
 
 };
 
-module.exports = { getAllOrder, getOrderById, createOrder, updateOrder, updateOrderAndItem, deleteOrder, getAllOrderTransport, getAllOrderInfo, getOrderByOrderId };
+module.exports = { getAllOrder, getOrderById, createOrder, updateOrder, updateOrderAndItem, deleteOrder, getAllOrderTransport, getAllOrderInfo, getOrderByOrderId, restrictedOrderApprovalEmail };

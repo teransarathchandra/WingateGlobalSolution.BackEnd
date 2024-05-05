@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const { getNextSequence } = require("../helpers");
-const { number } = require("joi");
 
 const quotationSchema = new Schema(
   {

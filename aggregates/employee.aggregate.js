@@ -34,6 +34,7 @@ const aggType = [
       accessDescription:
         "$systemAccess.description",
       accessID: "$systemAccess.accessLevelId",
+      systemAccessID: "$systemAccess._id",
     },
   },
 ]
