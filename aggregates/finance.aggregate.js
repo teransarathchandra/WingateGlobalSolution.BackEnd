@@ -26,22 +26,22 @@ const aggType = [
   }
 ];
 
-const quotationAgg = (itemId) =>[
+const quotationAgg = (itemId) => [
   {
-    $match: { itemId: itemId }
+    $match: { _id: itemId }
   },
   {
     '$lookup': {
-      'from': 'packagetypes', 
-      'localField': 'packageTypeId', 
-      'foreignField': '_id', 
+      'from': 'packagetypes',
+      'localField': 'packageTypeId',
+      'foreignField': '_id',
       'as': 'package'
     }
   }, {
     '$lookup': {
-      'from': 'categories', 
-      'localField': 'categoryId', 
-      'foreignField': '_id', 
+      'from': 'categories',
+      'localField': 'categoryId',
+      'foreignField': '_id',
       'as': 'category'
     }
   }, {
@@ -54,10 +54,10 @@ const quotationAgg = (itemId) =>[
     }
   }, {
     '$project': {
-      '_id': 1, 
-      'packageCount': 1, 
-      'weight': 1, 
-      'packagingCost': '$package.packagingCost', 
+      '_id': 1,
+      'packageCount': 1,
+      'weight': 1,
+      'packagingCost': '$package.packagingCost',
       'unitWeightCost': '$category.costPerKilo'
     }
   }

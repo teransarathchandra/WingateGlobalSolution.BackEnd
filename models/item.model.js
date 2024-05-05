@@ -7,26 +7,35 @@ const itemSchema = new Schema(
   {
     itemId: {
       type: String,
-      unique: true
+      unique: true,
     },
     itemName: {
       type: String,
-      required: true
+      required: true,
+      minlength: 3,
+      maxlength: 100
     },
     description: {
-      type: String
+      type: String,
+      maxlength: 500
     },
     weight: {
       type: Number,
-      required: true
+      required: true,
+      min: 0.1,
+      max: 10000
     },
     itemValue: {
       type: Number,
-      required: true
+      required: true,
+      min: 100,
+      max: 100000000
     },
     packageCount: {
       type: Number,
-      required: true
+      required: true,
+      min: 1,
+      max: 10000
     },
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
