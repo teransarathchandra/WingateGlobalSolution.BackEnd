@@ -25,7 +25,8 @@ const aggType = [
     //   }
   }, {
     '$unwind': {
-      'path': '$country'
+      'path': '$country',
+      //preserveNullAndEmptyArrays: true
 
     }
   }, {
@@ -37,7 +38,8 @@ const aggType = [
       'status': 1,
       'arrivedTime': 1,
       'currentLocation': 1,
-      'flightId': '$flightInfo.flightId'
+      'flightId': '$flightInfo.flightId',
+      'createdAt': 1
     }
   }
 ];
@@ -70,19 +72,19 @@ const aggFlight = [
   {
     '$unwind': {
       'path': '$airlineInfo',
-      'preserveNullAndEmptyArrays': true
+      preserveNullAndEmptyArrays: true
     }
   },
   {
     '$unwind': {
       'path': '$arrivalInfo',
-      'preserveNullAndEmptyArrays': true
+      preserveNullAndEmptyArrays : true
     }
   },
   {
     '$unwind': {
       'path': '$departureInfo',
-      'preserveNullAndEmptyArrays': true
+      preserveNullAndEmptyArrays: true
     }
   },
   {
@@ -104,49 +106,48 @@ const aggFlight = [
 const aggLastBulk = [
   {
     '$lookup': {
-      'from': 'countries',
-      'localField': 'destinationCountry',
-      'foreignField': '_id',
+      'from': 'countries', 
+      'localField': 'destinationCountry', 
+      'foreignField': '_id', 
       'as': 'country'
-    }
-   }, 
-   //{
-  //   '$lookup': {
-  //     'from': 'flights',
-  //     'localField': 'flightId',
-  //     'foreignField': '_id',
-  //     'as': 'flight'
-  //   }
-  // }, 
-  {
-    '$sort': {
-      'createdAt': -1
-    }
-  }, {
-    '$limit': 1
-  }, {
-    '$unwind': {
-      'path': '$country'
-    }
-  },
-  {
-    '$unwind': {
-      'path': '$flight'
     }
   }, 
   {
+    '$lookup': {
+      'from': 'flights', 
+      'localField': 'flightId', 
+      'foreignField': '_id', 
+      'as': 'flight'
+    }
+  }, 
+  {
+    '$unwind': {
+      'path': '$country',
+      'preserveNullAndEmptyArrays': true  
+    }
+  }, 
+  {
+    '$unwind': {
+      'path': '$flight',
+      'preserveNullAndEmptyArrays': true  
+    }
+  }, 
+  {
+    '$sort': {
+      'createdAt': -1 
+    }
+  }, 
+  {
+    '$limit': 1  
+  },
+  {
     '$project': {
       '_id': 1,
-      'createdAt': 1,
       'bulkId': 1,
-      '__v': 1,
-      'arrivedTime': 1,
+      'destinationCountry': "$country.name",
       'masterAirwayBillId': 1,
-      //'flightId': '$flight.flightId',  
-      'currentLocation': 1,
-      'status': 1,
-      'updatedAt': 1,
-      'destinationCountry': '$country.name'
+      'createdAt': 1,
+      'flightId': "$flight.flightId"
     }
   }
 ];
@@ -202,8 +203,8 @@ const aggOrders = [
       'itemCategoryId': '$items.categoryId',
       'weight': '$items.weight',
       'receiverId': '$receivers._id',
-      'receiverCountryId': '$receivers.countryId',
-      'packageCount': 1,
+      'receiverCountryId': '$receivers.address.countryId',
+      'packageCount': "$items.packageCount",
       'userId': 1,
       'routeId': 1,
       'stockId': 1,
@@ -219,33 +220,36 @@ const aggOrders = [
 const aggOrderInfo = [
   {
     '$lookup': {
-      'from': 'packagetypes',
-      'localField': 'packageId',
-      'foreignField': '_id',
-      'as': 'package'
+      'from': 'items', 
+      'localField': 'itemId', 
+      'foreignField': '_id', 
+      'as': 'item'
     }
   }, {
     '$lookup': {
-      'from': 'bulks',
-      'localField': 'bulkId',
-      'foreignField': '_id',
+      'from': 'bulks', 
+      'localField': 'bulkId', 
+      'foreignField': '_id', 
       'as': 'bulk'
     }
   }, {
     '$unwind': {
-      'path': '$package'
+      'path': '$item',
+      preserveNullAndEmptyArrays: true
     }
   }, {
     '$unwind': {
-      'path': '$bulk'
+      'path': '$bulk',
+      //preserveNullAndEmptyArrays: true
+
     }
   }, {
     '$project': {
-      '_id': 1,
-      'orderId': 1,
-      'packageCount': 1,
-      'packageId': '$package.packageName',
-      'bulkId': '$bulk.bulkId'
+      '_id': 1, 
+      'orderId': 1, 
+      'bulkId': '$bulk.bulkId', 
+      'packageCount': '$item.packageCount', 
+      'packageType': '$item.packageTypeId.packageName'
     }
   }
 ];

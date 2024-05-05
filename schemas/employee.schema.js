@@ -36,7 +36,9 @@ const updateSchema = Joi.object({
     email: Joi.string().email(),
     password: Joi.string().min(8).max(100).regex(regExp.password),
     contactNumber: Joi.number().integer(),
-    designationId: Joi.string()
+    designationId: Joi.string(),
+    focus: Joi.string().optional(),
+    accessLevel: Joi.string().optional(),
 });
 
 module.exports = { registerSchema, loginSchema, updateSchema };

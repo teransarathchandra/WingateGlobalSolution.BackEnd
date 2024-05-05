@@ -4,7 +4,7 @@ const bulkJoiSchema = Joi.object({
   bulkId: Joi.string(),
   currentLocation: Joi.string(),
   arrivedTime: Joi.string(),
-  status: Joi.string().valid('In Progress', 'Completed'),
+  status: Joi.string().valid('In Progress', 'Completed', 'Manifested', 'Delivered', 'Departed', 'In Transit'),
   destinationCountry: Joi.string(),
   category: Joi.string(),
   priority: Joi.string(),

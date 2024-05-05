@@ -1,13 +1,12 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
-const { Employee, Country } = require("../models");
+const { Employee, SystemAccess } = require("../models");
 const { employeeSchema } = require("../schemas");
-const { hashedPassword, BadRequestError, sendEmail } = require("../helpers");
+const { hashedPassword, BadRequestError } = require("../helpers");
 const { employeeAccessAgg } = require('../aggregates');
-const { emailTemplates } = require("../constants");
 const { generateVerificationToken } = require("../utils");
-
+const { ACCESS_TOKEN_SECRET } = process.env;
 const getAllEmployees = async (req, res) => {
   try {
     let employee
@@ -17,12 +16,11 @@ const getAllEmployees = async (req, res) => {
       employee = await Employee.aggregate(employeeAccessAgg.aggType);
       employee.forEach((emp) => {
         emp.accessDescription = emp.accessDescription || "No Access";
+        delete emp.password;
       });
     } else {
       employee = await Employee.find();
     }
-
-
 
     if (!employee) {
       return res.status(404).json({ status: 404, message: "Employees not found" });
@@ -162,7 +160,7 @@ const updateEmployee = async (req, res) => {
     const updatedEmployee = await Employee.findByIdAndUpdate(id, value, {
       new: true,
     });
-    
+
     if (!updatedEmployee) {
       return res
         .status(404)
@@ -322,6 +320,58 @@ const refreshAccessToken = async (req, res) => {
   }
 };
 
+const canAccess = async (req, res) => {
+  const { token, destination } = req.body;
+  try {
+    const isValidToken = jwt.verify(token, ACCESS_TOKEN_SECRET);
+    const employee = await Employee.findById(isValidToken.id);
+    let respData = {
+      continue: false,
+      destination: "app/portal-welcome"
+    }
+    if (employee) {
+
+      const accessId = employee.accessLevel;
+      const userAccess = await SystemAccess.findById(accessId);
+      const areas = userAccess.accessAreas.split(";")
+      const dest = String(destination).split("/");
+
+      //Portal Welcome
+      if (dest.includes("portal-welcome")) {
+        respData.continue = true;
+        respData.destination = "/" + destination;
+        res.status(200).json({ message: "Access Granted!", data: respData });
+        return;
+      }
+
+      //ANY Access
+      if (areas.includes("ANY")) {
+        respData.continue = true;
+        respData.destination = "/" + destination;
+        res.status(200).json({ message: "Access Granted!", data: respData });
+        return;
+      }
+
+
+      // Grant access if any destination is in the areas list
+      if (dest.some(d => areas.includes(d))) {
+        respData.continue = true;
+        respData.destination = "/" + destination;
+        res.status(200).json({ message: "Access Granted!", data: respData });
+        return;
+      }
+    }
+    res.status(403).json({ message: "Access Denied !\nContact your System Administrator", data: respData });
+  } catch (error) {
+    console.log("canAccess:", error);
+    if (error.name == "TokenExpiredError") {
+      res.status(401).json({ message: "Session Expired" });
+      return;
+    }
+    res.status(500).json({ message: "Access Denied !\nContact your System Administrator" });
+  }
+};
+
 module.exports = {
   getAllEmployees,
   getEmployeeById,
@@ -331,4 +381,5 @@ module.exports = {
   loginEmployee,
   logoutEmployee,
   refreshAccessToken,
+  canAccess,
 };

@@ -36,11 +36,11 @@ const customerSchema = new Schema(
     },
     verificationToken: {
       type: String,
-      required: false,
+      //required: false,
     },
     refreshToken: {
       type: String,
-      required: false,
+      //required: false,
     },
     priorityLevel: {
       type: String,

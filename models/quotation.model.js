@@ -12,33 +12,36 @@ const quotationSchema = new Schema(
     packagingCost: {
       type: Number,
       min: 0,
-      required: true,
+      //required: true,
     },
     routeCost: {
       type: Number,
       min: 0,
-      required: true,
+     // required: true,
     },
     unitWeightCost: {
       type: Number,
       min: 0,
-      required: true,
+      //required: true,
     },
     pickUpCost: {
       type: Number,
       min: 0,
-      required: true,
+      //required: true,
     },
     surcharge: {
       type: Number,
-      required: true,
+      //required: true,
       min: 0,
     },
     orderId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "order",
-      required: true,
+      //required: true,
     },
+    fullAmount: {
+      type: Number
+    }
   },
   { timestamps: true }
 );

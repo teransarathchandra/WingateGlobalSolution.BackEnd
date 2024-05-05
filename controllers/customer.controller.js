@@ -57,11 +57,10 @@ const getCustomerById = async (req, res) => {
 
 const createCustomer = async (req, res) => {
     try {
-        // Validate the incoming request body
         const { value, error } = customerSchema.registerSchema.validate(req.body);
+    
         if (error) {
-            // Throw an error if validation fails
-            throw new BadRequestError(error.details[0].message);
+          BadRequestError(error);
         }
 
         // Extract environment variable for the default password
