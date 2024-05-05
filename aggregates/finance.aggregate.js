@@ -26,9 +26,9 @@ const aggType = [
   }
 ];
 
-const quotationAgg = (id) =>[
+const quotationAgg = (itemId) =>[
   {
-    $match: { _id: id }
+    $match: { itemId: itemId }
   },
   {
     '$lookup': {
