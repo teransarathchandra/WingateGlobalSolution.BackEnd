@@ -6,17 +6,17 @@ const addressSchema = new Schema(
         street: {
             type: String,
             maxLength: 50,
-            minLength: 5
+            minLength: 3
         },
         city: {
             type: String,
             maxLength: 50,
-            minLength: 5
+            minLength: 3
         },
         state: {
             type: String,
             maxLength: 50,
-            minLength: 5
+            minLength: 3
         },
         country: {
             type: String,
