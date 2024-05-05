@@ -153,17 +153,13 @@ const documentUpload = async (req, res) => {
         return res.status(400).json({ status: 400, message: 'No files were uploaded.' });
     }
 
-    // The name "file" must match the name used in the frontend form
     const file = req.files.file;
     const itemId = req.body.itemId;
     const folderPath = req.body.folderPath;
     const documentType = req.body.documentType;
 
-    // Modify the file name to include itemId
+    // Modify file name and include itemId
     const modifiedFileName = `${file.name.split('.').slice(0, -1).join('.')}_${itemId}.${file.name.split('.').pop()}`;
- 
-    // Construct the folder path to include both folderPath and documentType
-    // const fullPath = `${folderPath}/${documentType}`;
 
     // file type and size
     const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
