@@ -365,7 +365,8 @@ const canAccess = async (req, res) => {
   } catch (error) {
     console.log("canAccess:", error);
     if (error.name == "TokenExpiredError") {
-      //res.status(401).json({ message: "Session Expired" });
+      res.status(401).json({ message: "Session Expired" });
+      return;
     }
     res.status(500).json({ message: "Access Denied !\nContact your System Administrator" });
   }
