@@ -1,9 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const router = require('express').Router();
+const apiRoutes = require('./api');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Welcome to WinGateGlobal Solution API Service' });
-});
+// api routes
+router.use('/api', apiRoutes);
+router.use('*', (req, res) => res.status(404).json('No API route found'));
 
 module.exports = router;
