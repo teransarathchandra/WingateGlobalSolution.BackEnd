@@ -265,9 +265,17 @@ const updateOrderAndItem = async (req, res) => {
     const orderValidation = orderSchema.updateOrderSchema.validate(orderUpdates);
     const itemValidation = itemSchema.updateItemSchema.validate(itemUpdates);
 
-    if (orderValidation.error || itemValidation.error) {
-        return res.status(400).json({ message: "Validation failed", details: orderValidation.error || itemValidation.error });
+    if (orderValidation.error) {
+        BadRequestError(orderValidation.error);
     }
+
+    if (itemValidation.error) {
+        BadRequestError(itemValidation.error);
+    }
+
+    // if (orderValidation.error || itemValidation.error) {
+    //     return res.status(400).json({ message: "Validation failed", details: orderValidation.error || itemValidation.error });
+    // }
 
     const session = await mongoose.startSession();
     try {
